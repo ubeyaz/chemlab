@@ -99,4 +99,1210 @@
       </div>
 
       <!-- Dynamic View Container -->
-      <div id="viewContainer" class="fade-in
+      <div id="viewContainer" class="fade-in"></div>
+    </main>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CURRICULUM DATA & DIAGNOSTIC QUESTION BANK (UNIT 1: SKILLS 1.1 - 1.14)
+    // =========================================================================
+    const TOPICS = [
+      {
+        id: "1.1",
+        title: "States of Matter",
+        subtitle: "Particle motion, Intermolecular Forces (IMF), compressibility, and phase changes.",
+        concepts: [
+          {
+            heading: "Solids, Liquids & Gases",
+            points: [
+              "<strong>Solids:</strong> Definite shape and volume; incompressible because particles are tightly packed with strong <strong>Intermolecular Forces (IMF)</strong>. Particles exhibit only <strong>vibrational motion</strong>.",
+              "<strong>Liquids:</strong> Take the shape of their container but maintain a fixed volume; incompressible. Weaker IMFs allow particles to vibrate and slide past each other (<strong>translational motion</strong>).",
+              "<strong>Gases:</strong> Take both the shape and volume of their container; highly <strong>compressible</strong> due to large interparticle distances. Particles have vibrational, translational, and rotational motion."
+            ]
+          },
+          {
+            heading: "Phase Changes & Energy",
+            points: [
+              "Phase changes are <strong>physical changes</strong> (chemical formula like H₂O stays identical; only arrangement and energy change).",
+              "<strong>Endothermic (absorb heat):</strong> Melting (solid→liquid), Vaporization/Boiling (liquid→gas), Sublimation (solid→gas).",
+              "<strong>Exothermic (release heat):</strong> Freezing/Fusion (liquid→solid), Condensation (gas→liquid), Deposition (gas→solid).",
+              "<strong>Temperature</strong> measures the average <strong>kinetic energy</strong> of particles."
+            ]
+          }
+        ],
+        diagram: `
+          <svg viewBox="0 0 640 190" class="w-full max-w-2xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+            <!-- Solid -->
+            <rect x="20" y="25" width="160" height="115" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="100" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">SOLID (Vibrate only)</text>
+            <g fill="#0284c7">
+              <circle cx="65" cy="95" r="10"/><circle cx="88" cy="95" r="10"/><circle cx="111" cy="95" r="10"/><circle cx="134" cy="95" r="10"/>
+              <circle cx="65" cy="118" r="10"/><circle cx="88" cy="118" r="10"/><circle cx="111" cy="118" r="10"/><circle cx="134" cy="118" r="10"/>
+              <circle cx="65" cy="72" r="10"/><circle cx="88" cy="72" r="10"/><circle cx="111" cy="72" r="10"/><circle cx="134" cy="72" r="10"/>
+            </g>
+            <!-- Liquid -->
+            <rect x="240" y="25" width="160" height="115" rx="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="2"/>
+            <text x="320" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">LIQUID (Slide / Flow)</text>
+            <g fill="#0d9488">
+              <circle cx="262" cy="122" r="10"/><circle cx="285" cy="120" r="10"/><circle cx="310" cy="124" r="10"/><circle cx="334" cy="121" r="10"/><circle cx="360" cy="123" r="10"/><circle cx="381" cy="120" r="10"/>
+              <circle cx="272" cy="100" r="10"/><circle cx="298" cy="98" r="10"/><circle cx="323" cy="102" r="10"/><circle cx="348" cy="99" r="10"/><circle cx="373" cy="101" r="10"/>
+            </g>
+            <!-- Gas -->
+            <rect x="460" y="25" width="160" height="115" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+            <text x="540" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">GAS (Random / Fast)</text>
+            <g fill="#d97706">
+              <circle cx="485" cy="48" r="9"/><circle cx="585" cy="52" r="9"/><circle cx="530" cy="82" r="9"/><circle cx="490" cy="118" r="9"/><circle cx="592" cy="115" r="9"/>
+            </g>
+            <path d="M495 48 L512 42 M575 52 L558 62 M530 72 L530 55 M500 118 L518 108 M582 115 L566 104" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        `,
+        workedExample: {
+          problem: "A substance takes the shape and volume of its container. When cooled, it flows at the bottom of the container without filling it. What phase change occurred?",
+          steps: [
+            "Initial state: Takes both shape and volume of container → <strong>Gas</strong>.",
+            "Final state: Flows (takes shape) but does not fill container (fixed volume) → <strong>Liquid</strong>.",
+            "Transition from Gas → Liquid is called <strong>Condensation</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "What is the name of the phase change when a gas turns directly into a solid without becoming a liquid?",
+            options: [
+              { text: "Deposition", correct: true, feedback: "Spot on! Deposition is the direct gas-to-solid transition (such as frost forming on cold glass)." },
+              { text: "Sublimation", correct: false, feedback: "Sublimation goes in the opposite direction—from a solid directly to a gas (like dry ice)." },
+              { text: "Condensation", correct: false, feedback: "Condensation turns a gas into a liquid, not directly into a solid." },
+              { text: "Fusion", correct: false, feedback: "Fusion is another scientific term for melting (solid to liquid)." }
+            ],
+            explanation: "Gas → Solid skips the liquid phase and is called <strong>deposition</strong>."
+          },
+          {
+            q: "Which state of matter consists of particles that ONLY exhibit vibrational kinetic energy?",
+            options: [
+              { text: "Solid", correct: true, feedback: "Correct! Strong intermolecular forces lock solid particles in fixed positions so they can only vibrate in place." },
+              { text: "Liquid", correct: false, feedback: "Liquid particles vibrate AND slide past one another (translational motion)." },
+              { text: "Gas", correct: false, feedback: "Gas particles move freely with vibrational, translational, and rotational energy." },
+              { text: "Plasma", correct: false, feedback: "Plasma consists of high-energy ionized particles moving rapidly in all directions." }
+            ],
+            explanation: "Strong IMFs in a <strong>solid</strong> prevent particles from sliding or flying apart, restricting them to vibrational motion."
+          },
+          {
+            q: "Why are gases easily compressible while solids and liquids are virtually incompressible?",
+            options: [
+              { text: "Gas particles are extremely far apart compared to their particle size.", correct: true, feedback: "Exactly right! Empty space between gas molecules allows pressure to push them closer together." },
+              { text: "Gas particles shrink in size when pressure is applied.", correct: false, feedback: "Individual atoms/molecules do not shrink; only the empty space between them decreases." },
+              { text: "Gas particles have stronger intermolecular forces than liquids.", correct: false, feedback: "Gases actually have the weakest intermolecular forces, which is why they spread apart." },
+              { text: "Gas particles have zero kinetic energy.", correct: false, feedback: "Gases have the highest kinetic energy of the three common states of matter." }
+            ],
+            explanation: "Compressibility depends on <strong>interparticle distance</strong>. Gases are mostly empty space."
+          }
+        ]
+      },
+      {
+        id: "1.2",
+        title: "Matter Tree & Separation",
+        subtitle: "Elements, compounds, homogeneous/heterogeneous mixtures, and physical separation.",
+        concepts: [
+          {
+            heading: "Classification of Matter",
+            points: [
+              "<strong>Pure Substances (fixed composition):</strong> <em>Elements</em> (one type of atom, including diatomic H₂, O₂, N₂, F₂) and <em>Compounds</em> (two or more different elements chemically bonded in a fixed ratio, like H₂O or NaHCO₃).",
+              "<strong>Mixtures (physically combined):</strong> <em>Homogeneous mixtures (solutions)</em> have uniform composition and do not scatter light (no Tyndall effect), e.g., saltwater, alloys. <em>Heterogeneous mixtures</em> have non-uniform composition, e.g., sand in water, milk (emulsion)."
+            ]
+          },
+          {
+            heading: "Physical Separation Techniques",
+            points: [
+              "<strong>Filtration:</strong> Separates an insoluble solid from a liquid using filter paper.",
+              "<strong>Distillation:</strong> Separates liquids based on differences in <strong>boiling points</strong>.",
+              "<strong>Chromatography:</strong> Separates components based on attraction to a <strong>stationary phase</strong> vs. a <strong>mobile phase</strong> (intermolecular forces)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "You add water, table salt, and sand to a bottle and shake it. How is the resulting system classified?",
+          steps: [
+            "Salt dissolves in water, but sand does not dissolve and settles out.",
+            "Because the composition is not uniform throughout, it is a <strong>Heterogeneous Mixture</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "How should nitrogen gas (N₂) and glucose (C₆H₁₂O₆) be classified, respectively?",
+            options: [
+              { text: "N₂ is an element; C₆H₁₂O₆ is a compound.", correct: true, feedback: "Correct! Even though N₂ has two atoms bonded together, both atoms are the same element (nitrogen). Glucose has three different elements." },
+              { text: "Both N₂ and C₆H₁₂O₆ are compounds.", correct: false, feedback: "A compound requires two or more DIFFERENT elements. N₂ contains only nitrogen atoms, making it a diatomic element." },
+              { text: "N₂ is a homogeneous mixture; C₆H₁₂O₆ is a compound.", correct: false, feedback: "N₂ is a pure substance with a single chemical formula, not a physical blend of substances." },
+              { text: "N₂ is an element; C₆H₁₂O₆ is a homogeneous mixture.", correct: false, feedback: "Glucose has a fixed chemical ratio (6:12:6) with chemical bonds, so it is a pure compound." }
+            ],
+            explanation: "<strong>Elements</strong> contain only one type of atom (including diatomics like N₂, O₂). <strong>Compounds</strong> contain different elements chemically combined."
+          },
+          {
+            q: "Which separation technique separates a mixture of two miscible liquids based on their different boiling points?",
+            options: [
+              { text: "Distillation", correct: true, feedback: "Correct! The liquid with the lower boiling point vaporizes first, then condenses into a separate collection flask." },
+              { text: "Gravimetric filtration", correct: false, feedback: "Filtration only traps insoluble solids from liquids; two dissolved liquids would both pass right through the filter paper." },
+              { text: "Paper chromatography", correct: false, feedback: "Chromatography separates substances based on polarity/IMFs between a stationary and mobile phase, not boiling points." },
+              { text: "Electrolysis", correct: false, feedback: "Electrolysis uses electricity to chemically decompose a compound, rather than physically separating a mixture." }
+            ],
+            explanation: "<strong>Distillation</strong> exploits differences in boiling points to vaporize and re-condense components."
+          },
+          {
+            q: "In paper chromatography, a dye spot travels very close to the solvent front near the top of the paper. What does this indicate?",
+            options: [
+              { text: "The dye is strongly attracted to the mobile phase (solvent).", correct: true, feedback: "Spot on! Stronger attraction to the mobile phase pulls the substance farther along with the solvent." },
+              { text: "The dye is strongly attracted to the stationary phase (paper).", correct: false, feedback: "If it were strongly attracted to the paper, it would stick near the bottom baseline and barely move." },
+              { text: "The dye has the highest boiling point.", correct: false, feedback: "Chromatography separates by intermolecular attraction to mobile vs. stationary phases, not boiling point." },
+              { text: "The dye is an insoluble solid precipitate.", correct: false, feedback: "Insoluble solids cannot dissolve in the mobile phase to travel up the paper." }
+            ],
+            explanation: "Substances with stronger IMFs toward the <strong>mobile phase</strong> travel farthest with the solvent."
+          }
+        ]
+      },
+      {
+        id: "1.3",
+        title: "Properties & Changes",
+        subtitle: "Physical vs. chemical changes and intensive vs. extensive physical properties.",
+        concepts: [
+          {
+            heading: "Physical vs. Chemical Changes",
+            points: [
+              "<strong>Physical Change:</strong> Alters form or state without changing chemical identity (e.g., ripping paper, dissolving sugar, melting ice).",
+              "<strong>Chemical Change:</strong> Forms a new substance with a new chemical composition. <strong>4 Signs:</strong> unexpected color change, temperature change (heat absorbed/released), gas bubbles produced, or solid precipitate formed."
+            ]
+          },
+          {
+            heading: "Intensive vs. Extensive Physical Properties",
+            points: [
+              "<strong>Intensive (Intrinsic):</strong> Does <em>not</em> depend on sample size—useful for identifying unknowns (e.g., <strong>density</strong>, freezing/boiling point, color, conductivity, malleability, luster).",
+              "<strong>Extensive:</strong> Changes when the amount of matter changes (e.g., <strong>mass</strong>, <strong>volume</strong>, length, weight)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Classify: (a) Density of gold, (b) Mass of a gold bar, (c) Iron rusting.",
+          steps: [
+            "(a) Density (19.3 g/cm³) stays the same for a nugget or a brick → <strong>Intensive physical property</strong>.",
+            "(b) Mass depends on how much gold you have → <strong>Extensive physical property</strong>.",
+            "(c) Iron reacts with oxygen to form iron oxide (a new substance) → <strong>Chemical change</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "Which of the following is an INTENSIVE physical property?",
+            options: [
+              { text: "Freezing point", correct: true, feedback: "Correct! Pure water freezes at 0 °C whether you have one drop or an entire bucket—it does not depend on amount." },
+              { text: "Mass", correct: false, feedback: "Mass increases when you add more material, making it an extensive property." },
+              { text: "Volume", correct: false, feedback: "Volume depends on the size of the sample, so it is an extensive property." },
+              { text: "Combustibility", correct: false, feedback: "Combustibility describes how a substance reacts to form new products, which is a chemical property, not physical." }
+            ],
+            explanation: "<strong>Intensive properties</strong> (like freezing point, density, and luster) are independent of sample size."
+          },
+          {
+            q: "Which scenario describes a CHEMICAL change rather than a physical change?",
+            options: [
+              { text: "A green banana ripens and turns yellow on the counter.", correct: true, feedback: "Correct! Ripening involves enzymatic chemical reactions that break down starches into sugars and alter pigments." },
+              { text: "Blue food coloring dissolves evenly in a glass of water.", correct: false, feedback: "Dissolving spreads dye molecules through water without forming a new chemical substance—that's a physical change." },
+              { text: "A cup of water evaporates on a hot afternoon.", correct: false, feedback: "Evaporation changes liquid H₂O to gaseous H₂O; the chemical formula remains unchanged." },
+              { text: "A ball of dough is flattened with a rolling pin.", correct: false, feedback: "Changing shape is a physical change." }
+            ],
+            explanation: "Ripening produces new chemical compounds, whereas dissolving and phase changes preserve chemical identity."
+          }
+        ]
+      },
+      {
+        id: "1.4",
+        title: "Accuracy & Precision",
+        subtitle: "Target closeness, repeatability, percent error, percent yield, and percent difference.",
+        concepts: [
+          {
+            heading: "Qualitative Accuracy vs. Precision",
+            points: [
+              "<strong>Accuracy:</strong> How close a measurement (or mean) is to the <strong>accepted/true value</strong>.",
+              "<strong>Precision:</strong> How close repeated trials are to <strong>each other</strong> (consistency/small range), or how many decimal places an instrument reads."
+            ]
+          },
+          {
+            heading: "Quantitative Formulas",
+            points: [
+              "<code>Percent Error = (|Accepted − Experimental| / Accepted) × 100</code>",
+              "<code>Percent Yield = (Experimental / Accepted) × 100</code> (can be over or under 100%)",
+              "<code>Percent Difference = (Average Deviation from Mean / Mean) × 100</code>"
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Accepted mass of 10.0 mL ethanol is 7.89 g. Blake measures 7.01 g, 7.10 g, and 7.25 g. Is Blake accurate, precise, both, or neither?",
+          steps: [
+            "Blake's values (7.01, 7.10, 7.25 g) are tightly grouped within 0.24 g → <strong>Precise</strong>.",
+            "Blake's average is 7.12 g, which is far from the accepted 7.89 g → <strong>Not accurate</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "A student measures the volume of iron pellets as 2.02 mL, while the accepted volume is 1.91 mL. What is the student's percent error?",
+            options: [
+              { text: "5.76%", correct: true, feedback: "Spot on! |1.91 − 2.02| / 1.91 × 100 = 0.11 / 1.91 × 100 = 5.76%." },
+              { text: "5.45%", correct: false, feedback: "Careful! You divided by the experimental value (2.02) instead of the accepted value (1.91) in the denominator." },
+              { text: "105.8%", correct: false, feedback: "105.8% is the percent yield (2.02 / 1.91 × 100), not the percent error." },
+              { text: "0.11%", correct: false, feedback: "0.11 mL is the absolute error before dividing by the accepted value and multiplying by 100." }
+            ],
+            explanation: "Percent Error = (|1.91 − 2.02| / 1.91) × 100 = <strong>5.76%</strong>."
+          },
+          {
+            q: "In a copper cycle lab, a student starts with 3.05 g of copper and recovers 2.03 g at the end. What is the percent yield?",
+            options: [
+              { text: "66.6%", correct: true, feedback: "Correct! Percent Yield = (2.03 g / 3.05 g) × 100 = 66.6%." },
+              { text: "33.4%", correct: false, feedback: "33.4% is the percent error (the amount lost), whereas percent yield measures the fraction recovered." },
+              { text: "150.2%", correct: false, feedback: "You inverted the fraction (3.05 / 2.03). Percent yield puts Experimental on top and Accepted on bottom." },
+              { text: "1.02%", correct: false, feedback: "1.02 g is the mass lost, not the percentage yield." }
+            ],
+            explanation: "Percent Yield = (Experimental / Accepted) × 100 = (2.03 / 3.05) × 100 = <strong>66.6%</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.5",
+        title: "SI & Metric Conversions",
+        subtitle: "Base SI units and base-10 metric prefix scaling from mega (10⁶) to micro (10⁻⁶).",
+        concepts: [
+          {
+            heading: "7 SI Base Units",
+            points: [
+              "Mass: <strong>kilogram (kg)</strong> | Length: <strong>meter (m)</strong> | Time: <strong>second (s)</strong> | Temperature: <strong>kelvin (K)</strong> | Amount: <strong>mole (mol)</strong> | Current: <strong>ampere (A)</strong> | Luminous intensity: <strong>candela (cd)</strong>."
+            ]
+          },
+          {
+            heading: "Metric Prefix Ladder",
+            points: [
+              "<code>mega (M, 10⁶) — kilo (k, 10³) — hecto (h, 10²) — deka (da, 10¹) — BASE (10⁰) — deci (d, 10⁻¹) — centi (c, 10⁻²) — milli (m, 10⁻³) — micro (μ, 10⁻⁶)</code>",
+              "Moving <strong>down/right</strong> to a smaller unit makes the number <strong>larger</strong> (move decimal right). Moving <strong>up/left</strong> to a larger unit makes the number <strong>smaller</strong> (move decimal left)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Convert 23.08 dL into daL.",
+          steps: [
+            "On the metric ladder, moving from <strong>deci (10⁻¹)</strong> to <strong>deka (10¹)</strong> is <strong>2 steps left</strong>.",
+            "Move the decimal point 2 places left: <code>23.08 dL = 0.2308 daL</code>."
+          ]
+        },
+        questions: [
+          {
+            q: "Convert 0.0579 dag (dekagrams) into mg (milligrams).",
+            options: [
+              { text: "579 mg", correct: true, feedback: "Correct! From deka (10¹) to milli (10⁻³) is 4 steps right: 0.0579 × 10⁴ = 579 mg." },
+              { text: "57.9 mg", correct: false, feedback: "You only moved 3 decimal places (from grams to mg). Remember deka (da) is 10¹ above the base unit!" },
+              { text: "0.00000579 mg", correct: false, feedback: "You moved the decimal to the left instead of the right. Since milligrams are smaller than dekagrams, the number must get larger." },
+              { text: "5,790 mg", correct: false, feedback: "That's 5 steps right. The exponent difference between 10¹ and 10⁻³ is 1 − (−3) = 4 steps." }
+            ],
+            explanation: "10¹ (da) to 10⁻³ (m) is 4 decimal places to the right: 0.0579 → <strong>579 mg</strong>."
+          },
+          {
+            q: "Convert 561,000 μL (microliters) into mL (milliliters).",
+            options: [
+              { text: "561 mL", correct: true, feedback: "Spot on! Micro (10⁻⁶) to milli (10⁻³) is 3 steps left (divide by 1,000): 561,000 μL = 561 mL." },
+              { text: "561,000,000 mL", correct: false, feedback: "You multiplied by 1,000 instead of dividing. A microliter is smaller than a milliliter, so you get fewer milliliters." },
+              { text: "0.561 mL", correct: false, feedback: "0.561 would be in liters (L), which is 6 steps left. Milli (mL) is only 3 steps left from micro." },
+              { text: "56.1 mL", correct: false, feedback: "Check your jump count: 10⁻⁶ to 10⁻³ is 3 decimal places, not 4." }
+            ],
+            explanation: "1 mL = 1,000 μL, so 561,000 μL ÷ 1,000 = <strong>561 mL</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.6",
+        title: "Scientific Notation",
+        subtitle: "Coefficient × 10ⁿ formatting, decimal shift scale, and scientific arithmetic.",
+        concepts: [
+          {
+            heading: "Structure & Rules",
+            points: [
+              "Written as <code>C × 10ⁿ</code> where the coefficient <strong>C</strong> satisfies <code>1 ≤ C &lt; 10</code> and <strong>n</strong> is an integer.",
+              "Original number <strong>≥ 10</strong> → decimal moves <strong>left</strong> → <strong>positive</strong> exponent (+n).",
+              "Original number <strong>&lt; 1</strong> → decimal moves <strong>right</strong> → <strong>negative</strong> exponent (−n).",
+              "<strong>Calculator Tip:</strong> Use the <code>EE</code> or <code>EXP</code> key (e.g., <code>2.3E-6</code>) so the calculator treats coefficient and exponent as a single grouped number."
+            ]
+          },
+          {
+            heading: "Operations in Scientific Notation",
+            points: [
+              "<strong>Multiply:</strong> Multiply coefficients, <strong>add</strong> exponents. <strong>Divide:</strong> Divide coefficients, <strong>subtract</strong> exponents.",
+              "<strong>Add / Subtract:</strong> Convert both numbers to the <strong>same exponent</strong> first, then add/subtract coefficients and re-adjust if C ≥ 10 or C &lt; 1."
+            ]
+          }
+        ],
+        diagram: `
+          <div class="space-y-3">
+            <svg viewBox="0 0 680 215" class="w-full max-w-3xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+              <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">SCIENTIFIC NOTATION EXPONENT &amp; DECIMAL SHIFT SCALE</text>
+              <!-- Center Anchor 10^0 -->
+              <line x1="340" y1="38" x2="340" y2="125" stroke="#0f172a" stroke-width="2" stroke-dasharray="4 3"/>
+              <rect x="292" y="42" width="96" height="24" rx="6" fill="#0f172a"/>
+              <text x="340" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">1 ≤ C &lt; 10 (10⁰)</text>
+
+              <!-- Main Number Line -->
+              <line x1="40" y1="95" x2="640" y2="95" stroke="#64748b" stroke-width="3"/>
+              <!-- Negative Ticks (Left) -->
+              <g font-size="11" font-weight="700" text-anchor="middle">
+                <circle cx="70" cy="95" r="5" fill="#e11d48"/><text x="70" y="114" fill="#be123c">10⁻⁶</text><text x="70" y="128" font-size="9" fill="#64748b">0.000001</text>
+                <circle cx="140" cy="95" r="5" fill="#e11d48"/><text x="140" y="114" fill="#be123c">10⁻⁴</text><text x="140" y="128" font-size="9" fill="#64748b">0.0001</text>
+                <circle cx="210" cy="95" r="5" fill="#e11d48"/><text x="210" y="114" fill="#be123c">10⁻²</text><text x="210" y="128" font-size="9" fill="#64748b">0.01</text>
+                <circle cx="275" cy="95" r="5" fill="#e11d48"/><text x="275" y="114" fill="#be123c">10⁻¹</text><text x="275" y="128" font-size="9" fill="#64748b">0.1</text>
+                <!-- Positive Ticks (Right) -->
+                <circle cx="405" cy="95" r="5" fill="#0d9488"/><text x="405" y="114" fill="#0f766e">10¹</text><text x="405" y="128" font-size="9" fill="#64748b">10</text>
+                <circle cx="470" cy="95" r="5" fill="#0d9488"/><text x="470" y="114" fill="#0f766e">10²</text><text x="470" y="128" font-size="9" fill="#64748b">100</text>
+                <circle cx="540" cy="95" r="5" fill="#0d9488"/><text x="540" y="114" fill="#0f766e">10⁴</text><text x="540" y="128" font-size="9" fill="#64748b">10,000</text>
+                <circle cx="610" cy="95" r="5" fill="#0d9488"/><text x="610" y="114" fill="#0f766e">10⁶</text><text x="610" y="128" font-size="9" fill="#64748b">1,000,000</text>
+              </g>
+
+              <!-- Bottom Callout Cards -->
+              <rect x="30" y="142" width="295" height="60" rx="8" fill="#fff1f2" stroke="#fecdd3"/>
+              <text x="177" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">SMALL NUMBERS (&lt; 1) → NEGATIVE (−)</text>
+              <text x="177" y="176" text-anchor="middle" font-size="10" fill="#881337">Decimal shifts RIGHT to reach 1 ≤ C &lt; 10</text>
+              <text x="177" y="191" text-anchor="middle" font-size="10" font-weight="600" fill="#9f1239">0.000881 → 4 jumps right → 8.81 × 10⁻⁴</text>
+
+              <rect x="355" y="142" width="295" height="60" rx="8" fill="#f0fdfa" stroke="#99f6e4"/>
+              <text x="502" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">LARGE NUMBERS (≥ 10) → POSITIVE (+)</text>
+              <text x="502" y="176" text-anchor="middle" font-size="10" fill="#115e59">Decimal shifts LEFT to reach 1 ≤ C &lt; 10</text>
+              <text x="502" y="191" text-anchor="middle" font-size="10" font-weight="600" fill="#134e4a">28,300 → 4 jumps left → 2.83 × 10⁴</text>
+            </svg>
+          </div>
+        `,
+        workedExample: {
+          problem: "Calculate 1.1 × 10⁻³ + 2.21 × 10⁻² and write the answer in scientific notation.",
+          steps: [
+            "Match exponents to 10⁻²: <code>1.1 × 10⁻³ = 0.11 × 10⁻²</code>.",
+            "Add coefficients: <code>0.11 × 10⁻² + 2.21 × 10⁻² = 2.32 × 10⁻²</code>."
+          ]
+        },
+        questions: [
+          {
+            q: "Write 0.000 000 0271 in proper scientific notation.",
+            options: [
+              { text: "2.71 × 10⁻⁸", correct: true, feedback: "Correct! Moving the decimal 8 places to the right puts it between 2 and 7, giving a negative exponent of −8." },
+              { text: "2.71 × 10⁸", correct: false, feedback: "A positive exponent (+8) means 271,000,000. Because 0.0000000271 is less than 1, the exponent must be negative." },
+              { text: "27.1 × 10⁻⁹", correct: false, feedback: "27.1 is not between 1 and 10. Proper scientific notation requires exactly one non-zero digit before the decimal." },
+              { text: "2.71 × 10⁻⁷", correct: false, feedback: "Count carefully: 7 zeros after the decimal plus 1 jump past the digit 2 equals 8 places total." }
+            ],
+            explanation: "Shifting the decimal 8 places right yields <strong>2.71 × 10⁻⁸</strong>."
+          },
+          {
+            q: "Calculate (4.44 × 10⁻⁹) ÷ (2.00 × 10⁻³) in scientific notation.",
+            options: [
+              { text: "2.22 × 10⁻⁶", correct: true, feedback: "Spot on! Divide coefficients (4.44 ÷ 2.00 = 2.22) and subtract exponents: −9 − (−3) = −9 + 3 = −6." },
+              { text: "2.22 × 10⁻¹²", correct: false, feedback: "You added −9 + (−3) = −12. When dividing exponents, subtract: −9 − (−3) = −6." },
+              { text: "2.22 × 10⁻³", correct: false, feedback: "You divided the exponents (−9 ÷ −3) instead of subtracting them." },
+              { text: "2.22 × 10⁶", correct: false, feedback: "Check the sign: −9 − (−3) = −6, not +6." }
+            ],
+            explanation: "(4.44 / 2.00) × 10^(−9 − (−3)) = <strong>2.22 × 10⁻⁶</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.7",
+        title: "Making Measurements",
+        subtitle: "Reading analog scales with one estimated digit and reading the bottom of the meniscus.",
+        concepts: [
+          {
+            heading: "Analog vs. Digital Instruments",
+            points: [
+              "<strong>Analog Devices (rulers, graduated cylinders):</strong> Record <strong>all certain digits</strong> marked by lines PLUS <strong>one estimated (guess) digit</strong>.",
+              "<strong>Digital Devices (electronic balances):</strong> Record the exact digits displayed—do <em>not</em> add an estimated digit."
+            ]
+          },
+          {
+            heading: "Reading the Meniscus",
+            points: [
+              "Always read liquid volume at <strong>eye level</strong> from the <strong>bottom of the concave meniscus</strong>.",
+              "Reading from too high yields a value that is <strong>too low</strong>; reading from too low yields a value that is <strong>too high</strong>."
+            ]
+          }
+        ],
+        diagram: `
+          <svg viewBox="0 0 620 175" class="w-full max-w-2xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+            <!-- Ruler 1: 1 cm increments -->
+            <text x="20" y="25" font-size="12" font-weight="700" fill="#0f172a">Ruler A (marked every 1 cm → estimate to 0.1 cm): e.g., 5.7 cm</text>
+            <line x1="30" y1="55" x2="550" y2="55" stroke="#0f172a" stroke-width="2"/>
+            <g stroke="#0f172a" stroke-width="2" font-size="11" text-anchor="middle">
+              <line x1="30" y1="55" x2="30" y2="72"/><text x="30" y="86">0</text>
+              <line x1="115" y1="55" x2="115" y2="72"/><text x="115" y="86">1</text>
+              <line x1="200" y1="55" x2="200" y2="72"/><text x="200" y="86">2</text>
+              <line x1="285" y1="55" x2="285" y2="72"/><text x="285" y="86">3</text>
+              <line x1="370" y1="55" x2="370" y2="72"/><text x="370" y="86">4</text>
+              <line x1="455" y1="55" x2="455" y2="72"/><text x="455" y="86">5</text>
+              <line x1="540" y1="55" x2="540" y2="72"/><text x="540" y="86">6 cm</text>
+            </g>
+            <rect x="30" y="36" width="484" height="12" rx="3" fill="#0284c7"/>
+
+            <!-- Ruler 2: 0.1 cm increments -->
+            <text x="20" y="118" font-size="12" font-weight="700" fill="#0f172a">Ruler B (marked every 0.1 cm → estimate to 0.01 cm): e.g., 5.70 cm</text>
+            <line x1="30" y1="145" x2="550" y2="145" stroke="#0f172a" stroke-width="2"/>
+            <rect x="30" y="128" width="484" height="11" rx="3" fill="#0d9488"/>
+            <text x="540" y="164" font-size="11" font-weight="700" fill="#0f766e">More tick marks = 1 extra decimal place!</text>
+          </svg>
+        `,
+        workedExample: {
+          problem: "A graduated cylinder has major lines every 1 mL and 10 subdivisions between them (each line = 0.1 mL). The bottom of the meniscus sits right on the 5.1 mL line. How should you record it?",
+          steps: [
+            "Certain digits: <code>5.1 mL</code> (since 0.1 mL markings exist).",
+            "Add one estimated digit (0 since it sits directly on the line): <strong>5.10 mL</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "A metric ruler has tick marks every 0.1 cm (1 mm). An object's edge aligns right at the 4.0 cm mark. How must you record the length?",
+            options: [
+              { text: "4.00 cm", correct: true, feedback: "Correct! Because the ruler has 0.1 cm markings, 4.0 is certain and you must add one estimated hundredths digit (4.00 cm)." },
+              { text: "4 cm", correct: false, feedback: "4 cm ignores both the millimeter markings and the required estimated digit." },
+              { text: "4.0 cm", correct: false, feedback: "4.0 cm only shows the known millimeter line; analog instruments require ONE additional estimated digit (hundredths place)." },
+              { text: "4.000 cm", correct: false, feedback: "4.000 cm implies two estimated digits beyond the 0.1 cm markings, which overstates the ruler's precision." }
+            ],
+            explanation: "With 0.1 cm subdivisions, record to the hundredths place: <strong>4.00 cm</strong>."
+          },
+          {
+            q: "If a student looks DOWN at a graduated cylinder from above eye level while reading a concave meniscus, how is their reading affected?",
+            options: [
+              { text: "The recorded volume will be too low.", correct: true, feedback: "Correct! Parallax error from looking down projects the bottom of the meniscus lower on the scale." },
+              { text: "The recorded volume will be too high.", correct: false, feedback: "Looking UP from below eye level makes the reading too high; looking down makes it too low." },
+              { text: "The reading is unaffected as long as the cylinder is glass.", correct: false, feedback: "Eye angle creates parallax error regardless of the glass type." },
+              { text: "You should read the top edge of the meniscus instead.", correct: false, feedback: "Always read the bottom of a concave aqueous meniscus at eye level." }
+            ],
+            explanation: "Reading from above eye level causes parallax error that makes the value appear <strong>too low</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.8",
+        title: "Measurement Uncertainty",
+        subtitle: "Determining ± uncertainty for digital balances and analog glassware/rulers.",
+        concepts: [
+          {
+            heading: "Digital vs. Analog Uncertainty Rules",
+            points: [
+              "<strong>Digital Device:</strong> Uncertainty is equal to the <strong>smallest increment displayed</strong> (e.g., a scale reading <code>8.73 g</code> has an uncertainty of <code>± 0.01 g</code>).",
+              "<strong>Analog Device:</strong> Uncertainty is <strong>half of the smallest division</strong> (e.g., markings every <code>1 mL</code> → <code>± 0.5 mL</code>; markings every <code>0.1 mL</code> → <code>± 0.05 mL</code>)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "A graduated cylinder has lines every 1 mL, and the meniscus is halfway between 30 and 31 mL. Record the volume with uncertainty.",
+          steps: [
+            "Reading (known to 1 mL + 1 guess digit): <code>30.5 mL</code>.",
+            "Smallest division = 1 mL → Half of 1 mL = <code>± 0.5 mL</code>.",
+            "Final report: <strong>30.5 mL (± 0.5)</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "A graduated cylinder has markings every 0.1 mL. What is its measured uncertainty?",
+            options: [
+              { text: "± 0.05 mL", correct: true, feedback: "Spot on! For an analog device, uncertainty is half of the smallest division: 0.1 mL ÷ 2 = ± 0.05 mL." },
+              { text: "± 0.1 mL", correct: false, feedback: "± 0.1 mL would apply to a digital device reading to 0.1 mL. Analog devices take HALF of the smallest division." },
+              { text: "± 0.5 mL", correct: false, feedback: "± 0.5 mL is half of a 1 mL division, not a 0.1 mL division." },
+              { text: "± 0.01 mL", correct: false, feedback: "Check your division: 0.1 ÷ 2 = 0.05, not 0.01." }
+            ],
+            explanation: "Analog uncertainty = (smallest division) / 2 = 0.1 mL / 2 = <strong>± 0.05 mL</strong>."
+          },
+          {
+            q: "An electronic balance displays a mass of 16.15 g. What is the uncertainty of this digital measurement?",
+            options: [
+              { text: "± 0.01 g", correct: true, feedback: "Correct! For a digital device, the uncertainty equals the smallest increment displayed on the screen (0.01 g)." },
+              { text: "± 0.005 g", correct: false, feedback: "Do not divide by 2 for digital displays—the internal rounding is already ± 1 in the last displayed digit." },
+              { text: "± 0.1 g", correct: false, feedback: "The balance displays two decimal places (hundredths), so the smallest increment is 0.01 g." },
+              { text: "± 1 g", correct: false, feedback: "The scale resolves down to 0.01 g, not 1 g." }
+            ],
+            explanation: "Digital uncertainty = smallest displayed digit = <strong>± 0.01 g</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.9",
+        title: "Significant Figures",
+        subtitle: "The 5 rules for identifying significant digits in measured and exact numbers.",
+        concepts: [
+          {
+            heading: "5 Rules for Counting Sig Figs",
+            points: [
+              "<strong>1. Non-zero digits (1–9):</strong> ALWAYS significant (<code>96.18</code> → 4 sig figs).",
+              "<strong>2. Sandwiched zeros:</strong> Zeros between non-zeros are ALWAYS significant (<code>900.005</code> → 6 sig figs).",
+              "<strong>3. Leading zeros:</strong> Zeros to the left of the first non-zero are NEVER significant (<code>0.000123</code> → 3 sig figs).",
+              "<strong>4. Trailing zeros:</strong> Significant <strong>ONLY IF there is a decimal point</strong> anywhere in the number (<code>23500</code> → 3; <code>23500.</code> → 5; <code>0.002530</code> → 4).",
+              "<strong>5. Counting numbers &amp; exact conversion factors:</strong> Have <strong>infinite (∞)</strong> significant figures (e.g., <code>12 pencils</code>, <code>1 m = 100 cm</code>)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "How many significant figures are in 0.000 309 00 mm?",
+          steps: [
+            "The four leading zeros (<code>0.000</code>) are placeholders → NOT significant.",
+            "The <code>3</code> and <code>9</code> are non-zero → significant.",
+            "The sandwiched <code>0</code> between 3 and 9 → significant.",
+            "The two trailing zeros after 9 are significant because a decimal point is present → Total = <strong>5 sig figs</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "How many significant figures are in the measurement 800,340 m?",
+            options: [
+              { text: "5", correct: true, feedback: "Correct! The 8, 3, 4 and the two sandwiched zeros are significant. Because there is NO decimal point, the trailing zero is not significant." },
+              { text: "6", correct: false, feedback: "The trailing zero at the end is only a placeholder because there is no decimal point written after it." },
+              { text: "3", correct: false, feedback: "Sandwiched zeros between non-zero digits (the two zeros between 8 and 3) are ALWAYS significant." },
+              { text: "4", correct: false, feedback: "Count both sandwiched zeros between 8 and 3: 8-0-0-3-4 gives 5 significant digits." }
+            ],
+            explanation: "8, 0, 0, 3, 4 are significant (trailing zero without a decimal is not) → <strong>5 sig figs</strong>."
+          },
+          {
+            q: "How many significant figures are in 1.70 × 10⁻⁴ L?",
+            options: [
+              { text: "3", correct: true, feedback: "Spot on! All digits written in the scientific notation coefficient (1, 7, and the trailing 0 after the decimal) are significant." },
+              { text: "2", correct: false, feedback: "The trailing zero in 1.70 is after a decimal point, so the scientist intentionally included it to show precision." },
+              { text: "7", correct: false, feedback: "Do not count the exponent (−4) or placeholder zeros when expanded; only count digits in the coefficient 1.70." },
+              { text: "4", correct: false, feedback: "The exponent −4 is a power of ten, not a measured digit." }
+            ],
+            explanation: "In scientific notation, every digit in the coefficient <code>1.70</code> counts → <strong>3 sig figs</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.10",
+        title: "Sig Fig Math Rules",
+        subtitle: "Rounding rules for addition/subtraction, multiplication/division, and mixed operations.",
+        concepts: [
+          {
+            heading: "Operation Rules",
+            points: [
+              "<strong>Addition &amp; Subtraction:</strong> Round to the <strong>least number of decimal places</strong> (or largest uncertain place value, e.g., thousands place for <code>12,000</code>).",
+              "<strong>Multiplication &amp; Division:</strong> Round to the <strong>least total number of significant figures</strong>.",
+              "<strong>Combined Operations:</strong> Track sig figs at the intermediate step where the rule switches (e.g., subtraction inside parentheses before dividing), but keep unrounded digits until the final answer."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Calculate (8.50 cm + 5 cm) × 3.0 cm with proper significant figures.",
+          steps: [
+            "Step 1 (Addition): <code>8.50 + 5 = 13.50 cm</code>. Since <code>5 cm</code> has 0 decimal places (ones place), the intermediate sum is only known to the ones place (<code>14 cm</code> → <strong>2 sig figs</strong>).",
+            "Step 2 (Multiplication): <code>13.50 × 3.0 = 40.5</code>. Both factors limit to 2 sig figs → <strong>41 cm²</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "Calculate 15.987 g − 1.75 g and round to the correct number of significant figures.",
+            options: [
+              { text: "14.24 g", correct: true, feedback: "Correct! 15.987 − 1.75 = 14.237. Because 1.75 has 2 decimal places (hundredths), round 14.237 to 14.24 g." },
+              { text: "14.237 g", correct: false, feedback: "14.237 g is the unrounded calculator result. Subtraction rounds to the fewest decimal places (2 decimal places from 1.75)." },
+              { text: "14.2 g", correct: false, feedback: "1.75 goes to the hundredths place (2 decimal places), so you get to keep two decimal places, not just one." },
+              { text: "14 g", correct: false, feedback: "You applied the 3-sig-fig multiplication rule instead of the decimal-place subtraction rule." }
+            ],
+            explanation: "Subtraction rule: fewest decimal places (2 from 1.75) → 14.237 rounds to <strong>14.24 g</strong>."
+          },
+          {
+            q: "Calculate 2.5 m × 8.53 m with proper significant figures.",
+            options: [
+              { text: "21 m²", correct: true, feedback: "Spot on! 2.5 × 8.53 = 21.325. Since 2.5 has 2 sig figs and 8.53 has 3 sig figs, round to 2 sig figs: 21 m²." },
+              { text: "21.3 m²", correct: false, feedback: "21.3 m² has 3 sig figs, but 2.5 m only has 2 significant figures." },
+              { text: "21.33 m²", correct: false, feedback: "You used the decimal-place addition rule instead of counting total significant figures for multiplication." },
+              { text: "20 m²", correct: false, feedback: "20 (without a decimal) only has 1 sig fig; 2.5 allows 2 sig figs (21)." }
+            ],
+            explanation: "Multiplication rule: fewest total sig figs (2 from 2.5) → <strong>21 m²</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.11",
+        title: "Uncertainty Propagation",
+        subtitle: "Adding absolute uncertainties for +/- and adding percent uncertainties for ×/÷.",
+        concepts: [
+          {
+            heading: "Propagating Uncertainty Through Math",
+            points: [
+              "<strong>Addition &amp; Subtraction:</strong> <strong>ADD the absolute uncertainties</strong> (<code>Δz = Δx + Δy</code>), observing sig fig rules.",
+              "<strong>Multiplication &amp; Division:</strong> Convert each absolute uncertainty into a <strong>Percent Uncertainty</strong>: <code>% Unc = (Measured Unc / Measurement) × 100</code> (1 sig fig), then <strong>ADD the percent uncertainties</strong>."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Calculate density and percent uncertainty for Mass = 53.2 g (± 0.1) and Volume = 12.5 mL (± 0.1).",
+          steps: [
+            "Density: <code>53.2 g / 12.5 mL = 4.256 → 4.26 g/mL</code> (3 sig figs).",
+            "% Unc (mass): <code>(0.1 / 53.2) × 100 = 0.2%</code>. % Unc (volume): <code>(0.1 / 12.5) × 100 = 0.8%</code>.",
+            "Total % Unc: <code>0.2% + 0.8% = 1%</code> → <strong>4.26 g/mL (± 1%)</strong>."
+          ]
+        },
+        questions: [
+          {
+            q: "Initial water volume is 49.0 mL (± 0.5) and final volume with metal jacks is 52.0 mL (± 0.5). What is the volume of the jacks with uncertainty?",
+            options: [
+              { text: "3.0 mL (± 1.0)", correct: true, feedback: "Correct! Even when subtracting volumes (52.0 − 49.0 = 3.0 mL), errors accumulate—so you ADD the uncertainties: 0.5 + 0.5 = ± 1.0 mL." },
+              { text: "3.0 mL (± 0.0)", correct: false, feedback: "Uncertainties NEVER cancel out when subtracting! Each reading has a ± 0.5 mL error margin, so the combined uncertainty is 0.5 + 0.5 = ± 1.0 mL." },
+              { text: "3.0 mL (± 0.5)", correct: false, feedback: "Because you took two separate measurements, you must add both uncertainties together (0.5 + 0.5)." },
+              { text: "3 mL (± 1%)", correct: false, feedback: "For subtraction, keep absolute units (± 1.0 mL) rather than percent uncertainty." }
+            ],
+            explanation: "For subtraction, subtract the values (3.0 mL) and <strong>add</strong> the absolute uncertainties (0.5 + 0.5 = <strong>± 1.0 mL</strong>)."
+          },
+          {
+            q: "Multiply 2.3 cm (± 4%) by 1.2 cm (± 8%). How should the area and uncertainty be reported?",
+            options: [
+              { text: "2.8 cm² (± 12%)", correct: true, feedback: "Spot on! 2.3 × 1.2 = 2.76 → 2.8 cm² (2 sig figs), and for multiplication you add the percent uncertainties: 4% + 8% = ± 12%." },
+              { text: "2.8 cm² (± 32%)", correct: false, feedback: "Do not multiply the percentages! In multiplication/division, ADD the percent uncertainties (4% + 8% = 12%)." },
+              { text: "2.76 cm² (± 12%)", correct: false, feedback: "Don't forget sig figs: 2.3 and 1.2 each have 2 sig figs, so 2.76 rounds to 2.8 cm²." },
+              { text: "2.8 cm² (± 4%)", correct: false, feedback: "Both measurements contribute uncertainty, so add 4% + 8% = 12%." }
+            ],
+            explanation: "Area = 2.3 × 1.2 = <strong>2.8 cm²</strong>; Total % Uncertainty = 4% + 8% = <strong>± 12%</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.12",
+        title: "Density & Buoyancy",
+        subtitle: "D = m / V, regular geometric volume, water displacement, and immiscible layers.",
+        concepts: [
+          {
+            heading: "Density Equation & Volume Methods",
+            points: [
+              "<code>Density (D) = Mass (m) / Volume (V)</code> | <code>m = D × V</code> | <code>V = m / D</code> (Note: <code>1 mL = 1 cm³</code>).",
+              "<strong>Regular Solids:</strong> Rectangular prism <code>V = l × w × h</code>; Cylinder <code>V = π r² h</code>.",
+              "<strong>Irregular Solids:</strong> Water displacement <code>V_object = V_(water + object) − V_water</code>.",
+              "<strong>Buoyancy / Layering:</strong> Less dense substances float on top of denser immiscible liquids."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "15.0 mL of water is placed in a cylinder. After adding zinc (D = 7.14 g/mL), the water rises to 17.9 mL. What is the mass of the zinc?",
+          steps: [
+            "Volume of zinc: <code>17.9 mL − 15.0 mL = 2.9 mL</code> (2 sig figs).",
+            "Mass: <code>m = D × V = 7.14 g/mL × 2.9 mL = 20.706 → 21 g</code>."
+          ]
+        },
+        questions: [
+          {
+            q: "Three immiscible liquids are poured into a cylinder: Liquid 1 (8.00 mL, 2.90 g), Liquid 2 (6.00 mL, 2.64 g), and Liquid 3 (D = 0.400 g/mL). Which order will they settle from TOP to BOTTOM?",
+            options: [
+              { text: "Liquid 1 (top), Liquid 3 (middle), Liquid 2 (bottom)", correct: true, feedback: "Correct! D₁ = 2.90/8.00 = 0.363 g/mL (lightest → top), D₃ = 0.400 g/mL (middle), D₂ = 2.64/6.00 = 0.440 g/mL (heaviest → bottom)." },
+              { text: "Liquid 2 (top), Liquid 3 (middle), Liquid 1 (bottom)", correct: false, feedback: "That's the reverse order! Denser liquids sink to the bottom, while the lowest density floats on top." },
+              { text: "Liquid 3 (top), Liquid 1 (middle), Liquid 2 (bottom)", correct: false, feedback: "Calculate D₁ = 2.90 g ÷ 8.00 mL = 0.363 g/mL, which is less dense than Liquid 3 (0.400 g/mL)." },
+              { text: "Liquid 2 (top), Liquid 1 (middle), Liquid 3 (bottom)", correct: false, feedback: "Liquid 2 has the largest mass-to-volume ratio (2.64 / 6.00 = 0.440 g/mL), so it sinks to the bottom." }
+            ],
+            explanation: "Densities: D₁ = 0.363 g/mL &lt; D₃ = 0.400 g/mL &lt; D₂ = 0.440 g/mL → Top to bottom: <strong>1, 3, 2</strong>."
+          },
+          {
+            q: "Diethyl ether has a density of 0.713 g/mL. What volume is needed to obtain exactly 5.00 g of diethyl ether?",
+            options: [
+              { text: "7.01 mL", correct: true, feedback: "Spot on! V = m / D = 5.00 g / 0.713 g/mL = 7.01 mL." },
+              { text: "3.57 mL", correct: false, feedback: "You multiplied 5.00 × 0.713 instead of dividing. Rearranging D = m / V gives V = m / D." },
+              { text: "0.143 mL", correct: false, feedback: "You divided D / m (0.713 / 5.00) instead of m / D." },
+              { text: "5.71 mL", correct: false, feedback: "Divide mass by density (5.00 ÷ 0.713), rather than adding them." }
+            ],
+            explanation: "V = m / D = 5.00 g / 0.713 g/mL = <strong>7.01 mL</strong>."
+          }
+        ]
+      },
+      {
+        id: "1.13",
+        title: "Solubility Curves",
+        subtitle: "Saturated, unsaturated, supersaturated states, temperature trends, and water scaling.",
+        concepts: [
+          {
+            heading: "Reading Solubility Graphs (g solute / 100 g H₂O)",
+            points: [
+              "<strong>On the curve:</strong> <strong>Saturated</strong> (maximum solute dissolved at that temperature).",
+              "<strong>Below the curve:</strong> <strong>Unsaturated</strong> (more solute can still dissolve).",
+              "<strong>Above the curve:</strong> <strong>Supersaturated</strong> (unstable excess dissolved) or undissolved solid sitting at the bottom.",
+              "<strong>Temperature Trends:</strong> Most solid salts become <strong>more soluble</strong> as temperature rises; gases (NH₃, SO₂, HCl) become <strong>less soluble</strong>.",
+              "<strong>Rate of Dissolving (Faster):</strong> Stirring/shaking, heating (for solids), and crushing into smaller particles (higher surface area)."
+            ]
+          }
+        ],
+        diagram: `
+          <svg viewBox="0 0 640 245" class="w-full max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-2">
+            <!-- Axes -->
+            <line x1="65" y1="205" x2="580" y2="205" stroke="#0f172a" stroke-width="2"/>
+            <line x1="65" y1="20" x2="65" y2="205" stroke="#0f172a" stroke-width="2"/>
+            <text x="320" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Temperature (°C)</text>
+            <text x="20" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#0f172a" transform="rotate(-90 20 115)">g Solute / 100 g H₂O</text>
+            <!-- Grid & Ticks -->
+            <g font-size="10" fill="#475569" text-anchor="middle">
+              <text x="65" y="218">0</text><text x="165" y="218">20</text><text x="265" y="218">40</text><text x="365" y="218">60</text><text x="465" y="218">80</text><text x="565" y="218">100</text>
+            </g>
+            <g font-size="10" fill="#475569" text-anchor="end">
+              <text x="58" y="208">0</text><text x="58" y="158">40</text><text x="58" y="108">80</text><text x="58" y="58">120</text><text x="58" y="33">140</text>
+            </g>
+            <!-- Curves -->
+            <!-- KNO3 (steep upward) -->
+            <path d="M 65 188 Q 240 165 415 45" fill="none" stroke="#0284c7" stroke-width="3"/>
+            <text x="422" y="42" font-size="11" font-weight="700" fill="#0284c7">KNO₃</text>
+            <!-- NaNO3 -->
+            <path d="M 65 113 L 465 25" fill="none" stroke="#0d9488" stroke-width="3"/>
+            <text x="472" y="28" font-size="11" font-weight="700" fill="#0d9488">NaNO₃</text>
+            <!-- NH4Cl -->
+            <path d="M 65 168 L 565 108" fill="none" stroke="#7c3aed" stroke-width="2.5"/>
+            <text x="570" y="108" font-size="11" font-weight="700" fill="#7c3aed">NH₄Cl</text>
+            <!-- NaCl (flat) -->
+            <path d="M 65 159 L 565 155" fill="none" stroke="#475569" stroke-width="2.5"/>
+            <text x="570" y="158" font-size="11" font-weight="700" fill="#475569">NaCl</text>
+            <!-- NH3 (gas downward) -->
+            <path d="M 65 95 Q 240 165 565 196" fill="none" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 3"/>
+            <text x="570" y="196" font-size="11" font-weight="700" fill="#e11d48">NH₃ (gas)</text>
+          </svg>
+        `,
+        workedExample: {
+          problem: "At 60 °C, the solubility of KCl is 45 g per 100 g H₂O. How much KCl dissolves in 530 g of water at 60 °C?",
+          steps: [
+            "Set up a proportion: <code>(45 g KCl / 100 g H₂O) × 530 g H₂O</code>.",
+            "<code>45 × 5.30 = 238.5 g</code> (or ~240 g to 2 sig figs)."
+          ]
+        },
+        questions: [
+          {
+            q: "At 50 °C, the saturation point of NaNO₃ is ~114 g per 100 g H₂O. If a student dissolves 50 g of NaNO₃ in 100 g of water at 50 °C, what type of solution is formed?",
+            options: [
+              { text: "Unsaturated", correct: true, feedback: "Correct! Since 50 g is well below the 114 g saturation line at 50 °C, the water can still dissolve more solute." },
+              { text: "Saturated", correct: false, feedback: "A saturated solution would require ~114 g of NaNO₃ at 50 °C (sitting directly on the curve)." },
+              { text: "Supersaturated", correct: false, feedback: "Supersaturated points lie ABOVE the solubility curve, not below it." },
+              { text: "Precipitated", correct: false, feedback: "All 50 g dissolves easily because it is below the maximum capacity at 50 °C." }
+            ],
+            explanation: "Points plotted <strong>below</strong> the solubility curve represent <strong>unsaturated</strong> solutions."
+          },
+          {
+            q: "Why do gases like ammonia (NH₃) and sulfur dioxide (SO₂) curve DOWNWARD as temperature increases?",
+            options: [
+              { text: "Higher temperature gives gas molecules more kinetic energy to escape the liquid.", correct: true, feedback: "Spot on! Unlike most solid salts, dissolved gases become LESS soluble as water warms up." },
+              { text: "Gases turn into solids at higher temperatures.", correct: false, feedback: "Heating increases kinetic energy; it does not freeze gases." },
+              { text: "The mass of water increases when heated.", correct: false, feedback: "The graph is fixed per 100 g of H₂O; gas solubility itself decreases with temperature." },
+              { text: "Gases have infinite solubility at 100 °C.", correct: false, feedback: "At 100 °C (boiling), gas solubility approaches zero." }
+            ],
+            explanation: "Gases are <strong>less soluble</strong> at higher temperatures because dissolved gas molecules gain kinetic energy and escape."
+          }
+        ]
+      },
+      {
+        id: "1.14",
+        title: "Dimensional Analysis",
+        subtitle: "Factor-label unit cancellation, multi-step conversions, rates, and cubed units.",
+        concepts: [
+          {
+            heading: "Factor-Label Method",
+            points: [
+              "Multiply your starting quantity by conversion fractions equal to 1 so unwanted units <strong>cancel diagonally</strong> (numerator cancels denominator).",
+              "<strong>Two-Unit Rates (e.g., miles/hour → km/min):</strong> Convert the numerator unit first, then convert the denominator unit.",
+              "<strong>Squared or Cubed Units (cm³ → in³):</strong> You must square or cube both the number AND the unit: <code>(1 in)³ = (2.54 cm)³ = 16.39 cm³</code>."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Convert 5,000 mL into cubic feet (ft³). (1 mL = 1 cm³, 1 in = 2.54 cm, 1 ft = 12 in)",
+          steps: [
+            "<code>5000 mL × (1 cm³ / 1 mL) × (1³ in³ / 2.54³ cm³) × (1³ ft³ / 12³ in³)</code>",
+            "<code>5000 ÷ (16.387 × 1728) = 0.177 ft³</code>."
+          ]
+        },
+        questions: [
+          {
+            q: "Convert a speed of 65 miles/hour into km/min. (1 mile = 1.61 km, 1 hour = 60 min)",
+            options: [
+              { text: "1.7 km/min", correct: true, feedback: "Correct! (65 mi / 1 hr) × (1.61 km / 1 mi) × (1 hr / 60 min) = 104.65 / 60 = 1.74 → 1.7 km/min." },
+              { text: "6,279 km/min", correct: false, feedback: "You multiplied by 60 min instead of dividing! Since 'hour' is in the denominator, put '1 hour' on top and '60 min' on the bottom to cancel hours." },
+              { text: "0.67 km/min", correct: false, feedback: "Check your mile-to-km fraction: multiply by 1.61 km / 1 mile rather than dividing by 1.61." },
+              { text: "105 km/min", correct: false, feedback: "105 km/hr is the speed per hour; don't forget to divide by 60 minutes!" }
+            ],
+            explanation: "(65 mi/hr) × (1.61 km / 1 mi) × (1 hr / 60 min) = <strong>1.7 km/min</strong>."
+          },
+          {
+            q: "A block of iron (D = 7.874 g/mL) has dimensions 2.25 cm × 1.50 cm × 7.75 cm. What is its mass in ounces? (1 oz = 28.4 g, 1 cm³ = 1 mL)",
+            options: [
+              { text: "7.25 oz", correct: true, feedback: "Spot on! Volume = 26.156 cm³ (mL). Mass = 26.156 mL × 7.874 g/mL = 205.95 g. Convert to oz: 205.95 g ÷ 28.4 g/oz = 7.25 oz." },
+              { text: "206 oz", correct: false, feedback: "206 is the mass in grams! Divide by 28.4 g/oz to finish converting into ounces." },
+              { text: "5,850 oz", correct: false, feedback: "You multiplied by 28.4 instead of dividing by 28.4 g/oz." },
+              { text: "0.921 oz", correct: false, feedback: "You divided the volume by 28.4 without multiplying by the density of iron (7.874 g/mL) first." }
+            ],
+            explanation: "V = 26.16 cm³ → m = 26.16 × 7.874 = 206.0 g → 206.0 / 28.4 = <strong>7.25 oz</strong>."
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // STATE & PERSISTENCE
+    // =========================================================================
+    let currentTopicId = "1.1";
+    let currentMode = "learn";
+    let practiceIdx = 0;
+    let selectedOption = null;
+    let testState = null;
+
+    let mastery = JSON.parse(localStorage.getItem("chemlab_g10_u1_mastery") || "{}");
+
+    function saveMastery() {
+      localStorage.setItem("chemlab_g10_u1_mastery", JSON.stringify(mastery));
+      updateGlobalProgress();
+      renderSidebar();
+    }
+
+    function resetProgress() {
+      if (confirm("Reset all saved mastery progress for Unit 1?")) {
+        mastery = {};
+        saveMastery();
+        renderView();
+      }
+    }
+
+    function updateGlobalProgress() {
+      let totalQ = 0, masteredQ = 0;
+      TOPICS.forEach(t => {
+        totalQ += t.questions.length;
+        const m = mastery[t.id] || [];
+        masteredQ += m.length;
+      });
+      const pct = totalQ ? Math.round((masteredQ / totalQ) * 100) : 0;
+      document.getElementById("globalProgressBar").style.width = pct + "%";
+      document.getElementById("globalProgressText").textContent = pct + "%";
+    }
+
+    // =========================================================================
+    // SIDEBAR & NAVIGATION
+    // =========================================================================
+    function toggleSidebar(open) {
+      const sb = document.getElementById("sidebar");
+      const bd = document.getElementById("sidebarBackdrop");
+      if (open) {
+        sb.classList.remove("-translate-x-full");
+        bd.classList.remove("hidden");
+      } else {
+        sb.classList.add("-translate-x-full");
+        bd.classList.add("hidden");
+      }
+    }
+    document.getElementById("mobileMenuBtn").addEventListener("click", () => toggleSidebar(true));
+
+    function renderSidebar() {
+      const list = document.getElementById("topicList");
+      list.innerHTML = TOPICS.map(t => {
+        const active = t.id === currentTopicId && !testState?.isFullExam;
+        const done = (mastery[t.id] || []).length;
+        const total = t.questions.length;
+        const complete = done === total && total > 0;
+        return `
+          <button onclick="selectTopic('${t.id}')" class="w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2 transition ${active ? 'bg-teal-50 text-teal-900 border border-teal-200 font-semibold' : 'text-slate-700 hover:bg-slate-100'}">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-xs font-mono px-1.5 py-0.5 rounded ${active ? 'bg-teal-600 text-white' : 'bg-slate-200/80 text-slate-700'}">${t.id}</span>
+              <span class="text-sm truncate">${t.title}</span>
+            </div>
+            <span class="text-xs font-semibold shrink-0 ${complete ? 'text-emerald-600' : 'text-slate-400'}">
+              ${complete ? '✓' : `${done}/${total}`}
+            </span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectTopic(id) {
+      currentTopicId = id;
+      testState = null;
+      practiceIdx = 0;
+      selectedOption = null;
+      toggleSidebar(false);
+      renderSidebar();
+      renderView();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      testState = null;
+      practiceIdx = 0;
+      selectedOption = null;
+      renderView();
+    }
+
+    // =========================================================================
+    // VIEW RENDERING
+    // =========================================================================
+    function renderView() {
+      const topic = TOPICS.find(t => t.id === currentTopicId);
+
+      // Update Header
+      if (testState && testState.isFullExam) {
+        document.getElementById("topicBadge").textContent = "Cumulative Assessment";
+        document.getElementById("topicTitle").textContent = "Unit 1: Comprehensive Skills Exam";
+        document.getElementById("topicSubtitle").textContent = "Mixed diagnostic questions across Sections 1.1 – 1.14.";
+        document.getElementById("topicMasteryBadge").textContent = `${testState.questions.length} Questions`;
+      } else {
+        const done = (mastery[topic.id] || []).length;
+        document.getElementById("topicBadge").textContent = `Section ${topic.id}`;
+        document.getElementById("topicTitle").textContent = topic.title;
+        document.getElementById("topicSubtitle").textContent = topic.subtitle;
+        document.getElementById("topicMasteryBadge").textContent = `${done}/${topic.questions.length} Mastered`;
+      }
+
+      // Highlight Tabs
+      ["learn", "practice", "test"].forEach(m => {
+        const btn = document.getElementById(`tab-${m}`);
+        const isActive = (!testState?.isFullExam && currentMode === m) || (testState?.isFullExam && m === "test");
+        btn.className = isActive
+          ? "mode-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm"
+          : "mode-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900";
+      });
+
+      const container = document.getElementById("viewContainer");
+      if (testState) {
+        renderTestView(container);
+      } else if (currentMode === "learn") {
+        renderLearnView(container, topic);
+      } else if (currentMode === "practice") {
+        renderPracticeView(container, topic);
+      } else {
+        startTopicTest(topic);
+      }
+    }
+
+    // --- LEARN MODE ---
+    function renderLearnView(container, topic) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          ${topic.diagram ? `
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Visual Reference</h3>
+              ${topic.diagram}
+            </div>
+          ` : ''}
+
+          <div class="grid md:grid-cols-2 gap-5">
+            ${topic.concepts.map(c => `
+              <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-teal-500"></span> ${c.heading}
+                </h3>
+                <ul class="space-y-2.5 text-sm text-slate-700 leading-relaxed">
+                  ${c.points.map(p => `<li class="pl-3 border-l-2 border-slate-200">${p}</li>`).join("")}
+                </ul>
+              </div>
+            `).join("")}
+          </div>
+
+          <div class="bg-amber-50/70 rounded-2xl border border-amber-200 p-5 sm:p-6">
+            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm uppercase tracking-wider mb-2">
+              <span>✍️</span> Workbook "I Do" Worked Example
+            </div>
+            <p class="font-semibold text-slate-900 mb-3">${topic.workedExample.problem}</p>
+            <ol class="list-decimal list-inside space-y-1.5 text-sm text-slate-800 bg-white/80 p-4 rounded-xl border border-amber-200/70">
+              ${topic.workedExample.steps.map(s => `<li>${s}</li>`).join("")}
+            </ol>
+          </div>
+
+          <div class="flex justify-end">
+            <button onclick="setMode('practice')" class="px-5 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm shadow-sm transition flex items-center gap-2">
+              <span>Start Diagnostic Practice for ${topic.id}</span> <span>→</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- PRACTICE MODE (DIAGNOSTIC FEEDBACK) ---
+    function renderPracticeView(container, topic) {
+      const q = topic.questions[practiceIdx];
+      const letters = ["A", "B", "C", "D"];
+
+      container.innerHTML = `
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-sm max-w-3xl">
+          <div class="flex items-center justify-between text-xs font-semibold text-slate-500 mb-4 pb-3 border-b border-slate-100">
+            <span>Question ${practiceIdx + 1} of ${topic.questions.length}</span>
+            <span class="text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md">Instant Misconception Feedback</span>
+          </div>
+
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-6">${q.q}</h3>
+
+          <div class="space-y-3">
+            ${q.options.map((opt, idx) => {
+              let cardStyle = "border-slate-200 hover:border-teal-400 hover:bg-slate-50";
+              let badgeStyle = "bg-slate-100 text-slate-700";
+              if (selectedOption !== null) {
+                if (idx === selectedOption) {
+                  cardStyle = opt.correct ? "border-emerald-500 bg-emerald-50/70 ring-2 ring-emerald-500/20" : "border-rose-500 bg-rose-50/70 ring-2 ring-rose-500/20";
+                  badgeStyle = opt.correct ? "bg-emerald-600 text-white" : "bg-rose-600 text-white";
+                } else if (opt.correct) {
+                  cardStyle = "border-emerald-400 bg-emerald-50/40";
+                  badgeStyle = "bg-emerald-600 text-white";
+                } else {
+                  cardStyle = "border-slate-200 opacity-60";
+                }
+              }
+              return `
+                <button onclick="choosePracticeOption(${idx})" class="w-full text-left p-4 rounded-xl border-2 transition flex items-start gap-3.5 ${cardStyle}">
+                  <span class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 ${badgeStyle}">${letters[idx]}</span>
+                  <span class="text-sm sm:text-base font-medium text-slate-800">${opt.text}</span>
+                </button>
+              `;
+            }).join("")}
+          </div>
+
+          ${selectedOption !== null ? `
+            <div class="mt-6 p-5 rounded-xl border ${q.options[selectedOption].correct ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'} fade-in">
+              <div class="font-bold text-sm uppercase tracking-wider mb-1 flex items-center gap-2">
+                <span>${q.options[selectedOption].correct ? '✅ Correct!' : '🔍 Why That Choice Is Incorrect'}</span>
+              </div>
+              <p class="text-sm leading-relaxed mb-3">${q.options[selectedOption].feedback}</p>
+              <div class="text-xs bg-white/80 p-3 rounded-lg border border-black/5 text-slate-700">
+                <strong>Key Takeaway:</strong> ${q.explanation}
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <button onclick="prevPractice()" ${practiceIdx === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 disabled:opacity-40">← Previous</button>
+            ${practiceIdx < topic.questions.length - 1 ? `
+              <button onclick="nextPractice()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition">Next Question →</button>
+            ` : `
+              <button onclick="setMode('test')" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold transition">Take ${topic.id} Self-Test →</button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function choosePracticeOption(idx) {
+      selectedOption = idx;
+      const topic = TOPICS.find(t => t.id === currentTopicId);
+      if (topic.questions[practiceIdx].options[idx].correct) {
+        if (!mastery[topic.id]) mastery[topic.id] = [];
+        if (!mastery[topic.id].includes(practiceIdx)) {
+          mastery[topic.id].push(practiceIdx);
+          saveMastery();
+        }
+      }
+      renderView();
+    }
+
+    function nextPractice() {
+      const topic = TOPICS.find(t => t.id === currentTopicId);
+      if (practiceIdx < topic.questions.length - 1) {
+        practiceIdx++;
+        selectedOption = null;
+        renderView();
+      }
+    }
+
+    function prevPractice() {
+      if (practiceIdx > 0) {
+        practiceIdx--;
+        selectedOption = null;
+        renderView();
+      }
+    }
+
+    // --- SELF-TEST & UNIT EXAM MODE ---
+    function startTopicTest(topic) {
+      testState = {
+        isFullExam: false,
+        questions: topic.questions.map(q => ({ ...q, topicId: topic.id, topicTitle: topic.title })),
+        answers: {},
+        submitted: false
+      };
+      renderView();
+    }
+
+    function launchFullUnitExam() {
+      const pool = [];
+      TOPICS.forEach(t => {
+        const pick = t.questions[Math.floor(Math.random() * t.questions.length)];
+        pool.push({ ...pick, topicId: t.id, topicTitle: t.title });
+      });
+      testState = {
+        isFullExam: true,
+        questions: pool,
+        answers: {},
+        submitted: false
+      };
+      toggleSidebar(false);
+      renderSidebar();
+      renderView();
+    }
+
+    function selectTestAnswer(qIdx, optIdx) {
+      if (testState.submitted) return;
+      testState.answers[qIdx] = optIdx;
+      renderView();
+    }
+
+    function submitTest() {
+      testState.submitted = true;
+      renderView();
+    }
+
+    function renderTestView(container) {
+      const letters = ["A", "B", "C", "D"];
+      const total = testState.questions.length;
+      const answeredCount = Object.keys(testState.answers).length;
+
+      let score = 0;
+      if (testState.submitted) {
+        testState.questions.forEach((q, i) => {
+          const chosen = testState.answers[i];
+          if (chosen !== undefined && q.options[chosen]?.correct) score++;
+        });
+      }
+
+      container.innerHTML = `
+        <div class="max-w-3xl space-y-6">
+          ${testState.submitted ? `
+            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <div class="text-xs font-bold uppercase tracking-wider text-teal-400">Assessment Complete</div>
+                <h3 class="text-2xl font-extrabold mt-1">Score: ${score} / ${total} (${Math.round((score / total) * 100)}%)</h3>
+                <p class="text-sm text-slate-300 mt-1">Review each missed question below to see why your selected distractor was incorrect.</p>
+              </div>
+              <button onclick="${testState.isFullExam ? 'launchFullUnitExam()' : 'setMode(\'test\')'}" class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm shrink-0">Retake Test</button>
+            </div>
+          ` : `
+            <div class="bg-white rounded-xl border border-slate-200 px-5 py-3.5 flex items-center justify-between">
+              <span class="text-sm font-semibold text-slate-700">Answered: ${answeredCount} of ${total}</span>
+              <button onclick="submitTest()" ${answeredCount < total ? 'disabled' : ''} class="px-5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 disabled:bg-slate-300 text-white text-sm font-semibold transition">
+                Submit &amp; Grade
+              </button>
+            </div>
+          `}
+
+          ${testState.questions.map((q, qIdx) => {
+            const chosen = testState.answers[qIdx];
+            return `
+              <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-400 mb-2">
+                  <span>Question ${qIdx + 1}</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600">${q.topicId} ${q.topicTitle}</span>
+                </div>
+                <h4 class="text-base sm:text-lg font-bold text-slate-900 mb-4">${q.q}</h4>
+                <div class="space-y-2.5">
+                  ${q.options.map((opt, oIdx) => {
+                    let style = chosen === oIdx ? "border-teal-600 bg-teal-50/60" : "border-slate-200 hover:bg-slate-50";
+                    if (testState.submitted) {
+                      if (opt.correct) style = "border-emerald-500 bg-emerald-50/70";
+                      else if (chosen === oIdx) style = "border-rose-500 bg-rose-50/70";
+                      else style = "border-slate-200 opacity-60";
+                    }
+                    return `
+                      <button onclick="selectTestAnswer(${qIdx}, ${oIdx})" class="w-full text-left p-3.5 rounded-xl border-2 transition flex items-center gap-3 ${style}">
+                        <span class="w-6 h-6 rounded-md bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">${letters[oIdx]}</span>
+                        <span class="text-sm font-medium text-slate-800">${opt.text}</span>
+                      </button>
+                    `;
+                  }).join("")}
+                </div>
+
+                ${testState.submitted ? `
+                  <div class="mt-4 p-4 rounded-xl text-sm ${q.options[chosen]?.correct ? 'bg-emerald-50 text-emerald-950 border border-emerald-200' : 'bg-rose-50 text-rose-950 border border-rose-200'}">
+                    <strong>${q.options[chosen]?.correct ? '✅ Correct:' : '❌ Diagnostic Feedback:'}</strong> ${q.options[chosen]?.feedback || 'No answer selected.'}
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    // Boot
+    updateGlobalProgress();
+    renderSidebar();
+    renderView();
+  </script>
+</body>
+</html>
