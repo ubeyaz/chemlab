@@ -2158,6 +2158,273 @@
     updateGlobalProgress();
     renderSidebar();
     renderView();
+    // =========================================================================
+    // MODULAR ADD-ON: INTERACTIVE LEWIS STRUCTURE BUILDER (TOPIC 2.5 & 2.6)
+    // =========================================================================
+    const LEWIS_CHALLENGES = [
+      {
+        id: "ch2o",
+        formula: "CH₂O",
+        name: "Formaldehyde",
+        totalValence: 12,
+        hint: "Carbon is central (4 bonds needed). Oxygen needs 2 bonds and 2 lone pairs.",
+        atoms: [
+          { id: 0, el: "C", x: 240, y: 130, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "O", x: 240, y: 45,  val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "H", x: 155, y: 185, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 3, el: "H", x: 325, y: 185, val: 1, maxOctet: 2, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        id: "hcn",
+        formula: "HCN",
+        name: "Hydrogen Cyanide",
+        totalValence: 10,
+        hint: "Carbon is central (4 bonds). Nitrogen needs 3 bonds and 1 lone pair.",
+        atoms: [
+          { id: 0, el: "H", x: 120, y: 120, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "N", x: 360, y: 120, val: 5, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [1, 2]]
+      },
+      {
+        id: "no2-",
+        formula: "NO₂⁻ (Charge: −1)",
+        name: "Nitrite Ion (One Resonance Contributor)",
+        totalValence: 18,
+        hint: "18 valence e⁻ total: N needs 1 double bond, 1 single bond, and 1 lone pair.",
+        atoms: [
+          { id: 0, el: "N", x: 240, y: 90,  val: 5, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "O", x: 145, y: 160, val: 6, maxOctet: 8, targetFC: null },
+          { id: 2, el: "O", x: 335, y: 160, val: 6, maxOctet: 8, targetFC: null }
+        ],
+        pairs: [[0, 1], [0, 2]]
+      },
+      {
+        id: "nh3",
+        formula: "NH₃",
+        name: "Ammonia",
+        totalValence: 8,
+        hint: "8 valence e⁻ total: 3 N–H single bonds (6 e⁻) + 1 lone pair on central N.",
+        atoms: [
+          { id: 0, el: "N", x: 240, y: 95,  val: 5, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "H", x: 150, y: 165, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 2, el: "H", x: 240, y: 185, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 3, el: "H", x: 330, y: 165, val: 1, maxOctet: 2, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        id: "co2",
+        formula: "CO₂",
+        name: "Carbon Dioxide",
+        totalValence: 16,
+        hint: "Optimize formal charges to 0 on every atom using two double bonds.",
+        atoms: [
+          { id: 0, el: "O", x: 120, y: 120, val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "O", x: 360, y: 120, val: 6, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [1, 2]]
+      },
+      {
+        id: "bf3",
+        formula: "BF₃",
+        name: "Boron Trifluoride (Incomplete Octet)",
+        totalValence: 24,
+        hint: "Boron is stable with 6 valence electrons (3 single bonds, 0 lone pairs).",
+        atoms: [
+          { id: 0, el: "B", x: 240, y: 125, val: 3, maxOctet: 6, targetFC: 0 },
+          { id: 1, el: "F", x: 240, y: 40,  val: 7, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "F", x: 155, y: 180, val: 7, maxOctet: 8, targetFC: 0 },
+          { id: 3, el: "F", x: 325, y: 180, val: 7, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      }
+    ];
+
+    let lewisIdx = 0;
+    let lewisState = null;
+
+    function initLewisChallenge(idx) {
+      lewisIdx = idx;
+      const ch = LEWIS_CHALLENGES[idx];
+      lewisState = {
+        bonds: ch.pairs.map(() => 1), // start with single bonds (1, 2, or 3)
+        lonePairs: ch.atoms.map(() => 0), // 0..3 lone pairs per atom
+        feedback: null
+      };
+    }
+    initLewisChallenge(0);
+
+    function cycleLewisBond(pIdx) {
+      lewisState.bonds[pIdx] = (lewisState.bonds[pIdx] % 3) + 1;
+      lewisState.feedback = null;
+      renderView();
+    }
+
+    function cycleLewisLonePair(aIdx) {
+      const atom = LEWIS_CHALLENGES[lewisIdx].atoms[aIdx];
+      const maxLP = atom.el === "H" ? 1 : 3;
+      lewisState.lonePairs[aIdx] = (lewisState.lonePairs[aIdx] + 1) % (maxLP + 1);
+      lewisState.feedback = null;
+      renderView();
+    }
+
+    function checkLewisStructure() {
+      const ch = LEWIS_CHALLENGES[lewisIdx];
+      let usedElectrons = 0;
+      lewisState.bonds.forEach(b => usedElectrons += b * 2);
+      lewisState.lonePairs.forEach(lp => usedElectrons += lp * 2);
+
+      if (usedElectrons !== ch.totalValence) {
+        lewisState.feedback = {
+          ok: false,
+          msg: `Valence Electron Count Mismatch: You placed ${usedElectrons} electrons, but ${ch.formula} requires exactly ${ch.totalValence} valence electrons.`
+        };
+        renderView();
+        return;
+      }
+
+      for (let i = 0; i < ch.atoms.length; i++) {
+        const atom = ch.atoms[i];
+        let bondCount = 0;
+        ch.pairs.forEach((pair, pIdx) => {
+          if (pair[0] === i || pair[1] === i) bondCount += lewisState.bonds[pIdx];
+        });
+        const loneElectrons = lewisState.lonePairs[i] * 2;
+        const around = bondCount * 2 + loneElectrons;
+        const fc = atom.val - loneElectrons - bondCount;
+
+        if (around !== atom.maxOctet) {
+          lewisState.feedback = {
+            ok: false,
+            msg: `Octet/Duet Rule Error on ${atom.el}: It currently has ${around} valence electrons around it (needs ${atom.maxOctet}).`
+          };
+          renderView();
+          return;
+        }
+        if (atom.targetFC !== null && fc !== atom.targetFC) {
+          lewisState.feedback = {
+            ok: false,
+            msg: `Formal Charge Not Optimal on ${atom.el}: Current formal charge is ${fc > 0 ? '+' + fc : fc} (expected ${atom.targetFC}). Adjust bonds and lone pairs.`
+          };
+          renderView();
+          return;
+        }
+      }
+
+      lewisState.feedback = {
+        ok: true,
+        msg: `Excellent! All ${ch.totalValence} valence electrons, octets/duets, and formal charges for ${ch.name} (${ch.formula}) are completely accurate.`
+      };
+      renderView();
+    }
+
+    function renderLewisBuilderHTML() {
+      const ch = LEWIS_CHALLENGES[lewisIdx];
+      let usedElectrons = 0;
+      lewisState.bonds.forEach(b => usedElectrons += b * 2);
+      lewisState.lonePairs.forEach(lp => usedElectrons += lp * 2);
+
+      const bondLinesSVG = ch.pairs.map((pair, pIdx) => {
+        const a1 = ch.atoms[pair[0]], a2 = ch.atoms[pair[1]];
+        const order = lewisState.bonds[pIdx];
+        const dx = a2.x - a1.x, dy = a2.y - a1.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len, ny = dx / len;
+        const offsets = order === 1 ? [0] : order === 2 ? [-4, 4] : [-6, 0, 6];
+        const lines = offsets.map(off =>
+          `<line x1="${a1.x + nx * off}" y1="${a1.y + ny * off}" x2="${a2.x + nx * off}" y2="${a2.y + ny * off}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>`
+        ).join("");
+        return `
+          <g class="cursor-pointer group" onclick="cycleLewisBond(${pIdx})">
+            <line x1="${a1.x}" y1="${a1.y}" x2="${a2.x}" y2="${a2.y}" stroke="transparent" stroke-width="24"/>
+            ${lines}
+            <circle cx="${(a1.x + a2.x)/2}" cy="${(a1.y + a2.y)/2}" r="10" fill="#eef2ff" stroke="#6366f1" stroke-width="1.2" opacity="0.9"/>
+            <text x="${(a1.x + a2.x)/2}" y="${(a1.y + a2.y)/2 + 3.5}" text-anchor="middle" font-size="9" font-weight="800" fill="#4338ca">${order}×</text>
+          </g>
+        `;
+      }).join("");
+
+      const atomsSVG = ch.atoms.map((atom, aIdx) => {
+        const lp = lewisState.lonePairs[aIdx];
+        const dotCoords = [
+          [[-5, -24], [5, -24]],
+          [[24, -5], [24, 5]],
+          [[-5, 24], [5, 24]],
+          [[-24, -5], [-24, 5]]
+        ];
+        let dots = "";
+        for (let k = 0; k < lp; k++) {
+          const pair = dotCoords[k];
+          dots += `<circle cx="${atom.x + pair[0][0]}" cy="${atom.y + pair[0][1]}" r="2.8" fill="#e11d48"/>`;
+          dots += `<circle cx="${atom.x + pair[1][0]}" cy="${atom.y + pair[1][1]}" r="2.8" fill="#e11d48"/>`;
+        }
+        return `
+          <g class="cursor-pointer" onclick="cycleLewisLonePair(${aIdx})">
+            <circle cx="${atom.x}" cy="${atom.y}" r="18" fill="#ffffff" stroke="#334155" stroke-width="2.2"/>
+            <text x="${atom.x}" y="${atom.y + 5}" text-anchor="middle" font-size="14" font-weight="800" fill="#0f172a">${atom.el}</text>
+            ${dots}
+          </g>
+        `;
+      }).join("");
+
+      return `
+        <div class="bg-white rounded-2xl border-2 border-indigo-200 p-5 sm:p-6 shadow-sm mt-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Interactive Lewis Builder</span>
+              <h3 class="text-lg font-extrabold text-slate-900 mt-1">Build: ${ch.formula} (${ch.name})</h3>
+              <p class="text-xs text-slate-500">Tap any <strong>bond badge (1×/2×/3×)</strong> to cycle bond order; tap any <strong>atom</strong> to add/remove lone pairs.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${LEWIS_CHALLENGES.map((item, i) => `
+                <button onclick="initLewisChallenge(${i}); renderView();" class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${i === lewisIdx ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${item.formula.split(' ')[0]}</button>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-5 gap-5 items-center mt-4">
+            <div class="md:col-span-3 bg-slate-50 rounded-xl border border-slate-200 p-2">
+              <svg viewBox="0 0 480 230" class="w-full max-w-md mx-auto select-none">
+                ${bondLinesSVG}
+                ${atomsSVG}
+              </svg>
+            </div>
+            <div class="md:col-span-2 space-y-3">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+                <div class="flex justify-between font-semibold text-slate-700">
+                  <span>Electrons Placed:</span>
+                  <span class="${usedElectrons === ch.totalValence ? 'text-emerald-600' : 'text-amber-600'} font-mono">${usedElectrons} / ${ch.totalValence} e⁻</span>
+                </div>
+                <p class="text-slate-500 pt-1">${ch.hint}</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="checkLewisStructure()" class="flex-1 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm transition shadow-sm">Check Structure</button>
+                <button onclick="initLewisChallenge(${lewisIdx}); renderView();" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">Clear</button>
+              </div>
+              ${lewisState.feedback ? `
+                <div class="p-3.5 rounded-xl border text-xs leading-relaxed ${lewisState.feedback.ok ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'}">
+                  <strong>${lewisState.feedback.ok ? '✅ Verified:' : '🔍 Diagnostic:'}</strong> ${lewisState.feedback.msg}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Hook Lewis Builder automatically into Topics 2.5 & 2.6 Learn and Practice views
+    const _origRenderLearnView = renderLearnView;
+    renderLearnView = function(container, topic) {
+      _origRenderLearnView(container, topic);
+      if (topic.id === "2.5" || topic.id === "2.6") {
+        container.insertAdjacentHTML("beforeend", renderLewisBuilderHTML());
+      }
+    };
   </script>
 </body>
 </html>
