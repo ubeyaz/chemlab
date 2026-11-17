@@ -2159,55 +2159,39 @@
     renderSidebar();
     renderView();
     // =========================================================================
-    // MODULAR ADD-ON: INTERACTIVE LEWIS STRUCTURE BUILDER (TOPIC 2.5 & 2.6)
+    // STANDALONE SECTION 2.8: LEWIS DRAWING STUDIO (15 PROGRESSIVE CHALLENGES)
     // =========================================================================
-    const LEWIS_CHALLENGES = [
+    EXCLUDED_FROM_FINAL_REVISION.push("2.8");
+
+    const LEWIS_STUDIO_CHALLENGES = [
+      // TIER 1: EASY (1-5) — Single Bonds & Basic Octets
       {
-        id: "ch2o",
-        formula: "CH₂O",
-        name: "Formaldehyde",
-        totalValence: 12,
-        hint: "Carbon is central (4 bonds needed). Oxygen needs 2 bonds and 2 lone pairs.",
-        atoms: [
-          { id: 0, el: "C", x: 240, y: 130, val: 4, maxOctet: 8, targetFC: 0 },
-          { id: 1, el: "O", x: 240, y: 45,  val: 6, maxOctet: 8, targetFC: 0 },
-          { id: 2, el: "H", x: 155, y: 185, val: 1, maxOctet: 2, targetFC: 0 },
-          { id: 3, el: "H", x: 325, y: 185, val: 1, maxOctet: 2, targetFC: 0 }
+        tier: "Easy",
+        formula: "H₂O",
+        name: "Water",
+        totalValence: 8,
+        guides: [
+          "Step 1 (Valence e⁻): Oxygen (6) + 2 Hydrogens (2 × 1) = 8 total valence electrons.",
+          "Step 2 (Bonds): Keep both O–H bonds as single bonds (uses 4 electrons).",
+          "Step 3 (Lone Pairs): Place the remaining 4 electrons as 2 lone pairs on central Oxygen."
         ],
-        pairs: [[0, 1], [0, 2], [0, 3]]
-      },
-      {
-        id: "hcn",
-        formula: "HCN",
-        name: "Hydrogen Cyanide",
-        totalValence: 10,
-        hint: "Carbon is central (4 bonds). Nitrogen needs 3 bonds and 1 lone pair.",
         atoms: [
-          { id: 0, el: "H", x: 120, y: 120, val: 1, maxOctet: 2, targetFC: 0 },
-          { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
-          { id: 2, el: "N", x: 360, y: 120, val: 5, maxOctet: 8, targetFC: 0 }
-        ],
-        pairs: [[0, 1], [1, 2]]
-      },
-      {
-        id: "no2-",
-        formula: "NO₂⁻ (Charge: −1)",
-        name: "Nitrite Ion (One Resonance Contributor)",
-        totalValence: 18,
-        hint: "18 valence e⁻ total: N needs 1 double bond, 1 single bond, and 1 lone pair.",
-        atoms: [
-          { id: 0, el: "N", x: 240, y: 90,  val: 5, maxOctet: 8, targetFC: 0 },
-          { id: 1, el: "O", x: 145, y: 160, val: 6, maxOctet: 8, targetFC: null },
-          { id: 2, el: "O", x: 335, y: 160, val: 6, maxOctet: 8, targetFC: null }
+          { id: 0, el: "O", x: 240, y: 95,  val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "H", x: 155, y: 165, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 2, el: "H", x: 325, y: 165, val: 1, maxOctet: 2, targetFC: 0 }
         ],
         pairs: [[0, 1], [0, 2]]
       },
       {
-        id: "nh3",
+        tier: "Easy",
         formula: "NH₃",
         name: "Ammonia",
         totalValence: 8,
-        hint: "8 valence e⁻ total: 3 N–H single bonds (6 e⁻) + 1 lone pair on central N.",
+        guides: [
+          "Step 1 (Valence e⁻): Nitrogen (5) + 3 Hydrogens (3 × 1) = 8 total valence electrons.",
+          "Step 2 (Bonds): Use 3 N–H single bonds (6 electrons used).",
+          "Step 3 (Lone Pairs): Add 1 lone pair (2 electrons) on central Nitrogen to complete its octet."
+        ],
         atoms: [
           { id: 0, el: "N", x: 240, y: 95,  val: 5, maxOctet: 8, targetFC: 0 },
           { id: 1, el: "H", x: 150, y: 165, val: 1, maxOctet: 2, targetFC: 0 },
@@ -2217,11 +2201,89 @@
         pairs: [[0, 1], [0, 2], [0, 3]]
       },
       {
-        id: "co2",
+        tier: "Easy",
+        formula: "CH₄",
+        name: "Methane",
+        totalValence: 8,
+        guides: [
+          "Step 1 (Valence e⁻): Carbon (4) + 4 Hydrogens (4 × 1) = 8 total valence electrons.",
+          "Step 2 (Bonds): Form 4 C–H single bonds (uses all 8 electrons).",
+          "Step 3 (Lone Pairs): Zero electrons remain—neither C nor H gets any lone pairs."
+        ],
+        atoms: [
+          { id: 0, el: "C", x: 240, y: 115, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "H", x: 240, y: 38,  val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 2, el: "H", x: 325, y: 115, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 3, el: "H", x: 240, y: 192, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 4, el: "H", x: 155, y: 115, val: 1, maxOctet: 2, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3], [0, 4]]
+      },
+      {
+        tier: "Easy",
+        formula: "NCl₃",
+        name: "Nitrogen Trichloride",
+        totalValence: 26,
+        guides: [
+          "Step 1 (Valence e⁻): N (5) + 3 Cl (3 × 7) = 26 total valence electrons.",
+          "Step 2 (Bonds): Connect central N to all 3 Cl atoms with single bonds (6 electrons).",
+          "Step 3 (Lone Pairs): Put 3 lone pairs on each terminal Cl (18 e⁻) and 1 lone pair on central N (2 e⁻)."
+        ],
+        atoms: [
+          { id: 0, el: "N",  x: 240, y: 95,  val: 5, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "Cl", x: 145, y: 165, val: 7, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "Cl", x: 240, y: 185, val: 7, maxOctet: 8, targetFC: 0 },
+          { id: 3, el: "Cl", x: 335, y: 165, val: 7, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        tier: "Easy",
+        formula: "OF₂",
+        name: "Oxygen Difluoride",
+        totalValence: 20,
+        guides: [
+          "Step 1 (Valence e⁻): O (6) + 2 F (2 × 7) = 20 total valence electrons.",
+          "Step 2 (Bonds): Use 2 O–F single bonds (4 electrons).",
+          "Step 3 (Lone Pairs): Add 3 lone pairs to each terminal F (12 e⁻) and 2 lone pairs to central O (4 e⁻)."
+        ],
+        atoms: [
+          { id: 0, el: "O", x: 240, y: 95,  val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "F", x: 150, y: 165, val: 7, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "F", x: 330, y: 165, val: 7, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2]]
+      },
+
+      // TIER 2: MEDIUM (6-10) — Multiple Bonds, Ions & Incomplete Octets
+      {
+        tier: "Medium",
+        formula: "CH₂O",
+        name: "Formaldehyde",
+        totalValence: 12,
+        guides: [
+          "Step 1 (Valence e⁻): C (4) + 2 H (2) + O (6) = 12 total valence electrons.",
+          "Step 2 (Bonds): Carbon needs 4 bonds—make C=O a double bond and keep both C–H bonds single (8 e⁻).",
+          "Step 3 (Lone Pairs): Place 2 lone pairs on Oxygen (4 e⁻); Carbon and Hydrogens get 0 lone pairs."
+        ],
+        atoms: [
+          { id: 0, el: "C", x: 240, y: 130, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "O", x: 240, y: 45,  val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "H", x: 155, y: 185, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 3, el: "H", x: 325, y: 185, val: 1, maxOctet: 2, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        tier: "Medium",
         formula: "CO₂",
         name: "Carbon Dioxide",
         totalValence: 16,
-        hint: "Optimize formal charges to 0 on every atom using two double bonds.",
+        guides: [
+          "Step 1 (Valence e⁻): C (4) + 2 O (2 × 6) = 16 total valence electrons.",
+          "Step 2 (Bonds): Form two C=O double bonds so central Carbon reaches 8 electrons with 0 formal charge.",
+          "Step 3 (Lone Pairs): Add 2 lone pairs to each terminal Oxygen atom (8 e⁻)."
+        ],
         atoms: [
           { id: 0, el: "O", x: 120, y: 120, val: 6, maxOctet: 8, targetFC: 0 },
           { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
@@ -2230,11 +2292,32 @@
         pairs: [[0, 1], [1, 2]]
       },
       {
-        id: "bf3",
+        tier: "Medium",
+        formula: "HCN",
+        name: "Hydrogen Cyanide",
+        totalValence: 10,
+        guides: [
+          "Step 1 (Valence e⁻): H (1) + C (4) + N (5) = 10 total valence electrons.",
+          "Step 2 (Bonds): Keep H–C single and upgrade C≡N to a triple bond so Carbon has 4 bonds.",
+          "Step 3 (Lone Pairs): Add 1 lone pair to Nitrogen to complete its octet (FC = 0 on all atoms)."
+        ],
+        atoms: [
+          { id: 0, el: "H", x: 120, y: 120, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "N", x: 360, y: 120, val: 5, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [1, 2]]
+      },
+      {
+        tier: "Medium",
         formula: "BF₃",
         name: "Boron Trifluoride (Incomplete Octet)",
         totalValence: 24,
-        hint: "Boron is stable with 6 valence electrons (3 single bonds, 0 lone pairs).",
+        guides: [
+          "Step 1 (Valence e⁻): B (3) + 3 F (3 × 7) = 24 total valence electrons.",
+          "Step 2 (Bonds): Boron is an incomplete-octet exception—keep all three B–F bonds single (6 e⁻ around B).",
+          "Step 3 (Lone Pairs): Place 3 lone pairs on each of the three Fluorine atoms (18 e⁻); 0 lone pairs on B."
+        ],
         atoms: [
           { id: 0, el: "B", x: 240, y: 125, val: 3, maxOctet: 6, targetFC: 0 },
           { id: 1, el: "F", x: 240, y: 40,  val: 7, maxOctet: 8, targetFC: 0 },
@@ -2242,22 +2325,138 @@
           { id: 3, el: "F", x: 325, y: 180, val: 7, maxOctet: 8, targetFC: 0 }
         ],
         pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        tier: "Medium",
+        formula: "NH₄⁺",
+        name: "Ammonium Ion (Charge: +1)",
+        totalValence: 8,
+        guides: [
+          "Step 1 (Valence e⁻): N (5) + 4 H (4) − 1 (for +1 charge) = 8 total valence electrons.",
+          "Step 2 (Bonds): Form 4 N–H single bonds (uses all 8 electrons; Nitrogen carries +1 formal charge).",
+          "Step 3 (Lone Pairs): 0 lone pairs anywhere."
+        ],
+        atoms: [
+          { id: 0, el: "N", x: 240, y: 115, val: 5, maxOctet: 8, targetFC: 1 },
+          { id: 1, el: "H", x: 240, y: 38,  val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 2, el: "H", x: 325, y: 115, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 3, el: "H", x: 240, y: 192, val: 1, maxOctet: 2, targetFC: 0 },
+          { id: 4, el: "H", x: 155, y: 115, val: 1, maxOctet: 2, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3], [0, 4]]
+      },
+
+      // TIER 3: HARD (11-15) — Resonance, Formal Charge Optimization & Expanded Octets
+      {
+        tier: "Hard",
+        formula: "NO₂⁻",
+        name: "Nitrite Ion (Charge: −1, Resonance)",
+        totalValence: 18,
+        guides: [
+          "Step 1 (Valence e⁻): N (5) + 2 O (12) + 1 (for −1 charge) = 18 total valence electrons.",
+          "Step 2 (Bonds): Make one N=O double bond and one N–O single bond so Nitrogen has FC = 0.",
+          "Step 3 (Lone Pairs): Add 1 lone pair on N, 2 lone pairs on the =O oxygen, and 3 lone pairs on the –O oxygen."
+        ],
+        atoms: [
+          { id: 0, el: "N", x: 240, y: 90,  val: 5, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "O", x: 145, y: 160, val: 6, maxOctet: 8, targetFC: null },
+          { id: 2, el: "O", x: 335, y: 160, val: 6, maxOctet: 8, targetFC: null }
+        ],
+        pairs: [[0, 1], [0, 2]]
+      },
+      {
+        tier: "Hard",
+        formula: "OCN⁻",
+        name: "Cyanate Ion (Optimal Formal Charge)",
+        totalValence: 16,
+        guides: [
+          "Step 1 (Valence e⁻): O (6) + C (4) + N (5) + 1 (charge) = 16 total valence electrons.",
+          "Step 2 (Formal Charge Rule): Put the −1 formal charge on Oxygen (most electronegative) by making C≡N a triple bond and C–O a single bond.",
+          "Step 3 (Lone Pairs): Add 3 lone pairs on O (FC = −1), 0 on C (FC = 0), and 1 lone pair on N (FC = 0)."
+        ],
+        atoms: [
+          { id: 0, el: "O", x: 120, y: 120, val: 6, maxOctet: 8, targetFC: -1 },
+          { id: 1, el: "C", x: 240, y: 120, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "N", x: 360, y: 120, val: 5, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [1, 2]]
+      },
+      {
+        tier: "Hard",
+        formula: "CO₃²⁻",
+        name: "Carbonate Ion (Charge: −2, Resonance)",
+        totalValence: 24,
+        guides: [
+          "Step 1 (Valence e⁻): C (4) + 3 O (18) + 2 (charge) = 24 total valence electrons.",
+          "Step 2 (Bonds): Carbon needs 4 bonds (FC = 0)—make one C=O double bond and two C–O single bonds.",
+          "Step 3 (Lone Pairs): Give the double-bonded O 2 lone pairs (FC = 0) and each single-bonded O 3 lone pairs (FC = −1)."
+        ],
+        atoms: [
+          { id: 0, el: "C", x: 240, y: 125, val: 4, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "O", x: 240, y: 40,  val: 6, maxOctet: 8, targetFC: null },
+          { id: 2, el: "O", x: 155, y: 180, val: 6, maxOctet: 8, targetFC: null },
+          { id: 3, el: "O", x: 325, y: 180, val: 6, maxOctet: 8, targetFC: null }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3]]
+      },
+      {
+        tier: "Hard",
+        formula: "NOCl",
+        name: "Nitrosyl Chloride",
+        totalValence: 18,
+        guides: [
+          "Step 1 (Valence e⁻): N (5) + O (6) + Cl (7) = 18 total valence electrons.",
+          "Step 2 (Bonds): Central Nitrogen needs 3 bonds (FC = 0)—form an N=O double bond and an N–Cl single bond.",
+          "Step 3 (Lone Pairs): Put 2 lone pairs on O, 1 lone pair on N, and 3 lone pairs on Cl."
+        ],
+        atoms: [
+          { id: 0, el: "O",  x: 130, y: 145, val: 6, maxOctet: 8, targetFC: 0 },
+          { id: 1, el: "N",  x: 240, y: 95,  val: 5, maxOctet: 8, targetFC: 0 },
+          { id: 2, el: "Cl", x: 350, y: 145, val: 7, maxOctet: 8, targetFC: 0 }
+        ],
+        pairs: [[0, 1], [1, 2]]
+      },
+      {
+        tier: "Hard",
+        formula: "XeF₄",
+        name: "Xenon Tetrafluoride (Expanded Octet)",
+        totalValence: 36,
+        guides: [
+          "Step 1 (Valence e⁻): Xe (8) + 4 F (4 × 7) = 36 total valence electrons.",
+          "Step 2 (Bonds): Keep all 4 Xe–F bonds single (8 electrons).",
+          "Step 3 (Lone Pairs): Put 3 lone pairs on each of the 4 Fluorines (24 e⁻), leaving 4 e⁻ (2 lone pairs) on central Xenon (12 e⁻ expanded octet)."
+        ],
+        atoms: [
+          { id: 0, el: "Xe", x: 240, y: 115, val: 8, maxOctet: 12, targetFC: 0 },
+          { id: 1, el: "F",  x: 155, y: 50,  val: 7, maxOctet: 8,  targetFC: 0 },
+          { id: 2, el: "F",  x: 325, y: 50,  val: 7, maxOctet: 8,  targetFC: 0 },
+          { id: 3, el: "F",  x: 155, y: 180, val: 7, maxOctet: 8,  targetFC: 0 },
+          { id: 4, el: "F",  x: 325, y: 180, val: 7, maxOctet: 8,  targetFC: 0 }
+        ],
+        pairs: [[0, 1], [0, 2], [0, 3], [0, 4]]
       }
     ];
 
     let lewisIdx = 0;
+    let lewisShowGuides = false; // Students toggle between Direct Drawing vs. Guided Mode
+    let lewisSolved = JSON.parse(localStorage.getItem("chemlab_g11_lewis_solved") || "[]");
     let lewisState = null;
 
     function initLewisChallenge(idx) {
       lewisIdx = idx;
-      const ch = LEWIS_CHALLENGES[idx];
+      const ch = LEWIS_STUDIO_CHALLENGES[idx];
       lewisState = {
-        bonds: ch.pairs.map(() => 1), // start with single bonds (1, 2, or 3)
-        lonePairs: ch.atoms.map(() => 0), // 0..3 lone pairs per atom
+        bonds: ch.pairs.map(() => 1),
+        lonePairs: ch.atoms.map(() => 0),
         feedback: null
       };
     }
     initLewisChallenge(0);
+
+    function toggleLewisGuides() {
+      lewisShowGuides = !lewisShowGuides;
+      renderView();
+    }
 
     function cycleLewisBond(pIdx) {
       lewisState.bonds[pIdx] = (lewisState.bonds[pIdx] % 3) + 1;
@@ -2266,7 +2465,7 @@
     }
 
     function cycleLewisLonePair(aIdx) {
-      const atom = LEWIS_CHALLENGES[lewisIdx].atoms[aIdx];
+      const atom = LEWIS_STUDIO_CHALLENGES[lewisIdx].atoms[aIdx];
       const maxLP = atom.el === "H" ? 1 : 3;
       lewisState.lonePairs[aIdx] = (lewisState.lonePairs[aIdx] + 1) % (maxLP + 1);
       lewisState.feedback = null;
@@ -2274,7 +2473,7 @@
     }
 
     function checkLewisStructure() {
-      const ch = LEWIS_CHALLENGES[lewisIdx];
+      const ch = LEWIS_STUDIO_CHALLENGES[lewisIdx];
       let usedElectrons = 0;
       lewisState.bonds.forEach(b => usedElectrons += b * 2);
       lewisState.lonePairs.forEach(lp => usedElectrons += lp * 2);
@@ -2282,7 +2481,7 @@
       if (usedElectrons !== ch.totalValence) {
         lewisState.feedback = {
           ok: false,
-          msg: `Valence Electron Count Mismatch: You placed ${usedElectrons} electrons, but ${ch.formula} requires exactly ${ch.totalValence} valence electrons.`
+          msg: `Valence Electron Error: You placed ${usedElectrons} e⁻, but ${ch.formula} requires exactly ${ch.totalValence} valence electrons.`
         };
         renderView();
         return;
@@ -2301,7 +2500,7 @@
         if (around !== atom.maxOctet) {
           lewisState.feedback = {
             ok: false,
-            msg: `Octet/Duet Rule Error on ${atom.el}: It currently has ${around} valence electrons around it (needs ${atom.maxOctet}).`
+            msg: `Octet/Duet Error on ${atom.el}: Currently surrounded by ${around} electrons (needs ${atom.maxOctet}).`
           };
           renderView();
           return;
@@ -2309,22 +2508,28 @@
         if (atom.targetFC !== null && fc !== atom.targetFC) {
           lewisState.feedback = {
             ok: false,
-            msg: `Formal Charge Not Optimal on ${atom.el}: Current formal charge is ${fc > 0 ? '+' + fc : fc} (expected ${atom.targetFC}). Adjust bonds and lone pairs.`
+            msg: `Formal Charge Error on ${atom.el}: Formal charge is ${fc > 0 ? '+' + fc : fc} (expected ${atom.targetFC}). Adjust bonds and lone pairs.`
           };
           renderView();
           return;
         }
       }
 
+      if (!lewisSolved.includes(lewisIdx)) {
+        lewisSolved.push(lewisIdx);
+        localStorage.setItem("chemlab_g11_lewis_solved", JSON.stringify(lewisSolved));
+        renderSidebar();
+      }
+
       lewisState.feedback = {
         ok: true,
-        msg: `Excellent! All ${ch.totalValence} valence electrons, octets/duets, and formal charges for ${ch.name} (${ch.formula}) are completely accurate.`
+        msg: `Verified! All ${ch.totalValence} valence electrons, octets/duets, and formal charges for ${ch.name} (${ch.formula}) are spot on.`
       };
       renderView();
     }
 
-    function renderLewisBuilderHTML() {
-      const ch = LEWIS_CHALLENGES[lewisIdx];
+    function renderStandaloneLewisStudio(container) {
+      const ch = LEWIS_STUDIO_CHALLENGES[lewisIdx];
       let usedElectrons = 0;
       lewisState.bonds.forEach(b => usedElectrons += b * 2);
       lewisState.lonePairs.forEach(lp => usedElectrons += lp * 2);
@@ -2340,11 +2545,11 @@
           `<line x1="${a1.x + nx * off}" y1="${a1.y + ny * off}" x2="${a2.x + nx * off}" y2="${a2.y + ny * off}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>`
         ).join("");
         return `
-          <g class="cursor-pointer group" onclick="cycleLewisBond(${pIdx})">
-            <line x1="${a1.x}" y1="${a1.y}" x2="${a2.x}" y2="${a2.y}" stroke="transparent" stroke-width="24"/>
+          <g class="cursor-pointer" onclick="cycleLewisBond(${pIdx})">
+            <line x1="${a1.x}" y1="${a1.y}" x2="${a2.x}" y2="${a2.y}" stroke="transparent" stroke-width="26"/>
             ${lines}
-            <circle cx="${(a1.x + a2.x)/2}" cy="${(a1.y + a2.y)/2}" r="10" fill="#eef2ff" stroke="#6366f1" stroke-width="1.2" opacity="0.9"/>
-            <text x="${(a1.x + a2.x)/2}" y="${(a1.y + a2.y)/2 + 3.5}" text-anchor="middle" font-size="9" font-weight="800" fill="#4338ca">${order}×</text>
+            <circle cx="${(a1.x + a2.x)/2}" cy="${(a1.y + a2.y)/2}" r="11" fill="#eef2ff" stroke="#6366f1" stroke-width="1.3"/>
+            <text x="${(a1.x + a2.x)/2}" y="${(a1.y + a2.y)/2 + 3.5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#4338ca">${order}×</text>
           </g>
         `;
       }).join("");
@@ -2352,79 +2557,158 @@
       const atomsSVG = ch.atoms.map((atom, aIdx) => {
         const lp = lewisState.lonePairs[aIdx];
         const dotCoords = [
-          [[-5, -24], [5, -24]],
-          [[24, -5], [24, 5]],
-          [[-5, 24], [5, 24]],
-          [[-24, -5], [-24, 5]]
+          [[-5, -25], [5, -25]],
+          [[25, -5], [25, 5]],
+          [[-5, 25], [5, 25]],
+          [[-25, -5], [-25, 5]]
         ];
         let dots = "";
         for (let k = 0; k < lp; k++) {
           const pair = dotCoords[k];
-          dots += `<circle cx="${atom.x + pair[0][0]}" cy="${atom.y + pair[0][1]}" r="2.8" fill="#e11d48"/>`;
-          dots += `<circle cx="${atom.x + pair[1][0]}" cy="${atom.y + pair[1][1]}" r="2.8" fill="#e11d48"/>`;
+          dots += `<circle cx="${atom.x + pair[0][0]}" cy="${atom.y + pair[0][1]}" r="3" fill="#e11d48"/>`;
+          dots += `<circle cx="${atom.x + pair[1][0]}" cy="${atom.y + pair[1][1]}" r="3" fill="#e11d48"/>`;
         }
         return `
           <g class="cursor-pointer" onclick="cycleLewisLonePair(${aIdx})">
-            <circle cx="${atom.x}" cy="${atom.y}" r="18" fill="#ffffff" stroke="#334155" stroke-width="2.2"/>
+            <circle cx="${atom.x}" cy="${atom.y}" r="19" fill="#ffffff" stroke="#334155" stroke-width="2.2"/>
             <text x="${atom.x}" y="${atom.y + 5}" text-anchor="middle" font-size="14" font-weight="800" fill="#0f172a">${atom.el}</text>
             ${dots}
           </g>
         `;
       }).join("");
 
-      return `
-        <div class="bg-white rounded-2xl border-2 border-indigo-200 p-5 sm:p-6 shadow-sm mt-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
-            <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Interactive Lewis Builder</span>
-              <h3 class="text-lg font-extrabold text-slate-900 mt-1">Build: ${ch.formula} (${ch.name})</h3>
-              <p class="text-xs text-slate-500">Tap any <strong>bond badge (1×/2×/3×)</strong> to cycle bond order; tap any <strong>atom</strong> to add/remove lone pairs.</p>
+      const tierBadge = ch.tier === "Easy"
+        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+        : ch.tier === "Medium"
+          ? "bg-amber-50 text-amber-700 border-amber-200"
+          : "bg-rose-50 text-rose-700 border-rose-200";
+
+      container.innerHTML = `
+        <div class="max-w-4xl space-y-5">
+          <!-- Challenge Selector Strip (1 to 15) -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Select Drawing Challenge (1–5 Easy • 6–10 Medium • 11–15 Hard)</span>
+              <span class="text-xs font-bold text-indigo-700">${lewisSolved.length} / 15 Completed</span>
             </div>
             <div class="flex flex-wrap gap-1.5">
-              ${LEWIS_CHALLENGES.map((item, i) => `
-                <button onclick="initLewisChallenge(${i}); renderView();" class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${i === lewisIdx ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${item.formula.split(' ')[0]}</button>
-              `).join("")}
+              ${LEWIS_STUDIO_CHALLENGES.map((item, i) => {
+                const isDone = lewisSolved.includes(i);
+                const isCurrent = i === lewisIdx;
+                let cls = "bg-slate-100 text-slate-700 hover:bg-slate-200";
+                if (isCurrent) cls = "bg-indigo-600 text-white ring-2 ring-indigo-500/30";
+                else if (isDone) cls = "bg-emerald-100 text-emerald-800 border border-emerald-300";
+                return `<button onclick="initLewisChallenge(${i}); renderView();" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${cls}">${i + 1}. ${item.formula}</button>`;
+              }).join("")}
             </div>
           </div>
 
-          <div class="grid md:grid-cols-5 gap-5 items-center mt-4">
-            <div class="md:col-span-3 bg-slate-50 rounded-xl border border-slate-200 p-2">
-              <svg viewBox="0 0 480 230" class="w-full max-w-md mx-auto select-none">
-                ${bondLinesSVG}
-                ${atomsSVG}
-              </svg>
+          <!-- Interactive Drawing Workbench -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2.5 py-0.5 rounded-md border ${tierBadge}">${ch.tier} • #${lewisIdx + 1}</span>
+                  <h3 class="text-xl font-extrabold text-slate-900">${ch.formula} — ${ch.name}</h3>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">Tap any <strong>bond badge (1×/2×/3×)</strong> to cycle single/double/triple bonds; tap any <strong>atom</strong> to add/remove lone pairs.</p>
+              </div>
+
+              <!-- Toggle: Direct Drawing vs. Guided Step-by-Step -->
+              <button onclick="toggleLewisGuides()" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition self-start shrink-0 ${lewisShowGuides ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+                ${lewisShowGuides ? '🧭 Guided Mode: ON (Hide Steps)' : '✏️ Direct Mode (Show Step Guides)'}
+              </button>
             </div>
-            <div class="md:col-span-2 space-y-3">
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
-                <div class="flex justify-between font-semibold text-slate-700">
-                  <span>Electrons Placed:</span>
-                  <span class="${usedElectrons === ch.totalValence ? 'text-emerald-600' : 'text-amber-600'} font-mono">${usedElectrons} / ${ch.totalValence} e⁻</span>
-                </div>
-                <p class="text-slate-500 pt-1">${ch.hint}</p>
+
+            ${lewisShowGuides ? `
+              <div class="mt-4 p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-950 space-y-1.5 fade-in">
+                <div class="font-bold uppercase tracking-wider text-amber-800">Step-by-Step Construction Guide</div>
+                <ul class="list-disc list-inside space-y-1">
+                  ${ch.guides.map(g => `<li>${g}</li>`).join("")}
+                </ul>
               </div>
-              <div class="flex gap-2">
-                <button onclick="checkLewisStructure()" class="flex-1 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm transition shadow-sm">Check Structure</button>
-                <button onclick="initLewisChallenge(${lewisIdx}); renderView();" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">Clear</button>
+            ` : ''}
+
+            <div class="grid md:grid-cols-5 gap-6 items-center mt-5">
+              <div class="md:col-span-3 bg-slate-50 rounded-2xl border border-slate-200 p-3">
+                <svg viewBox="0 0 480 230" class="w-full max-w-md mx-auto select-none">
+                  ${bondLinesSVG}
+                  ${atomsSVG}
+                </svg>
               </div>
-              ${lewisState.feedback ? `
-                <div class="p-3.5 rounded-xl border text-xs leading-relaxed ${lewisState.feedback.ok ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'}">
-                  <strong>${lewisState.feedback.ok ? '✅ Verified:' : '🔍 Diagnostic:'}</strong> ${lewisState.feedback.msg}
+
+              <div class="md:col-span-2 space-y-3.5">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+                  <div class="flex justify-between font-bold text-slate-800">
+                    <span>Valence Electrons Used:</span>
+                    <span class="${usedElectrons === ch.totalValence ? 'text-emerald-600' : 'text-indigo-700'} font-mono">
+                      ${lewisShowGuides ? `${usedElectrons} / ${ch.totalValence} e⁻` : `${usedElectrons} e⁻`}
+                    </span>
+                  </div>
+                  <p class="text-slate-500">
+                    ${lewisShowGuides ? 'Target total is shown above. Check octets and formal charges before verifying.' : 'Direct Drawing Mode: Calculate total valence electrons yourself, or toggle Guided Mode above.'}
+                  </p>
                 </div>
-              ` : ''}
+
+                <div class="flex gap-2">
+                  <button onclick="checkLewisStructure()" class="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition shadow-sm">Check Drawing</button>
+                  <button onclick="initLewisChallenge(${lewisIdx}); renderView();" class="py-3 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">Reset</button>
+                </div>
+
+                ${lewisState.feedback ? `
+                  <div class="p-4 rounded-xl border text-xs leading-relaxed fade-in ${lewisState.feedback.ok ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'}">
+                    <strong>${lewisState.feedback.ok ? '✅ Verified:' : '🔍 Diagnostic Feedback:'}</strong> ${lewisState.feedback.msg}
+                  </div>
+                ` : ''}
+
+                <div class="pt-2 flex justify-between">
+                  <button onclick="initLewisChallenge(${Math.max(0, lewisIdx - 1)}); renderView();" ${lewisIdx === 0 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:opacity-40">← Prev</button>
+                  <button onclick="initLewisChallenge(${Math.min(LEWIS_STUDIO_CHALLENGES.length - 1, lewisIdx + 1)}); renderView();" ${lewisIdx === LEWIS_STUDIO_CHALLENGES.length - 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-700 hover:bg-indigo-50 disabled:opacity-40">Next Challenge →</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       `;
     }
 
-    // Hook Lewis Builder automatically into Topics 2.5 & 2.6 Learn and Practice views
-    const _origRenderLearnView = renderLearnView;
-    renderLearnView = function(container, topic) {
-      _origRenderLearnView(container, topic);
-      if (topic.id === "2.5" || topic.id === "2.6") {
-        container.insertAdjacentHTML("beforeend", renderLewisBuilderHTML());
-      }
+    // Inject Standalone Section 2.8 into Sidebar & Router
+    const _origRenderSidebar = renderSidebar;
+    renderSidebar = function() {
+      _origRenderSidebar();
+      const list = document.getElementById("topicList");
+      const active = currentTopicId === "2.8" && !testState?.isFullExam;
+      const done = lewisSolved.length;
+      const btnHTML = `
+        <div class="pt-2 mt-2 border-t border-slate-200">
+          <button onclick="selectTopic('2.8')" class="w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2 transition ${active ? 'bg-indigo-600 text-white font-semibold shadow-sm' : 'bg-indigo-50/70 text-indigo-950 hover:bg-indigo-100 border border-indigo-200/70'}">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-xs font-mono px-1.5 py-0.5 rounded ${active ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">2.8</span>
+              <span class="text-sm font-semibold truncate">Lewis Drawing Studio</span>
+            </div>
+            <span class="text-xs font-bold shrink-0 ${active ? 'text-indigo-100' : 'text-indigo-700'}">${done}/15</span>
+          </button>
+        </div>
+      `;
+      list.insertAdjacentHTML("beforeend", btnHTML);
     };
+
+    const _origRenderView = renderView;
+    renderView = function() {
+      if (currentTopicId === "2.8" && !testState) {
+        document.getElementById("topicBadge").textContent = "Interactive Lab 2.8";
+        document.getElementById("topicTitle").textContent = "Lewis Structure Drawing Studio";
+        document.getElementById("topicSubtitle").textContent = "15 progressive challenges (Easy → Hard) with toggleable step-by-step guides or direct drawing.";
+        document.getElementById("topicMasteryBadge").textContent = `${lewisSolved.length}/15 Drawn`;
+        document.getElementById("examExclusionBadge").classList.add("hidden");
+        renderStandaloneLewisStudio(document.getElementById("viewContainer"));
+        return;
+      }
+      _origRenderView();
+    };
+
+    // Re-render sidebar once so Section 2.8 appears immediately on load
+    renderSidebar();
   </script>
 </body>
 </html>
