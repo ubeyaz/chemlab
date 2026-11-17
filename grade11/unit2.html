@@ -2540,7 +2540,7 @@
         const dx = a2.x - a1.x, dy = a2.y - a1.y;
         const len = Math.hypot(dx, dy) || 1;
         const nx = -dy / len, ny = dx / len;
-        const offsets = order === 1 ? [0] : order === 2 ? [-4, 4] : [-6, 0, 6];
+        const offsets = order === 1 ? [0] : order === 2 ? [-4.5, 4.5] : [-6.5, 0, 6.5];
         const lines = offsets.map(off =>
           `<line x1="${a1.x + nx * off}" y1="${a1.y + ny * off}" x2="${a2.x + nx * off}" y2="${a2.y + ny * off}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>`
         ).join("");
@@ -2548,26 +2548,58 @@
           <g class="cursor-pointer" onclick="cycleLewisBond(${pIdx})">
             <line x1="${a1.x}" y1="${a1.y}" x2="${a2.x}" y2="${a2.y}" stroke="transparent" stroke-width="26"/>
             ${lines}
-            <circle cx="${(a1.x + a2.x)/2}" cy="${(a1.y + a2.y)/2}" r="11" fill="#eef2ff" stroke="#6366f1" stroke-width="1.3"/>
+            <circle cx="${(a1.x + a2.x)/2}" cy="${(a1.y + a2.y)/2}" r="11.5" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
             <text x="${(a1.x + a2.x)/2}" y="${(a1.y + a2.y)/2 + 3.5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#4338ca">${order}×</text>
           </g>
         `;
       }).join("");
 
+      // VSEPR-Aware Lone Pair Placement: finds the largest angular gap opposite attached bonds
       const atomsSVG = ch.atoms.map((atom, aIdx) => {
         const lp = lewisState.lonePairs[aIdx];
-        const dotCoords = [
-          [[-5, -25], [5, -25]],
-          [[25, -5], [25, 5]],
-          [[-5, 25], [5, 25]],
-          [[-25, -5], [-25, 5]]
-        ];
-        let dots = "";
-        for (let k = 0; k < lp; k++) {
-          const pair = dotCoords[k];
-          dots += `<circle cx="${atom.x + pair[0][0]}" cy="${atom.y + pair[0][1]}" r="3" fill="#e11d48"/>`;
-          dots += `<circle cx="${atom.x + pair[1][0]}" cy="${atom.y + pair[1][1]}" r="3" fill="#e11d48"/>`;
+        const bondAngles = [];
+        ch.pairs.forEach(pair => {
+          if (pair[0] === aIdx || pair[1] === aIdx) {
+            const other = ch.atoms[pair[0] === aIdx ? pair[1] : pair[0]];
+            bondAngles.push(Math.atan2(other.y - atom.y, other.x - atom.x));
+          }
+        });
+
+        let startAngle = -Math.PI / 2;
+        let openArc = 2 * Math.PI;
+
+        if (bondAngles.length > 0) {
+          bondAngles.sort((a, b) => a - b);
+          let maxGap = -1;
+          let bestStart = 0;
+          for (let i = 0; i < bondAngles.length; i++) {
+            const a1 = bondAngles[i];
+            const a2 = (i + 1 < bondAngles.length) ? bondAngles[i + 1] : bondAngles[0] + 2 * Math.PI;
+            const gap = a2 - a1;
+            if (gap > maxGap) {
+              maxGap = gap;
+              bestStart = a1;
+            }
+          }
+          startAngle = bestStart;
+          openArc = maxGap;
         }
+
+        let dots = "";
+        const R = 25; // Radial distance outside the 19px atom circle
+        const dotSep = 4.5; // Separation between the two electrons in a pair
+        for (let k = 0; k < lp; k++) {
+          const theta = bondAngles.length === 0
+            ? (k * (2 * Math.PI / lp)) - Math.PI / 2
+            : startAngle + openArc * ((k + 1) / (lp + 1));
+          const cx = atom.x + R * Math.cos(theta);
+          const cy = atom.y + R * Math.sin(theta);
+          const tx = -Math.sin(theta) * dotSep;
+          const ty = Math.cos(theta) * dotSep;
+          dots += `<circle cx="${(cx - tx).toFixed(1)}" cy="${(cy - ty).toFixed(1)}" r="3.1" fill="#e11d48"/>`;
+          dots += `<circle cx="${(cx + tx).toFixed(1)}" cy="${(cy + ty).toFixed(1)}" r="3.1" fill="#e11d48"/>`;
+        }
+
         return `
           <g class="cursor-pointer" onclick="cycleLewisLonePair(${aIdx})">
             <circle cx="${atom.x}" cy="${atom.y}" r="19" fill="#ffffff" stroke="#334155" stroke-width="2.2"/>
@@ -2585,6 +2617,22 @@
 
       container.innerHTML = `
         <div class="max-w-4xl space-y-5">
+          <!-- Highlighted Interactive Controls Banner -->
+          <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-200 flex items-center gap-1.5">
+                <span>🖱️ / 👆</span> <span>How to Draw on the Canvas</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs sm:text-sm font-medium pt-0.5">
+                <span class="flex items-center gap-1.5"><span class="px-2 py-0.5 rounded bg-white text-indigo-800 font-extrabold text-xs">1×</span> Tap a <strong>bond badge</strong> to cycle Single → Double → Triple</span>
+                <span class="flex items-center gap-1.5"><span class="px-2 py-0.5 rounded bg-rose-500 text-white font-extrabold text-xs">••</span> Tap an <strong>atom circle</strong> to add/remove VSEPR lone pairs</span>
+              </div>
+            </div>
+            <button onclick="toggleLewisGuides()" class="px-4 py-2.5 rounded-xl text-xs font-extrabold transition shrink-0 shadow-sm ${lewisShowGuides ? 'bg-amber-300 text-slate-950 hover:bg-amber-200' : 'bg-white/15 hover:bg-white/25 text-white border border-white/30'}">
+              ${lewisShowGuides ? '🧭 Guided Steps: ON' : '💡 Need Help? Show Step Guides'}
+            </button>
+          </div>
+
           <!-- Challenge Selector Strip (1 to 15) -->
           <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -2605,23 +2653,16 @@
 
           <!-- Interactive Drawing Workbench -->
           <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-bold px-2.5 py-0.5 rounded-md border ${tierBadge}">${ch.tier} • #${lewisIdx + 1}</span>
-                  <h3 class="text-xl font-extrabold text-slate-900">${ch.formula} — ${ch.name}</h3>
-                </div>
-                <p class="text-xs text-slate-500 mt-1">Tap any <strong>bond badge (1×/2×/3×)</strong> to cycle single/double/triple bonds; tap any <strong>atom</strong> to add/remove lone pairs.</p>
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+              <div class="flex items-center gap-2.5">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-md border ${tierBadge}">${ch.tier} • #${lewisIdx + 1}</span>
+                <h3 class="text-xl font-extrabold text-slate-900">${ch.formula} — ${ch.name}</h3>
               </div>
-
-              <!-- Toggle: Direct Drawing vs. Guided Step-by-Step -->
-              <button onclick="toggleLewisGuides()" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition self-start shrink-0 ${lewisShowGuides ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
-                ${lewisShowGuides ? '🧭 Guided Mode: ON (Hide Steps)' : '✏️ Direct Mode (Show Step Guides)'}
-              </button>
+              <span class="text-xs font-semibold text-slate-400">VSEPR Lone-Pair Repulsion Active</span>
             </div>
 
             ${lewisShowGuides ? `
-              <div class="mt-4 p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-950 space-y-1.5 fade-in">
+              <div class="mt-4 p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950 space-y-1.5 fade-in">
                 <div class="font-bold uppercase tracking-wider text-amber-800">Step-by-Step Construction Guide</div>
                 <ul class="list-disc list-inside space-y-1">
                   ${ch.guides.map(g => `<li>${g}</li>`).join("")}
@@ -2640,13 +2681,13 @@
               <div class="md:col-span-2 space-y-3.5">
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
                   <div class="flex justify-between font-bold text-slate-800">
-                    <span>Valence Electrons Used:</span>
+                    <span>Valence Electrons Placed:</span>
                     <span class="${usedElectrons === ch.totalValence ? 'text-emerald-600' : 'text-indigo-700'} font-mono">
                       ${lewisShowGuides ? `${usedElectrons} / ${ch.totalValence} e⁻` : `${usedElectrons} e⁻`}
                     </span>
                   </div>
                   <p class="text-slate-500">
-                    ${lewisShowGuides ? 'Target total is shown above. Check octets and formal charges before verifying.' : 'Direct Drawing Mode: Calculate total valence electrons yourself, or toggle Guided Mode above.'}
+                    ${lewisShowGuides ? 'Target electron count is displayed above. Verify octets and formal charges.' : 'Direct Mode: Count valence electrons mentally, or click "Need Help? Show Step Guides" at the top.'}
                   </p>
                 </div>
 
@@ -2671,7 +2712,6 @@
         </div>
       `;
     }
-
     // Inject Standalone Section 2.8 into Sidebar & Router
     const _origRenderSidebar = renderSidebar;
     renderSidebar = function() {
