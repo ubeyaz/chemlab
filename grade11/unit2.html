@@ -1,1 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChemLab Studio | Grade 11 AP Chemistry — Unit 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .fade-in { animation: fadeIn 0.22s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
+  <!-- Top Header -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800" aria-label="Toggle Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="../index.html" title="Back to Course Portal" class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300 font-bold text-lg hover:bg-indigo-500/30 transition">
+          ⚛️
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base sm:text-lg tracking-tight">ChemLab Studio</h1>
+            <span class="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Grade 11 Honors • AP Unit 2</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Molecular &amp; Ionic Compound Structure and Properties</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-5">
+        <div class="hidden md:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+          <span class="text-xs text-slate-400">Unit Mastery:</span>
+          <div class="w-24 h-2 bg-slate-700 rounded-full overflow-hidden">
+            <div id="globalProgressBar" class="h-full bg-indigo-400 transition-all duration-500" style="width: 0%"></div>
+          </div>
+          <span id="globalProgressText" class="text-xs font-bold text-indigo-300">0%</span>
+        </div>
+        <button onclick="launchFullUnitExam()" class="px-3.5 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white font-semibold text-xs sm:text-sm transition shadow-sm flex items-center gap-1.5">
+          <span>🎯</span> <span>Final Revision Exam</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="flex-1 max-w-7xl w-full mx-auto flex relative">
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/50 z-20 hidden lg:hidden" onclick="toggleSidebar(false)"></div>
+
+    <!-- Left Sidebar -->
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-20 w-76 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 flex flex-col h-[calc(100vh-4rem)] top-16">
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">AP Unit 2 Curriculum</h2>
+          <p class="text-xs text-slate-500 mt-0.5">7 Topics • 105 Diagnostic MCQs</p>
+        </div>
+        <button onclick="resetProgress()" title="Reset saved scores" class="text-xs text-slate-400 hover:text-rose-600 transition">Reset</button>
+      </div>
+      <nav id="topicList" class="flex-1 overflow-y-auto p-2.5 space-y-1"></nav>
+      <div class="p-3 m-2.5 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
+        <strong>Revision Scope Note:</strong> Sections <strong>2.2</strong> and <strong>2.7</strong> are available to study and practice individually, and are excluded from the Final Revision Exam for this cohort.
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto min-w-0">
+      <!-- Topic Header & Mode Switcher -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-indigo-700 mb-1">
+              <span id="topicBadge" class="px-2.5 py-0.5 rounded-md bg-indigo-50 border border-indigo-200">Topic 2.1</span>
+              <span id="topicMasteryBadge" class="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-600">0/15 Mastered</span>
+              <span id="examStatusBadge" class="hidden px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">Excluded from Final Revision</span>
+            </div>
+            <h2 id="topicTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Types of Chemical Bonds</h2>
+            <p id="topicSubtitle" class="text-sm text-slate-600 mt-1">Electronegativity trends, bond polarity continuum, ionic vs. covalent character, and metallic delocalization.</p>
+          </div>
+
+          <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 self-start">
+            <button id="tab-learn" onclick="setMode('learn')" class="mode-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm">
+              <span>📘</span> Learn
+            </button>
+            <button id="tab-practice" onclick="setMode('practice')" class="mode-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+              <span>🧪</span> Practice (15)
+            </button>
+            <button id="tab-test" onclick="setMode('test')" class="mode-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+              <span>⏱️</span> Topic Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="viewContainer" class="fade-in"></div>
+    </main>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CONFIGURATION: TOPICS EXCLUDED FROM FINAL REVISION EXAM
+    // To include 2.2 or 2.7 for future batches, simply remove them from this array:
+    // =========================================================================
+    const EXAM_EXCLUDED_TOPICS = ["2.2", "2.7"];
+
+    // =========================================================================
+    // CUSTOM VECTOR SVG DIAGRAMS (AP CHEMISTRY UNIT 2)
+    // =========================================================================
+    const SVG = {
+      bondContinuum: `
+        <svg viewBox="0 0 680 205" class="w-full max-w-3xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+          <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">BONDING CONTINUUM &amp; COULOMB'S LAW (ΔEN SCALE)</text>
+          <defs>
+            <linearGradient id="bondGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0d9488"/>
+              <stop offset="50%" stop-color="#4f46e5"/>
+              <stop offset="100%" stop-color="#e11d48"/>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="42" width="600" height="16" rx="8" fill="url(#bondGrad)"/>
+          <g font-size="11" font-weight="700" text-anchor="middle">
+            <text x="130" y="76" fill="#0f766e">Nonpolar Covalent (ΔEN &lt; 0.5)</text>
+            <text x="340" y="76" fill="#4338ca">Polar Covalent (0.5 – 1.7)</text>
+            <text x="550" y="76" fill="#be123c">Ionic Transfer (ΔEN &gt; 1.7)</text>
+          </g>
+          <rect x="40" y="92" width="185" height="95" rx="8" fill="#f0fdfa" stroke="#99f6e4"/>
+          <text x="132" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">Equal Sharing (e.g., H–H, C–H)</text>
+          <circle cx="105" cy="142" r="14" fill="#99f6e4" stroke="#0d9488" stroke-width="2"/><text x="105" y="146" text-anchor="middle" font-size="11" font-weight="700">A</text>
+          <circle cx="159" cy="142" r="14" fill="#99f6e4" stroke="#0d9488" stroke-width="2"/><text x="159" y="146" text-anchor="middle" font-size="11" font-weight="700">B</text>
+          <circle cx="132" cy="138" r="3" fill="#0f172a"/><circle cx="132" cy="146" r="3" fill="#0f172a"/>
+          <text x="132" y="176" text-anchor="middle" font-size="10" fill="#115e59">No dipole moment (μ = 0)</text>
+
+          <rect x="247" y="92" width="186" height="95" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+          <text x="340" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#4338ca">Unequal Sharing (e.g., H–Br)</text>
+          <circle cx="310" cy="142" r="13" fill="#c7d2fe" stroke="#4f46e5" stroke-width="2"/><text x="310" y="146" text-anchor="middle" font-size="11" font-weight="700">δ+</text>
+          <circle cx="370" cy="142" r="17" fill="#a5b4fc" stroke="#4f46e5" stroke-width="2"/><text x="370" y="146" text-anchor="middle" font-size="11" font-weight="700">δ−</text>
+          <circle cx="348" cy="138" r="3" fill="#0f172a"/><circle cx="348" cy="146" r="3" fill="#0f172a"/>
+          <text x="340" y="176" text-anchor="middle" font-size="10" fill="#3730a3">Partial charges; bond dipole</text>
+
+          <rect x="455" y="92" width="185" height="95" rx="8" fill="#fff1f2" stroke="#fecdd3"/>
+          <text x="547" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">Electron Transfer (e.g., NaCl)</text>
+          <circle cx="515" cy="142" r="12" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/><text x="515" y="146" text-anchor="middle" font-size="11" font-weight="700">+</text>
+          <circle cx="578" cy="142" r="18" fill="#fda4af" stroke="#e11d48" stroke-width="2"/><text x="578" y="146" text-anchor="middle" font-size="11" font-weight="700">−</text>
+          <circle cx="557" cy="138" r="3" fill="#0f172a"/><circle cx="557" cy="146" r="3" fill="#0f172a"/>
+          <text x="547" y="176" text-anchor="middle" font-size="10" fill="#9f1239">Full ions; Coulombic lattice</text>
+        </svg>`,
+      morsePotential: `
+        <svg viewBox="0 0 640 220" class="w-full max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-2">
+          <text x="330" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a">POTENTIAL ENERGY VS. INTERNUCLEAR DISTANCE (H₂ BOND WELL)</text>
+          <!-- Axes -->
+          <line x1="80" y1="115" x2="600" y2="115" stroke="#475569" stroke-width="1.5"/>
+          <line x1="80" y1="30" x2="80" y2="205" stroke="#475569" stroke-width="2"/>
+          <text x="595" y="108" text-anchor="end" font-size="11" font-weight="700" fill="#334155">Internuclear Distance, r (pm) →</text>
+          <text x="24" y="120" text-anchor="middle" font-size="11" font-weight="700" fill="#334155" transform="rotate(-90 24 120)">Potential Energy (kJ/mol)</text>
+          <text x="72" y="119" text-anchor="end" font-size="10" font-weight="700" fill="#475569">0</text>
+          <text x="72" y="188" text-anchor="end" font-size="10" font-weight="700" fill="#0f766e">−436</text>
+          <!-- Potential Energy Curve -->
+          <path d="M 118 32 C 130 130, 148 185, 175 185 C 210 185, 255 122, 580 117" fill="none" stroke="#4f46e5" stroke-width="3.5"/>
+          <!-- Equilibrium dashed lines -->
+          <line x1="175" y1="115" x2="175" y2="185" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="80" y1="185" x2="175" y2="185" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <circle cx="175" cy="185" r="5" fill="#0d9488"/>
+          <text x="175" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#0f766e">74 pm (Bond Length)</text>
+          <!-- Annotations -->
+          <rect x="135" y="38" width="155" height="34" rx="6" fill="#fff1f2" stroke="#fecdd3"/>
+          <text x="212" y="53" text-anchor="middle" font-size="10" font-weight="700" fill="#be123c">Too Close: +PE</text>
+          <text x="212" y="66" text-anchor="middle" font-size="9" fill="#9f1239">Nucleus–nucleus repulsion dominates</text>
+          <rect x="230" y="155" width="215" height="36" rx="6" fill="#f0fdfa" stroke="#99f6e4"/>
+          <text x="337" y="170" text-anchor="middle" font-size="10" font-weight="700" fill="#0f766e">Minimum Energy Well (−436 kJ/mol)</text>
+          <text x="337" y="183" text-anchor="middle" font-size="9" fill="#115e59">Max e⁻–nucleus attraction; min repulsion</text>
+          <text x="490" y="100" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">Too Far: Separated atoms (PE ≈ 0)</text>
+        </svg>`,
+      morseTripleCompare: `
+        <svg viewBox="0 0 600 205" class="w-full max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-2">
+          <line x1="65" y1="55" x2="565" y2="55" stroke="#475569" stroke-width="1.5"/>
+          <line x1="65" y1="20" x2="65" y2="190" stroke="#475569" stroke-width="2"/>
+          <text x="555" y="47" text-anchor="end" font-size="11" font-weight="700" fill="#334155">Internuclear Distance →</text>
+          <text x="22" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#334155" transform="rotate(-90 22 110)">Potential Energy</text>
+          <!-- Curve X (deepest, furthest left) -->
+          <path d="M 95 22 C 105 125, 118 175, 138 175 C 165 175, 205 65, 540 58" fill="none" stroke="#1e40af" stroke-width="3"/>
+          <text x="138" y="192" text-anchor="middle" font-size="11" font-weight="800" fill="#1e40af">Curve X</text>
+          <!-- Curve Y (middle) -->
+          <path d="M 145 22 C 158 105, 175 142, 198 142 C 230 142, 275 65, 540 58" fill="none" stroke="#dc2626" stroke-width="3"/>
+          <text x="198" y="160" text-anchor="middle" font-size="11" font-weight="800" fill="#dc2626">Curve Y</text>
+          <!-- Curve Z (shallowest, furthest right) -->
+          <path d="M 205 22 C 222 82, 245 108, 272 108 C 310 108, 360 65, 540 58" fill="none" stroke="#059669" stroke-width="3"/>
+          <text x="272" y="126" text-anchor="middle" font-size="11" font-weight="800" fill="#059669">Curve Z</text>
+        </svg>`,
+      ionicLattice: `
+        <svg viewBox="0 0 620 190" class="w-full max-w-2xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+          <!-- Valid Alternating Lattice -->
+          <text x="155" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#0f766e">VALID 3-D IONIC LATTICE (e.g., NaCl)</text>
+          <g transform="translate(75, 32)">
+            <circle cx="20" cy="20" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="20" y="24" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="56" cy="20" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="56" y="24" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="92" cy="20" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="92" y="24" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="128" cy="20" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="128" y="24" text-anchor="middle" font-size="12" font-weight="700">−</text>
+
+            <circle cx="20" cy="58" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="20" y="62" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="56" cy="58" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="56" y="62" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="92" cy="58" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="92" y="62" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="128" cy="58" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="128" y="62" text-anchor="middle" font-size="11" font-weight="700">+</text>
+
+            <circle cx="20" cy="96" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="20" y="100" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="56" cy="96" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="56" y="100" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="92" cy="96" r="14" fill="#cbd5e1" stroke="#334155" stroke-width="1.5"/><text x="92" y="100" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="128" cy="96" r="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/><text x="128" y="100" text-anchor="middle" font-size="12" font-weight="700">−</text>
+          </g>
+          <text x="155" y="172" text-anchor="middle" font-size="10" fill="#115e59">Smaller cations (+) alternate with larger anions (−)</text>
+
+          <!-- Brittle Cleavage / Repulsion -->
+          <text x="465" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">WHY IONIC CRYSTALS ARE BRITTLE</text>
+          <g transform="translate(385, 32)">
+            <circle cx="38" cy="20" r="14" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/><text x="38" y="24" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="74" cy="20" r="20" fill="#ffffff" stroke="#be123c" stroke-width="1.5"/><text x="74" y="24" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="110" cy="20" r="14" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/><text x="110" y="24" text-anchor="middle" font-size="11" font-weight="700">+</text>
+
+            <circle cx="38" cy="58" r="14" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/><text x="38" y="62" text-anchor="middle" font-size="11" font-weight="700">+</text>
+            <circle cx="74" cy="58" r="20" fill="#ffffff" stroke="#be123c" stroke-width="1.5"/><text x="74" y="62" text-anchor="middle" font-size="12" font-weight="700">−</text>
+            <circle cx="110" cy="58" r="14" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/><text x="110" y="62" text-anchor="middle" font-size="11" font-weight="700">+</text>
+          </g>
+          <text x="465" y="138" text-anchor="middle" font-size="10" font-weight="700" fill="#be123c">Hammer shift aligns (+ with +) and (− with −)</text>
+          <text x="465" y="154" text-anchor="middle" font-size="10" fill="#9f1239">Strong electrostatic repulsion shatters crystal</text>
+        </svg>`,
+      alloysDiagram: `
+        <svg viewBox="0 0 640 190" class="w-full max-w-2xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+          <!-- Pure Metal -->
+          <text x="108" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a">PURE METAL</text>
+          <g fill="#94a3b8" stroke="#334155" stroke-width="1.5">
+            <circle cx="55" cy="50" r="15"/><circle cx="88" cy="50" r="15"/><circle cx="121" cy="50" r="15"/><circle cx="154" cy="50" r="15"/>
+            <circle cx="55" cy="83" r="15"/><circle cx="88" cy="83" r="15"/><circle cx="121" cy="83" r="15"/><circle cx="154" cy="83" r="15"/>
+            <circle cx="55" cy="116" r="15"/><circle cx="88" cy="116" r="15"/><circle cx="121" cy="116" r="15"/><circle cx="154" cy="116" r="15"/>
+          </g>
+          <text x="108" y="152" text-anchor="middle" font-size="10" fill="#475569">Layers slide easily</text>
+          <text x="108" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#0f172a">(High malleability)</text>
+
+          <!-- Substitutional Alloy -->
+          <text x="320" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#4338ca">SUBSTITUTIONAL ALLOY</text>
+          <g stroke="#334155" stroke-width="1.5">
+            <circle cx="267" cy="50" r="15" fill="#94a3b8"/><circle cx="300" cy="50" r="15" fill="#f59e0b"/><circle cx="333" cy="50" r="15" fill="#94a3b8"/><circle cx="366" cy="50" r="15" fill="#94a3b8"/>
+            <circle cx="267" cy="83" r="15" fill="#94a3b8"/><circle cx="300" cy="83" r="15" fill="#94a3b8"/><circle cx="333" cy="83" r="15" fill="#f59e0b"/><circle cx="366" cy="83" r="15" fill="#94a3b8"/>
+            <circle cx="267" cy="116" r="15" fill="#f59e0b"/><circle cx="300" cy="116" r="15" fill="#94a3b8"/><circle cx="333" cy="116" r="15" fill="#94a3b8"/><circle cx="366" cy="116" r="15" fill="#94a3b8"/>
+          </g>
+          <text x="320" y="152" text-anchor="middle" font-size="10" fill="#3730a3">Similar radii replace host</text>
+          <text x="320" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#4338ca">(e.g., Brass: Zn in Cu)</text>
+
+          <!-- Interstitial Alloy -->
+          <text x="532" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#0f766e">INTERSTITIAL ALLOY</text>
+          <g fill="#94a3b8" stroke="#334155" stroke-width="1.5">
+            <circle cx="479" cy="50" r="15"/><circle cx="512" cy="50" r="15"/><circle cx="545" cy="50" r="15"/><circle cx="578" cy="50" r="15"/>
+            <circle cx="479" cy="83" r="15"/><circle cx="512" cy="83" r="15"/><circle cx="545" cy="83" r="15"/><circle cx="578" cy="83" r="15"/>
+            <circle cx="479" cy="116" r="15"/><circle cx="512" cy="116" r="15"/><circle cx="545" cy="116" r="15"/><circle cx="578" cy="116" r="15"/>
+          </g>
+          <g fill="#0f172a">
+            <circle cx="495" cy="66" r="5"/><circle cx="561" cy="66" r="5"/><circle cx="528" cy="99" r="5"/>
+          </g>
+          <text x="532" y="152" text-anchor="middle" font-size="10" fill="#115e59">Small atoms fill gaps</text>
+          <text x="532" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#0f766e">(e.g., Steel: C in Fe; rigid)</text>
+        </svg>`,
+      resonanceDiagram: `
+        <svg viewBox="0 0 640 165" class="w-full max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-2">
+          <text x="320" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a">RESONANCE HYBRID EXAMPLE: NITRITE ION (NO₂⁻) — BOND ORDER = 1.5</text>
+          <!-- Left Resonance Structure -->
+          <g transform="translate(80, 45)">
+            <path d="M 10 0 L 0 0 L 0 75 L 10 75" fill="none" stroke="#334155" stroke-width="2"/>
+            <path d="M 165 0 L 175 0 L 175 75 L 165 75" fill="none" stroke="#334155" stroke-width="2"/>
+            <text x="182" y="12" font-size="12" font-weight="800" fill="#334155">−</text>
+            <text x="35" y="55" font-size="16" font-weight="800" fill="#dc2626">O</text>
+            <text x="85" y="30" font-size="16" font-weight="800" fill="#1e40af">N</text>
+            <text x="135" y="55" font-size="16" font-weight="800" fill="#dc2626">O</text>
+            <!-- Double bond left, single right -->
+            <line x1="52" y1="44" x2="80" y2="28" stroke="#0f172a" stroke-width="2.5"/>
+            <line x1="56" y1="50" x2="84" y2="34" stroke="#0f172a" stroke-width="2.5"/>
+            <line x1="102" y1="30" x2="130" y2="46" stroke="#0f172a" stroke-width="2.5"/>
+            <!-- Lone pairs -->
+            <circle cx="88" cy="12" r="2" fill="#1e40af"/><circle cx="95" cy="12" r="2" fill="#1e40af"/>
+          </g>
+          <!-- Double Arrow -->
+          <text x="320" y="90" text-anchor="middle" font-size="22" font-weight="800" fill="#4f46e5">⟷</text>
+          <!-- Right Resonance Structure -->
+          <g transform="translate(380, 45)">
+            <path d="M 10 0 L 0 0 L 0 75 L 10 75" fill="none" stroke="#334155" stroke-width="2"/>
+            <path d="M 165 0 L 175 0 L 175 75 L 165 75" fill="none" stroke="#334155" stroke-width="2"/>
+            <text x="182" y="12" font-size="12" font-weight="800" fill="#334155">−</text>
+            <text x="35" y="55" font-size="16" font-weight="800" fill="#dc2626">O</text>
+            <text x="85" y="30" font-size="16" font-weight="800" fill="#1e40af">N</text>
+            <text x="135" y="55" font-size="16" font-weight="800" fill="#dc2626">O</text>
+            <!-- Single bond left, double right -->
+            <line x1="54" y1="47" x2="82" y2="31" stroke="#0f172a" stroke-width="2.5"/>
+            <line x1="100" y1="28" x2="128" y2="44" stroke="#0f172a" stroke-width="2.5"/>
+            <line x1="104" y1="34" x2="132" y2="50" stroke="#0f172a" stroke-width="2.5"/>
+            <circle cx="88" cy="12" r="2" fill="#1e40af"/><circle cx="95" cy="12" r="2" fill="#1e40af"/>
+          </g>
+          <text x="320" y="150" text-anchor="middle" font-size="10" font-weight="700" fill="#3730a3">Both N–O bonds are identical in length &amp; strength (3 shared bonding pairs ÷ 2 N–O regions = 1.5)</text>
+        </svg>`,
+      vseprPolarity: `
+        <svg viewBox="0 0 640 185" class="w-full max-w-2xl mx-auto bg-slate-50 rounded-xl border border-slate-200 p-2">
+          <!-- CO2 Nonpolar -->
+          <rect x="20" y="15" width="285" height="155" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+          <text x="162" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#0f766e">CO₂: LINEAR (sp, 180°) → NONPOLAR</text>
+          <text x="65" y="95" font-size="16" font-weight="800" fill="#dc2626">O</text>
+          <text x="155" y="95" font-size="16" font-weight="800" fill="#0f172a">C</text>
+          <text x="245" y="95" font-size="16" font-weight="800" fill="#dc2626">O</text>
+          <line x1="85" y1="86" x2="148" y2="86" stroke="#0f172a" stroke-width="2.5"/>
+          <line x1="85" y1="93" x2="148" y2="93" stroke="#0f172a" stroke-width="2.5"/>
+          <line x1="175" y1="86" x2="238" y2="86" stroke="#0f172a" stroke-width="2.5"/>
+          <line x1="175" y1="93" x2="238" y2="93" stroke="#0f172a" stroke-width="2.5"/>
+          <!-- Opposite dipole arrows -->
+          <path d="M 145 66 L 90 66 M 98 61 L 90 66 L 98 71" fill="none" stroke="#0d9488" stroke-width="2"/>
+          <path d="M 180 66 L 235 66 M 227 61 L 235 66 L 227 71" fill="none" stroke="#0d9488" stroke-width="2"/>
+          <text x="162" y="138" text-anchor="middle" font-size="10" fill="#334155">Equal &amp; opposite bond dipoles cancel (μ = 0)</text>
+
+          <!-- H2O Polar -->
+          <rect x="335" y="15" width="285" height="155" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+          <text x="477" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#4338ca">H₂O: BENT (sp³, &lt;109.5°) → POLAR</text>
+          <text x="470" y="75" font-size="16" font-weight="800" fill="#dc2626">O</text>
+          <text x="415" y="125" font-size="15" font-weight="800" fill="#0f172a">H</text>
+          <text x="528" y="125" font-size="15" font-weight="800" fill="#0f172a">H</text>
+          <line x1="466" y1="78" x2="430" y2="112" stroke="#0f172a" stroke-width="2.5"/>
+          <line x1="486" y1="78" x2="522" y2="112" stroke="#0f172a" stroke-width="2.5"/>
+          <circle cx="468" cy="55" r="2.2" fill="#4f46e5"/><circle cx="474" cy="55" r="2.2" fill="#4f46e5"/>
+          <circle cx="484" cy="55" r="2.2" fill="#4f46e5"/><circle cx="490" cy="55" r="2.2" fill="#4f46e5"/>
+          <text x="477" y="152" text-anchor="middle" font-size="10" fill="#3730a3">Asymmetric bent shape → net dipole toward O</text>
+        </svg>`,
+      hydrocarbonChain: `
+        <svg viewBox="0 0 620 175" class="w-full max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-2">
+          <text x="310" y="20" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a">MULTI-CARBON ORGANIC STRUCTURE: H₃C–CH=CH–C≡C–H</text>
+          <g font-size="14" font-weight="800" fill="#0f172a" text-anchor="middle">
+            <!-- C1 -->
+            <text x="90" y="95">C₁</text><text x="35" y="95">H</text><text x="90" y="45">H</text><text x="90" y="148">H</text>
+            <line x1="45" y1="90" x2="76" y2="90" stroke="#0f172a" stroke-width="2"/>
+            <line x1="90" y1="52" x2="90" y2="78" stroke="#0f172a" stroke-width="2"/>
+            <line x1="90" y1="102" x2="90" y2="132" stroke="#0f172a" stroke-width="2"/>
+            <!-- C1-C2 single -->
+            <line x1="104" y1="90" x2="175" y2="90" stroke="#0f172a" stroke-width="2"/>
+            <!-- C2 -->
+            <text x="190" y="95">C₂</text><text x="190" y="45">H</text>
+            <line x1="190" y1="52" x2="190" y2="78" stroke="#0f172a" stroke-width="2"/>
+            <!-- C2=C3 double -->
+            <line x1="205" y1="86" x2="285" y2="86" stroke="#0284c7" stroke-width="2.5"/>
+            <line x1="205" y1="94" x2="285" y2="94" stroke="#0284c7" stroke-width="2.5"/>
+            <!-- C3 -->
+            <text x="300" y="95">C₃</text><text x="300" y="148">H</text>
+            <line x1="300" y1="102" x2="300" y2="132" stroke="#0f172a" stroke-width="2"/>
+            <!-- C3-C4 single -->
+            <line x1="315" y1="90" x2="385" y2="90" stroke="#0f172a" stroke-width="2"/>
+            <!-- C4 -->
+            <text x="400" y="95">C₄</text>
+            <!-- C4≡C5 triple -->
+            <line x1="415" y1="84" x2="495" y2="84" stroke="#e11d48" stroke-width="2"/>
+            <line x1="415" y1="90" x2="495" y2="90" stroke="#e11d48" stroke-width="2"/>
+            <line x1="415" y1="96" x2="495" y2="96" stroke="#e11d48" stroke-width="2"/>
+            <!-- C5-H -->
+            <text x="510" y="95">C₅</text><text x="575" y="95">H</text>
+            <line x1="524" y1="90" x2="562" y2="90" stroke="#0f172a" stroke-width="2"/>
+          </g>
+        </svg>`
+    };
+
+    // =========================================================================
+    // FULL AP CHEMISTRY UNIT 2 CURRICULUM (15 DIAGNOSTIC MCQs PER TOPIC = 105)
+    // =========================================================================
+    const TOPICS = [
+      {
+        id: "2.1",
+        title: "Types of Chemical Bonds",
+        subtitle: "Electronegativity trends, Coulomb's law, bonding continuum, and macroscopic properties.",
+        concepts: [
+          {
+            heading: "Electronegativity & Coulomb's Law",
+            points: [
+              "<strong>Electronegativity (EN):</strong> Ability of an atom in a bond to attract shared electrons. Increases <strong>left → right</strong> across a period (greater effective nuclear charge $Z_{\\text{eff}}$, smaller radius) and decreases <strong>top → bottom</strong> down a group (more occupied shells, greater distance $r$ and shielding).",
+              "<strong>Coulomb's Law:</strong> $F_{\\text{coulombic}} \\propto \\frac{q_1 q_2}{r^2}$. Stronger attraction occurs with higher charges and smaller internuclear distance.",
+              "<strong>Fluorine (EN = 4.0):</strong> Highest EN due to high $Z_{\\text{eff}}$ and minimal shielding (only $1s^2$ core electrons)."
+            ]
+          },
+          {
+            heading: "Bonding Continuum & Properties",
+            points: [
+              "<strong>Nonpolar Covalent ($\\Delta\\text{EN} < 0.5$):</strong> Equal sharing (e.g., $\\text{H–H}$, $\\text{C–H}$). Poor conductors, low melting points.",
+              "<strong>Polar Covalent ($0.5 \\le \\Delta\\text{EN} \\le 1.7$):</strong> Unequal sharing creates partial charges ($\\delta^+$ on less EN atom, $\\delta^-$ on more EN atom) and a bond dipole.",
+              "<strong>Ionic ($\\Delta\\text{EN} > 1.7$, metal + nonmetal):</strong> Electron transfer forms a crystal lattice. High melting point, brittle, conducts electricity <strong>only when molten or aqueous</strong>.",
+              "<strong>Metallic:</strong> Metal cations in a <strong>delocalized sea of valence electrons</strong>. Malleable, ductile, lustrous, conducts in solid &amp; liquid states."
+            ]
+          }
+        ],
+        diagram: SVG.bondContinuum,
+        workedExample: {
+          problem: "Place the following bonds in order of increasing polarity: C–H, C–F, C–C, C–O, Ca–C.",
+          steps: [
+            "<code>C–C</code> has $\\Delta\\text{EN} = 0$ (purely nonpolar).",
+            "<code>C–H</code> has a tiny difference ($2.5 - 2.1 = 0.4$, effectively nonpolar).",
+            "Moving right across Period 2 increases EN ($\\text{O} < \\text{F}$): <code>C–O</code> &lt; <code>C–F</code>.",
+            "<code>Ca–C</code> pairs an alkaline earth metal with a nonmetal (largest $\\Delta\\text{EN}$, ionic character).",
+            "Final Order: <strong>C–C &lt; C–H &lt; C–O &lt; C–F &lt; Ca–C</strong>."
+          ]
+        },
+        questions: [
+          {
+            set: "A",
+            q: "Why does fluorine have a significantly higher electronegativity than chlorine?",
+            options: [
+              { text: "Fluorine has fewer occupied electron shells, placing shared valence electrons closer to the nucleus with less shielding.", correct: true, feedback: "Spot on! By Coulomb's law, the smaller atomic radius (2 shells vs. 3 shells) and reduced core shielding produce a much stronger pull on bonding electrons." },
+              { text: "Fluorine has more protons in its nucleus than chlorine.", correct: false, feedback: "Chlorine actually has more protons (17 vs. 9), so nuclear charge alone does not explain why fluorine is more electronegative." },
+              { text: "Fluorine has a completely filled valence shell.", correct: false, feedback: "Fluorine has 7 valence electrons (needs 1 more); neon has the filled valence shell." },
+              { text: "Fluorine forms metallic bonds with nonmetals.", correct: false, feedback: "Fluorine is the most reactive nonmetal and forms covalent or ionic bonds, never metallic." }
+            ],
+            explanation: "Decreasing atomic radius and fewer shielding shells moving up Group 17 increase Coulombic attraction."
+          },
+          {
+            set: "A",
+            q: "Which bond is classified as effectively nonpolar covalent despite involving two different elements?",
+            options: [
+              { text: "C–H", correct: true, feedback: "Correct! Carbon (2.5) and hydrogen (2.1) have very similar electronegativities (ΔEN = 0.4), making C–H bonds effectively nonpolar." },
+              { text: "H–F", correct: false, feedback: "H–F has one of the largest covalent electronegativity differences (4.0 − 2.1 = 1.9), making it strongly polar." },
+              { text: "O–H", correct: false, feedback: "Oxygen (3.5) and hydrogen (2.1) differ by 1.4, creating a strong polar covalent bond." },
+              { text: "N–Cl", correct: false, feedback: "Although N and Cl both have EN ≈ 3.0, on the AP Essential Knowledge list C–H is the canonical example of an effectively nonpolar heteronuclear bond." }
+            ],
+            explanation: "AP Essential Knowledge 2.1.A.2 explicitly highlights <strong>C–H</strong> as effectively nonpolar covalent."
+          },
+          {
+            set: "A",
+            q: "In a polar covalent P–Cl bond, which atom develops a partial negative charge (δ−) and why?",
+            options: [
+              { text: "Chlorine (δ−), because it lies further right in Period 3 and has a higher effective nuclear charge.", correct: true, feedback: "Correct! Chlorine has a higher Zeff and smaller radius than phosphorus, pulling the shared electron pair closer to Cl." },
+              { text: "Phosphorus (δ−), because it has fewer valence electrons.", correct: false, feedback: "Fewer valence electrons in the same shell means lower effective nuclear charge and weaker attraction for shared electrons." },
+              { text: "Chlorine (δ−), because it has a larger atomic radius than phosphorus.", correct: false, feedback: "Chlorine has a SMALLER atomic radius than phosphorus across Period 3." },
+              { text: "Neither atom develops a partial charge because both are nonmetals.", correct: false, feedback: "Two different nonmetals with unequal electronegativities share electrons unequally, creating δ+ and δ− poles." }
+            ],
+            explanation: "Higher electronegativity across a period gives <strong>Cl</strong> the partial negative charge (δ−)."
+          },
+          {
+            set: "A",
+            q: "Which macroscopic property best distinguishes an ionic solid from a metallic solid?",
+            options: [
+              { text: "The ionic solid conducts electricity only when melted or dissolved in water, whereas the metallic solid conducts as a solid.", correct: true, feedback: "Spot on! Ionic solids lock ions in a rigid lattice until melted/dissolved, whereas metals have a mobile sea of delocalized electrons even when solid." },
+              { text: "The ionic solid is malleable and ductile, whereas the metallic solid is brittle.", correct: false, feedback: "That's reversed! Metals are malleable/ductile; ionic crystals shatter (are brittle) when struck." },
+              { text: "The ionic solid has a low melting point below 100 °C.", correct: false, feedback: "Ionic lattices are held by strong Coulombic forces and have very high melting points." },
+              { text: "The metallic solid dissolves in water to form free cations and anions.", correct: false, feedback: "Metals do not dissociate into mobile anions in water." }
+            ],
+            explanation: "Solid metals conduct via <strong>delocalized electrons</strong>; ionic compounds require <strong>molten or aqueous mobile ions</strong>."
+          },
+          {
+            set: "A",
+            q: "Rank the following bonds in order of INCREASING polarity: Si–F, S–F, P–F.",
+            options: [
+              { text: "S–F < P–F < Si–F", correct: true, feedback: "Correct! Across Period 3, electronegativity increases from Si → P → S. Since F is the most electronegative, Si is farthest from F (largest ΔEN) and S is closest to F (smallest ΔEN)." },
+              { text: "Si–F < P–F < S–F", correct: false, feedback: "You ranked them by the electronegativity of Si, P, and S rather than the DIFFERENCE in electronegativity relative to fluorine!" },
+              { text: "P–F < Si–F < S–F", correct: false, feedback: "Electronegativity changes monotonically across Period 3 (Si < P < S), so P–F must lie in the middle." },
+              { text: "S–F < Si–F < P–F", correct: false, feedback: "Si is furthest left in Period 3, giving the greatest ΔEN with F." }
+            ],
+            explanation: "Greater separation on the periodic table = larger $\\Delta\\text{EN}$ → <strong>S–F &lt; P–F &lt; Si–F</strong>."
+          },
+          {
+            set: "B",
+            q: "Evaluate the two types of chemical bonds present inside solid lithium hydroxide (LiOH).",
+            options: [
+              { text: "The Li–O interaction is ionic (between Li⁺ and OH⁻), while the O–H bond is polar covalent.", correct: true, feedback: "Spot on! Polyatomic ionic compounds like LiOH contain both ionic attraction between metal cation and polyatomic anion AND covalent bonds inside the polyatomic ion." },
+              { text: "Both Li–O and O–H are purely covalent bonds.", correct: false, feedback: "Lithium is an alkali metal that transfers its valence electron to form Li⁺, creating an ionic bond with OH⁻." },
+              { text: "Both Li–O and O–H are ionic bonds.", correct: false, feedback: "Oxygen and hydrogen are both nonmetals sharing electrons (ΔEN = 1.4), forming a polar covalent bond." },
+              { text: "Li–O is metallic, while O–H is nonpolar covalent.", correct: false, feedback: "Metallic bonding only occurs between metal atoms, not between Li and O." }
+            ],
+            explanation: "<strong>Li⁺ to OH⁻</strong> is ionic; <strong>O–H</strong> within hydroxide is polar covalent."
+          },
+          {
+            set: "B",
+            q: "Which compound in the pair (ZnCl₂ vs. SrF₂) exhibits greater ionic character, and why?",
+            options: [
+              { text: "SrF₂, because Sr is further down/left (lower EN) and F is at the top right (highest EN), maximizing ΔEN.", correct: true, feedback: "Correct! Strontium (Group 2, Period 5) has much lower electronegativity than zinc (transition metal), and fluorine has higher EN than chlorine." },
+              { text: "ZnCl₂, because transition metals always form stronger ionic bonds than Group 2 metals.", correct: false, feedback: "Transition metals like Zn have higher electronegativities than Group 2 metals, giving ZnCl₂ significantly more covalent character." },
+              { text: "ZnCl₂, because chloride is larger than fluoride.", correct: false, feedback: "Larger anion size lowers EN and reduces ionic character compared to fluoride." },
+              { text: "Both have 100% pure ionic character.", correct: false, feedback: "Bonding is a continuum—no bond is 100% ionic, and SrF₂ lies much closer to the ionic extreme." }
+            ],
+            explanation: "Largest periodic table separation (Group 2 metal + F) gives <strong>SrF₂</strong> greater ionic character."
+          },
+          {
+            set: "B",
+            q: "Arrange these elements in order of INCREASING metallic character: Ba, Ca, Ge, Se, Ne.",
+            options: [
+              { text: "Ne < Se < Ge < Ca < Ba", correct: true, feedback: "Spot on! Metallic character increases going LEFT across a period and DOWN a group—from noble gas Ne (top right) down to Ba (bottom left)." },
+              { text: "Ba < Ca < Ge < Se < Ne", correct: false, feedback: "That is DECREASING metallic character (or increasing nonmetallic character)." },
+              { text: "Ne < Ge < Se < Ca < Ba", correct: false, feedback: "In Period 4, Ge (metalloid) is to the left of Se (nonmetal), so Ge has more metallic character than Se." },
+              { text: "Se < Ne < Ge < Ba < Ca", correct: false, feedback: "Ba is below Ca in Group 2, making Ba more metallic than Ca." }
+            ],
+            explanation: "Metallic character increases toward the bottom-left: <strong>Ne &lt; Se &lt; Ge &lt; Ca &lt; Ba</strong>."
+          },
+          {
+            set: "B",
+            q: "Compare phosphorus (P) and sulfur (S). Which atom has greater electronegativity, and what is the valid AP justification?",
+            options: [
+              { text: "Sulfur, because both have valence electrons in the n = 3 shell, but sulfur has one more proton (greater Zeff) and a smaller atomic radius.", correct: true, feedback: "Correct! Same shielding core (10 electrons) + higher nuclear charge (+16 vs +15) pulls valence and shared electrons closer in sulfur." },
+              { text: "Phosphorus, because its half-filled 3p³ subshell attracts extra electrons more strongly.", correct: false, feedback: "While half-filled subshells affect ionization energy slightly, electronegativity increases steadily from P to S due to higher Zeff." },
+              { text: "Sulfur, because it has an extra electron shell compared to phosphorus.", correct: false, feedback: "Both P and S are in Period 3 and have three occupied electron shells." },
+              { text: "Phosphur and sulfur have identical electronegativities.", correct: false, feedback: "EN increases left-to-right across Period 3 (P = 2.1, S = 2.5)." }
+            ],
+            explanation: "Same shielding shell + higher nuclear charge ($Z_{\\text{eff}}$) gives <strong>sulfur</strong> higher EN."
+          },
+          {
+            set: "B",
+            q: "Rank the following bonds from LEAST polar to MOST polar: F–F, F–Br, F–Cl.",
+            options: [
+              { text: "F–F < F–Cl < F–Br", correct: true, feedback: "Correct! F–F has ΔEN = 0. Moving down Group 17 decreases EN (Cl > Br), so Br has the largest EN gap with F." },
+              { text: "F–F < F–Br < F–Cl", correct: false, feedback: "Because Cl is closer to F on the periodic table than Br is, F–Cl has a SMALLER ΔEN than F–Br." },
+              { text: "F–Br < F–Cl < F–F", correct: false, feedback: "F–F shares electrons equally between identical atoms (ΔEN = 0), so it must be the least polar." },
+              { text: "F–Cl < F–Br < F–F", correct: false, feedback: "Identical atoms in F–F always produce a nonpolar bond (least polar)." }
+            ],
+            explanation: "EN decreases down Group 17 (F &gt; Cl &gt; Br), so polarity increases as <strong>F–F &lt; F–Cl &lt; F–Br</strong>."
+          },
+          {
+            set: "C",
+            diagram: SVG.bondContinuum,
+            q: "A white crystalline solid melts at 1,414 °C, is insoluble in water, and does not conduct electricity as a solid or liquid. Why is ΔEN alone insufficient to classify its bonding?",
+            options: [
+              { text: "Macroscopic properties (extreme melting point, non-conductivity) reveal a covalent network solid rather than ionic or molecular bonding.", correct: true, feedback: "Spot on! AP Essential Knowledge 2.1.A.4 emphasizes that examining physical properties is the best way to characterize bonding—here, silicon forms a covalent network." },
+              { text: "High melting points above 1,000 °C occur only in metallic solids.", correct: false, feedback: "Covalent network solids (like Si, diamond, SiO₂) and ionic solids also have melting points above 1,000 °C." },
+              { text: "Ionic solids never conduct electricity in the liquid state.", correct: false, feedback: "Molten ionic solids DO conduct electricity because their ions become mobile; this unknown does NOT conduct when melted." },
+              { text: "Polar covalent molecules always have melting points above 1,400 °C.", correct: false, feedback: "Molecular covalent substances have weak IMFs and low melting points." }
+            ],
+            explanation: "Non-conductivity when molten + extreme melting point = <strong>covalent network solid</strong> (AP 2.1.A.4)."
+          },
+          {
+            set: "C",
+            q: "Which of the following compounds has the HIGHEST degree of ionic character?",
+            options: [
+              { text: "BaCl₂", correct: true, feedback: "Correct! Comparing BaCl₂ vs. BaS (from Workbook 2.1 #5b), chlorine is more electronegative than sulfur, giving BaCl₂ the larger ΔEN." },
+              { text: "BaS", correct: false, feedback: "Sulfur is less electronegative than chlorine, so BaS has a smaller ΔEN than BaCl₂." },
+              { text: "AgF", correct: false, feedback: "Silver is a transition metal with higher EN (1.9) than barium (0.9), giving AgF more covalent character." },
+              { text: "NCl₃", correct: false, feedback: "NCl₃ consists of two nonmetals with nearly identical EN (polar/nonpolar covalent)." }
+            ],
+            explanation: "Low-EN Group 2 metal (Ba) + high-EN halogen (Cl) gives <strong>BaCl₂</strong> greater ionic character than BaS."
+          },
+          {
+            set: "C",
+            q: "In a metallic solid such as aluminum, what holds the metal atoms together?",
+            options: [
+              { text: "Coulombic attraction between positively charged Al³⁺ cores and a delocalized sea of mobile valence electrons.", correct: true, feedback: "Spot on! Valence electrons are not localized between specific pairs of atoms; they move freely across the entire metallic lattice." },
+              { text: "Directional covalent bonds formed by sharing localized electron pairs between adjacent Al atoms.", correct: false, feedback: "Localized electron-pair sharing describes covalent networks, not metallic solids." },
+              { text: "Electrostatic attraction between alternating Al³⁺ cations and Al³⁻ anions.", correct: false, feedback: "Metal atoms lose electrons to form cations; they do not form Al³⁻ anions in pure metals." },
+              { text: "Weak London dispersion forces between neutral aluminum atoms.", correct: false, feedback: "Dispersion forces alone could never explain aluminum's 660 °C melting point or electrical conductivity." }
+            ],
+            explanation: "Metallic bonding = <strong>metal cations + delocalized valence electron sea</strong>."
+          },
+          {
+            set: "C",
+            q: "If atom X (EN = 1.9) bonds with atom Y (EN = 3.1), how should the bond be described on the bonding continuum?",
+            options: [
+              { text: "Polar covalent with significant partial ionic character, with δ− on atom Y.", correct: true, feedback: "Correct! ΔEN = 1.2 falls squarely in the polar covalent region (0.5–1.7), and all polar bonds possess partial ionic character." },
+              { text: "Purely nonpolar covalent because ΔEN is less than 1.7.", correct: false, feedback: "Nonpolar covalent requires ΔEN < 0.5; ΔEN = 1.2 creates a substantial bond dipole." },
+              { text: "Polar covalent with δ− on atom X.", correct: false, feedback: "Atom Y has the higher EN (3.1 > 1.9), so Y attracts electron density and carries δ−." },
+              { text: "100% ionic with zero electron sharing.", correct: false, feedback: "ΔEN = 1.2 is polar covalent, and even ionic bonds have some degree of electron cloud overlap." }
+            ],
+            explanation: "$\\Delta\\text{EN} = 1.2$ → <strong>Polar covalent</strong> with partial negative charge on the more electronegative atom (Y)."
+          },
+          {
+            set: "C",
+            q: "Why does the bond dipole moment of H–Cl exceed that of H–Br?",
+            options: [
+              { text: "Chlorine has a higher electronegativity than bromine, creating a greater electronegativity difference with hydrogen.", correct: true, feedback: "Spot on! By AP 2.1.A.3.ii, in single bonds, greater differences in electronegativity produce larger bond dipoles." },
+              { text: "H–Br has a shorter bond length than H–Cl.", correct: false, feedback: "Bromine has a larger atomic radius than chlorine, so H–Br is longer than H–Cl." },
+              { text: "Bromine is more electronegative than chlorine.", correct: false, feedback: "Electronegativity decreases down Group 17 (Cl = 3.0 > Br = 2.8)." },
+              { text: "H–Cl is an ionic compound whereas H–Br is covalent.", correct: false, feedback: "Both HCl and HBr are polar covalent molecules." }
+            ],
+            explanation: "Larger $\\Delta\\text{EN}$ in <strong>H–Cl</strong> yields a larger bond dipole moment."
+          }
+        ]
+      },
+      {
+        id: "2.2",
+        title: "Intramolecular Force & Potential Energy",
+        subtitle: "Morse potential energy curves, bond order vs. length/energy, and lattice energy.",
+        concepts: [
+          {
+            heading: "Potential Energy vs. Internuclear Distance",
+            points: [
+              "<strong>Equilibrium Bond Length ($r_0$):</strong> The internuclear distance at the <strong>minimum potential energy well</strong>, where attractive forces (nuclei–electrons) and repulsive forces (nucleus–nucleus, $e^--e^-$) balance.",
+              "<strong>Bond Energy:</strong> Depth of the energy well—the energy required to break 1 mole of gaseous bonds (or energy released when formed).",
+              "<strong>Too Close ($r < r_0$):</strong> Potential energy shoots steeply positive due to strong <strong>internuclear repulsion</strong>. <strong>Too Far ($r \\gg r_0$):</strong> Potential energy approaches zero (negligible attraction)."
+            ]
+          },
+          {
+            heading: "Bond Order, Radius & Lattice Energy",
+            points: [
+              "<strong>Bond Order:</strong> Triple bonds (order 3) are <strong>shortest</strong> and <strong>strongest</strong> (deepest energy well); single bonds (order 1) are longest and weakest.",
+              "<strong>Atomic Radius:</strong> Larger atoms form <strong>longer, weaker</strong> covalent bonds (e.g., $\\text{H–F} > \\text{H–Cl} > \\text{H–Br} > \\text{H–I}$ bond energy).",
+              "<strong>Ionic Lattice Energy ($E \\propto \\frac{Q_1 Q_2}{r}$):</strong> Increases with <strong>larger ion charges</strong> ($Q_1, Q_2$) and <strong>smaller ionic radii</strong> ($r$)."
+            ]
+          }
+        ],
+        diagram: SVG.morsePotential,
+        workedExample: {
+          problem: "Which compound in each pair has the greater (more exothermic) lattice energy: (a) MgO vs. NaCl, (b) NaCl vs. LiCl?",
+          steps: [
+            "(a) <strong>MgO</strong> has $+2/-2$ ion charges vs. $+1/-1$ in NaCl. Quadrupling $Q_1 Q_2$ makes MgO's lattice energy ~4× stronger.",
+            "(b) Both have $+1/-1$ charges, but $\\text{Li}^+$ has a smaller ionic radius than $\\text{Na}^+$ (smaller $r$). Thus <strong>LiCl</strong> has stronger Coulombic attraction."
+          ]
+        },
+        questions: [
+          {
+            set: "A",
+            diagram: SVG.morsePotential,
+            q: "On the potential energy diagram for H₂ above, what does the point at 74 pm and −436 kJ/mol represent?",
+            options: [
+              { text: "The equilibrium bond length (74 pm) and bond dissociation energy (436 kJ/mol) at maximum stability.", correct: true, feedback: "Spot on! The bottom of the potential energy well marks the most stable internuclear separation (74 pm) and the energy needed to separate the atoms (436 kJ/mol)." },
+              { text: "The point where nucleus–nucleus repulsion is at its maximum.", correct: false, feedback: "Maximum repulsion occurs to the far left (r < 74 pm) where the curve shoots steeply upward into positive energy." },
+              { text: "The distance where the two hydrogen atoms no longer interact.", correct: false, feedback: "Zero interaction occurs to the far right where potential energy levels off at 0 kJ/mol." },
+              { text: "The activation energy required to melt solid hydrogen.", correct: false, feedback: "This curve represents intramolecular covalent bond formation between two H atoms, not melting." }
+            ],
+            explanation: "Minimum well depth = <strong>bond energy</strong>; x-coordinate of minimum = <strong>equilibrium bond length</strong>."
+          },
+          {
+            set: "A",
+            q: "Why does potential energy rise sharply above 0 kJ/mol when two atoms are pushed closer together than their equilibrium bond length?",
+            options: [
+              { text: "Strong electrostatic repulsion between the two positively charged nuclei dominates.", correct: true, feedback: "Correct! At very short distances, proton–proton repulsion between the nuclei overwhelms electron–nucleus attraction." },
+              { text: "The valence electrons are destroyed.", correct: false, feedback: "Electrons are conserved; repulsive electrostatic forces simply push the potential energy sharply upward." },
+              { text: "The bond order automatically increases from single to triple.", correct: false, feedback: "Pushing two H atoms together does not create a triple bond; H only has 1s orbitals." },
+              { text: "Gravity pulls the nuclei apart.", correct: false, feedback: "Gravitational forces are negligible at the atomic scale compared to Coulombic forces." }
+            ],
+            explanation: "At $r < r_0$, <strong>internuclear repulsion</strong> causes potential energy to spike upward."
+          },
+          {
+            set: "A",
+            q: "Place the following single covalent bonds in order from STRONGEST bond energy to WEAKEST: C–Cl, C–Br, C–F.",
+            options: [
+              { text: "C–F > C–Cl > C–Br", correct: true, feedback: "Correct! Fluorine has the smallest atomic radius, creating the shortest C–F bond length and strongest Coulombic attraction." },
+              { text: "C–Br > C–Cl > C–F", correct: false, feedback: "Bromine is the largest atom here, giving C–Br the longest bond length and WEAKEST bond energy." },
+              { text: "C–Cl > C–F > C–Br", correct: false, feedback: "Atomic radius increases down Group 17 (F < Cl < Br), so bond strength decreases monotonically." },
+              { text: "All three have identical bond energy because all are single bonds.", correct: false, feedback: "Bond energy depends on both bond order AND atomic core size (bond length)." }
+            ],
+            explanation: "Smaller atomic radius = shorter bond = higher bond energy: <strong>C–F &gt; C–Cl &gt; C–Br</strong>."
+          },
+          {
+            set: "A",
+            q: "Which compound has the GREATEST (most exothermic) lattice energy: MgO or BaO?",
+            options: [
+              { text: "MgO, because Mg²⁺ has a smaller ionic radius than Ba²⁺.", correct: true, feedback: "Spot on! Both have +2 and −2 charges, so Mg²⁺ (Period 3) gets closer to O²⁻ than Ba²⁺ (Period 6), increasing Coulombic attraction." },
+              { text: "BaO, because barium has a larger molar mass.", correct: false, feedback: "Lattice energy depends on ion charge and radius (Coulomb's law), not molar mass." },
+              { text: "BaO, because Ba²⁺ has a larger ionic radius.", correct: false, feedback: "A larger radius increases the denominator r in Coulomb's law, which WEAKENS lattice energy." },
+              { text: "Both have identical lattice energies because both have +2/−2 charges.", correct: false, feedback: "When charges are equal, ionic radius determines lattice energy." }
+            ],
+            explanation: "Equal charges (+2/−2) + smaller cation radius ($\\text{Mg}^{2+} < \\text{Ba}^{2+}$) → <strong>MgO</strong> has higher lattice energy."
+          },
+          {
+            set: "A",
+            q: "Why does FeCl₃ have a significantly larger lattice energy than FeCl₂?",
+            options: [
+              { text: "Fe³⁺ has a higher positive charge (+3 vs. +2) and a smaller ionic radius than Fe²⁺.", correct: true, feedback: "Correct! Both higher charge magnitude (q₁) and smaller cation radius (r) strongly increase Coulombic attraction with Cl⁻." },
+              { text: "FeCl₃ has a lower melting point than FeCl₂.", correct: false, feedback: "Stronger lattice energy leads to a higher melting point, not lower." },
+              { text: "Chloride ions have a −3 charge in FeCl₃.", correct: false, feedback: "Chloride is always Cl⁻ (−1); there are simply three Cl⁻ ions balancing one Fe³⁺ ion." },
+              { text: "Fe³⁺ has more occupied electron shells than Fe²⁺.", correct: false, feedback: "Removing an extra electron pulls the remaining electrons closer, making Fe³⁺ smaller than Fe²⁺." }
+            ],
+            explanation: "Higher cation charge (+3 vs. +2) and smaller radius make <strong>FeCl₃</strong>'s lattice energy much larger."
+          },
+          {
+            set: "B",
+            diagram: SVG.morseTripleCompare,
+            q: "The three potential energy curves above represent H₂, HBr, and Br₂. Match Curve X, Curve Y, and Curve Z to the correct molecules.",
+            options: [
+              { text: "Curve X = H₂, Curve Y = HBr, Curve Z = Br₂", correct: true, feedback: "Spot on! H₂ has the smallest atoms (shortest bond = 74 pm, deepest well = 436 kJ/mol), followed by HBr (141 pm, 366 kJ/mol), and largest Br₂ (228 pm, 193 kJ/mol)." },
+              { text: "Curve X = Br₂, Curve Y = HBr, Curve Z = H₂", correct: false, feedback: "Curve X has the shortest internuclear distance (furthest left) and deepest energy well (strongest bond)—that must be tiny H₂, not bulky Br₂!" },
+              { text: "Curve X = HBr, Curve Y = H₂, Curve Z = Br₂", correct: false, feedback: "H–H is shorter and stronger than H–Br because H is much smaller than Br." },
+              { text: "Curve X = H₂, Curve Y = Br₂, Curve Z = HBr", correct: false, feedback: "HBr is intermediate in both bond length and bond energy between H₂ and Br₂." }
+            ],
+            explanation: "Increasing atomic size shifts the well right (longer) and up (weaker): <strong>X = H₂, Y = HBr, Z = Br₂</strong>."
+          },
+          {
+            set: "B",
+            q: "Compare the potential energy curves of diatomic nitrogen (N₂, triple bond) and diatomic oxygen (O₂, double bond). Where is the N₂ minimum relative to O₂?",
+            options: [
+              { text: "Further to the left (shorter bond, 110 pm vs. 121 pm) and much lower (deeper well, 941 vs. 495 kJ/mol).", correct: true, feedback: "Correct! Higher bond order (3 vs. 2) pulls the nuclei closer together and requires nearly twice as much energy to break." },
+              { text: "Further to the right (longer bond) and lower in energy.", correct: false, feedback: "Triple bonds are SHORTER than double bonds, so the minimum shifts left, not right." },
+              { text: "Further to the left (shorter bond) and higher (shallower well).", correct: false, feedback: "A stronger triple bond releases more energy when formed, creating a DEEPER potential energy well." },
+              { text: "At the exact same position because N and O are adjacent in Period 2.", correct: false, feedback: "Bond order (triple vs. double) dramatically alters both bond length and bond enthalpy." }
+            ],
+            explanation: "Higher bond order (<strong>N≡N</strong> vs. <strong>O=O</strong>) = shorter bond length + deeper energy well."
+          },
+          {
+            set: "B",
+            q: "Rank these ionic compounds in order of INCREASING lattice energy: KI, NaCl, MgO, CaO.",
+            options: [
+              { text: "KI < NaCl < CaO < MgO", correct: true, feedback: "Spot on! First separate by charge: +1/−1 (KI, NaCl) < +2/−2 (CaO, MgO). Then rank by smaller radius: KI < NaCl and CaO < MgO." },
+              { text: "MgO < CaO < NaCl < KI", correct: false, feedback: "That is DECREASING lattice energy (strongest to weakest)." },
+              { text: "NaCl < KI < MgO < CaO", correct: false, feedback: "K⁺ and I⁻ are larger than Na⁺ and Cl⁻, so KI has a WEAKER lattice energy than NaCl." },
+              { text: "KI < CaO < NaCl < MgO", correct: false, feedback: "Ion charge (+2/−2 vs +1/−1) dominates over radius, so CaO is much stronger than NaCl." }
+            ],
+            explanation: "Charge dominates first (+1/−1 &lt; +2/−2), then smaller radius wins: <strong>KI &lt; NaCl &lt; CaO &lt; MgO</strong>."
+          },
+          {
+            set: "B",
+            q: "Why does a C≡C triple bond have a shorter bond length (121 pm) than a C–C single bond (154 pm)?",
+            options: [
+              { text: "Six shared valence electrons between the nuclei create stronger Coulombic attraction, pulling the carbon nuclei closer together.", correct: true, feedback: "Correct! Greater electron density in the internuclear region increases attractive force and shortens equilibrium distance." },
+              { text: "Carbon atoms lose their 1s core electrons when forming triple bonds.", correct: false, feedback: "Core electrons remain intact; only valence electrons participate in bonding." },
+              { text: "Triple bonds have zero nuclear repulsion.", correct: false, feedback: "Nuclear repulsion still exists—it simply balances the stronger attraction at a closer distance (121 pm)." },
+              { text: "Single bonds contain two pi bonds that push the atoms apart.", correct: false, feedback: "Single bonds are pure sigma bonds; pi bonds are in double and triple bonds." }
+            ],
+            explanation: "Higher electron density between nuclei in a triple bond pulls the atoms closer together."
+          },
+          {
+            set: "B",
+            q: "Using average bond enthalpies (C–C = 348 kJ/mol, C=C = 614 kJ/mol), why is a C=C double bond NOT twice as strong as a C–C single bond?",
+            options: [
+              { text: "A double bond consists of one strong sigma (σ) bond and one weaker side-by-side pi (π) bond.", correct: true, feedback: "Spot on! Side-by-side p-orbital overlap in a π bond is weaker than head-on σ overlap, so 614 kJ/mol < 2 × 348 kJ/mol." },
+              { text: "Double bonds are longer than single bonds.", correct: false, feedback: "Double bonds are shorter (134 pm vs. 154 pm)." },
+              { text: "One of the bonds in C=C is an ionic bond.", correct: false, feedback: "Both bonds between carbon atoms are covalent." },
+              { text: "Pi bonds repel the carbon nuclei apart.", correct: false, feedback: "Pi bonds still attract the nuclei and strengthen the overall bond, just less than a second sigma bond would." }
+            ],
+            explanation: "Side-by-side <strong>π overlap</strong> is weaker than head-on <strong>σ overlap</strong>."
+          },
+          {
+            set: "C",
+            q: "Which halogen bond (H–F, H–Cl, H–Br, H–I) has its potential energy minimum furthest to the RIGHT on a Morse potential graph?",
+            options: [
+              { text: "H–I", correct: true, feedback: "Correct! Iodine has the largest atomic radius (Period 5), placing the H and I nuclei furthest apart at equilibrium (161 pm)." },
+              { text: "H–F", correct: false, feedback: "Fluorine is the smallest halogen, so H–F is furthest to the LEFT (92 pm)." },
+              { text: "H–Cl", correct: false, feedback: "H–Cl (127 pm) is shorter than H–Br (141 pm) and H–I (161 pm)." },
+              { text: "H–Br", correct: false, feedback: "Iodine is below bromine in Group 17, giving H–I an even larger internuclear distance." }
+            ],
+            explanation: "Largest atomic radius (<strong>I</strong>) = longest equilibrium bond length (furthest right)."
+          },
+          {
+            set: "C",
+            q: "Lattice energy is defined as the enthalpy change when gaseous ions combine to form an ionic solid (e.g., Na⁺(g) + Cl⁻(g) → NaCl(s)). Is this process endothermic or exothermic?",
+            options: [
+              { text: "Exothermic (releases energy), because forming strong electrostatic attractions lowers potential energy.", correct: true, feedback: "Spot on! Forming bonds or ionic attractions always releases energy (ΔH < 0), whereas separating ions requires energy input." },
+              { text: "Endothermic (absorbs energy), because solids have higher potential energy than gases.", correct: false, feedback: "Gaseous separated ions have high potential energy; locking them into a stable crystal releases heat." },
+              { text: "Neither; ΔH is always zero.", correct: false, feedback: "Lattice energies are huge (hundreds to thousands of kJ/mol)." },
+              { text: "Exothermic for +1/−1 ions, but endothermic for +2/−2 ions.", correct: false, feedback: "Forming any stable ionic crystal from gaseous ions is exothermic." }
+            ],
+            explanation: "Bond/lattice formation releases energy (<strong>exothermic</strong>); breaking lattices absorbs energy."
+          },
+          {
+            set: "C",
+            q: "Which of the following pairs would exhibit the GREATEST difference in equilibrium bond length?",
+            options: [
+              { text: "N≡N vs. I–I", correct: true, feedback: "Correct! N≡N combines small Period 2 atoms with a triple bond (110 pm), whereas I–I combines huge Period 5 atoms with a single bond (267 pm)." },
+              { text: "C–C vs. C–N", correct: false, feedback: "Both are Period 2 single bonds with very similar lengths (154 pm vs. 147 pm)." },
+              { text: "H–Cl vs. H–Br", correct: false, feedback: "127 pm vs. 141 pm is only a 14 pm difference." },
+              { text: "C=O vs. N=O", correct: false, feedback: "123 pm vs. 120 pm is only a 3 pm difference." }
+            ],
+            explanation: "Comparing small triple-bonded <strong>N≡N</strong> (110 pm) to large single-bonded <strong>I–I</strong> (267 pm) maximizes the length gap."
+          },
+          {
+            set: "C",
+            q: "If the internuclear distance r between two oppositely charged ions is halved while their charges remain constant, how does the Coulombic force change?",
+            options: [
+              { text: "It increases by a factor of 4.", correct: true, feedback: "Correct! Because F ∝ q₁q₂ / r², halving r gives 1 / (0.5)² = 1 / 0.25 = 4× stronger attraction." },
+              { text: "It doubles (increases by a factor of 2).", correct: false, feedback: "Force is inversely proportional to r SQUARED (r²), not r." },
+              { text: "It decreases by a factor of 4.", correct: false, feedback: "Bringing opposite charges closer together INCREASES attraction." },
+              { text: "It stays the same.", correct: false, feedback: "Distance strongly governs electrostatic force." }
+            ],
+            explanation: "$F \\propto 1/r^2 \\implies (1/2)^{-2} = \\mathbf{4\\times}$ stronger force."
+          },
+          {
+            set: "C",
+            q: "A student claims: 'Breaking a chemical bond releases energy because energy is stored inside the bond.' How should an AP Chemistry teacher correct this misconception?",
+            options: [
+              { text: "Breaking a bond ALWAYS requires absorbing energy to overcome electrostatic attractions; energy is released only when new, stronger bonds form.", correct: true, feedback: "Spot on! This is one of the most tested conceptual points in AP Chemistry: bond breaking is ALWAYS endothermic, and bond formation is ALWAYS exothermic." },
+              { text: "Breaking covalent bonds releases energy, whereas breaking ionic bonds absorbs energy.", correct: false, feedback: "Breaking ANY attractive interaction (covalent, ionic, or IMF) requires an input of energy." },
+              { text: "The student is correct; breaking bonds is exothermic.", correct: false, feedback: "Atoms in a bond sit in a negative potential energy well—you must add energy to pull them out of the well." },
+              { text: "Bond breaking neither absorbs nor releases energy.", correct: false, feedback: "Bond enthalpies measure the exact energy required to break bonds." }
+            ],
+            explanation: "<strong>Bond breaking = Endothermic (+); Bond forming = Exothermic (−).</strong>"
+          }
+        ]
+      },
+      {
+        id: "2.3",
+        title: "Structure of Ionic Solids",
+        subtitle: "3-D crystal lattice models, relative ionic radii, brittleness, and conductivity.",
+        concepts: [
+          {
+            heading: "3-D Particulate Crystal Lattice",
+            points: [
+              "Discrete ionic 'molecules' do not exist; ionic solids form a periodic <strong>3-D alternating array</strong> of cations (+) and anions (−) that maximizes opposite-charge attraction and minimizes like-charge repulsion.",
+              "<strong>Relative Ion Sizes:</strong> Cations are smaller than their parent atoms (lost valence shell); anions are larger (added electrons increase repulsion). Always draw cations smaller than anions (except rare cases like $\\text{Cs}^+$ vs. $\\text{F}^-$)."
+            ]
+          },
+          {
+            heading: "Macroscopic Properties Explained by Lattice",
+            points: [
+              "<strong>High Melting Point &amp; Low Volatility:</strong> Strong multidirectional Coulombic attractions require high thermal energy to break.",
+              "<strong>Electrical Conductivity:</strong> Non-conductors as solids (ions locked in place); good conductors when <strong>molten (melted)</strong> or <strong>dissolved in water</strong> (mobile ions carry charge).",
+              "<strong>Brittleness:</strong> Mechanical stress shifts lattice layers so like charges ($+$/$+$ and $-$/$-$) align and repel, cleaving the crystal."
+            ]
+          }
+        ],
+        diagram: SVG.ionicLattice,
+        workedExample: {
+          problem: "Why does KBr (672 kJ/mol) have a higher lattice energy than KI (632 kJ/mol)?",
+          steps: [
+            "Both contain $+1$ and $-1$ ions ($\\text{K}^+$ with $\\text{Br}^-$ vs. $\\text{I}^-$).",
+            "$\\text{Br}^-$ has fewer occupied shells and a smaller ionic radius than $\\text{I}^-$.",
+            "Smaller internuclear distance $r$ increases Coulombic attraction ($F \\propto q_1 q_2 / r^2$), resulting in higher lattice energy for <strong>KBr</strong>."
+          ]
+        },
+        questions: [
+          {
+            set: "A",
+            q: "An ionic solid does not conduct electricity, but conducts readily when dissolved in water. Which statement explains why?",
+            options: [
+              { text: "In the solid, ions are locked in fixed lattice positions; when dissolved, the ions separate and move freely to carry charge.", correct: true, feedback: "Spot on! Electrical conduction requires mobile charged particles. Dissolving dissociates the lattice into free-moving aqueous cations and anions." },
+              { text: "Water is polar so pure water conducts electricity; the dissolved ionic solid plays no role.", correct: false, feedback: "Pure distilled water is a very poor conductor—it is the mobile dissolved ions that carry the current." },
+              { text: "Dissolving turns the ions into delocalized metallic electrons.", correct: false, feedback: "Ionic solutions conduct via mobile IONS, not delocalized electrons." },
+              { text: "Solid ionic crystals contain neutral atoms that ionize only when wet.", correct: false, feedback: "The solid already consists of cations and anions; they simply cannot move until melted or dissolved." }
+            ],
+            explanation: "Electrical conductivity requires <strong>mobile charged particles</strong> (free ions in solution or melt)."
+          },
+          {
+            set: "A",
+            q: "Sodium chloride (NaCl) has a lattice energy of 787 kJ/mol, whereas sodium oxide (Na₂O) has a lattice energy of 2,564 kJ/mol. What best accounts for this huge difference?",
+            options: [
+              { text: "Oxide (O²⁻) has a −2 charge whereas chloride (Cl⁻) has a −1 charge, doubling the numerator in Coulomb's law.", correct: true, feedback: "Correct! In Coulomb's law (F ∝ q₁q₂/r²), doubling the anion charge from −1 to −2 dramatically increases electrostatic attraction." },
+              { text: "Chloride cannot form hydrogen bonds with sodium.", correct: false, feedback: "Hydrogen bonding is an intermolecular force involving H bonded to N, O, or F—irrelevant to NaCl and Na₂O lattices." },
+              { text: "Na₂O has three ions per formula unit instead of two, so more particles must boil.", correct: false, feedback: "Lattice energy measures electrostatic attraction strength, driven primarily by ion charge product (q₁ × q₂) and distance." },
+              { text: "Chloride has a much smaller ionic radius than oxide.", correct: false, feedback: "O²⁻ (140 pm) is actually smaller than Cl⁻ (181 pm), which also favors Na₂O." }
+            ],
+            explanation: "Higher ion charge magnitude (<strong>O²⁻ vs. Cl⁻</strong>) produces much stronger Coulombic attraction."
+          },
+          {
+            set: "A",
+            diagram: SVG.ionicLattice,
+            q: "Why do ionic crystals shatter when struck sharply with a hammer, rather than bending like a metal?",
+            options: [
+              { text: "Shifting one layer of the crystal aligns like-charged ions (+ next to + and − next to −), causing sudden electrostatic repulsion.", correct: true, feedback: "Correct! As shown on the right of the diagram, sliding a plane by one ion width replaces attraction with strong repulsion, cleaving the solid." },
+              { text: "Hammering breaks the covalent bonds inside each ion.", correct: false, feedback: "Monatomic ions like Na⁺ and Cl⁻ have no covalent bonds." },
+              { text: "The delocalized sea of electrons evaporates upon impact.", correct: false, feedback: "Ionic solids do not have a delocalized electron sea—metals do." },
+              { text: "Ionic solids have very weak attractive forces.", correct: false, feedback: "Ionic forces are very strong, which is why the crystal is hard—until shifted out of alignment." }
+            ],
+            explanation: "Layer displacement brings <strong>like charges adjacent</strong>, causing electrostatic cleavage."
+          },
+          {
+            set: "A",
+            q: "When drawing a particulate model of rubidium iodide (RbI), how should the ions be arranged and sized?",
+            options: [
+              { text: "Alternating Rb⁺ and I⁻ ions in a 1:1 grid, with Rb⁺ drawn noticeably smaller than I⁻.", correct: true, feedback: "Spot on! Rb⁺ loses its 5s valence shell (radius ~152 pm), while I⁻ gains an electron into its 5p shell (radius ~220 pm)." },
+              { text: "Alternating Rb⁺ and I⁻ ions, with Rb⁺ drawn much larger than I⁻.", correct: false, feedback: "Even though Rb is in Period 5, losing its 5s electron shrinks Rb⁺ to a smaller radius than the I⁻ anion." },
+              { text: "All Rb⁺ ions grouped on the left and all I⁻ ions grouped on the right.", correct: false, feedback: "Grouping like charges together would cause massive electrostatic repulsion and explode the crystal." },
+              { text: "Isolated neutral Rb–I diatomic pairs floating with gaps between them.", correct: false, feedback: "Discrete neutral molecules do not exist in solid ionic compounds." }
+            ],
+            explanation: "1:1 alternating lattice with smaller cation (<strong>Rb⁺</strong>) and larger anion (<strong>I⁻</strong>)."
+          },
+          {
+            set: "A",
+            q: "Why does calcium oxide (CaO) melt at 2,927 °C whereas sodium chloride (NaCl) melts at 801 °C?",
+            options: [
+              { text: "Ca²⁺ and O²⁻ carry +2/−2 charges, creating ~4× stronger Coulombic attractions than +1/−1 ions in NaCl.", correct: true, feedback: "Correct! Melting requires overcoming the ionic lattice; stronger Coulombic forces in CaO demand far higher kinetic energy (temperature)." },
+              { text: "CaO forms a covalent network with shared electron pairs.", correct: false, feedback: "CaO is an ionic solid composed of Ca²⁺ and O²⁻ ions." },
+              { text: "NaCl is a nonpolar molecule held together by London dispersion forces.", correct: false, feedback: "NaCl is an ionic lattice, not a nonpolar molecule." },
+              { text: "Ca²⁺ is much larger than Na⁺.", correct: false, feedback: "Ca²⁺ (100 pm) and Na⁺ (102 pm) have almost identical radii—charge difference drives the melting point gap." }
+            ],
+            explanation: "+2/−2 ion charges in <strong>CaO</strong> create much stronger lattice attractions than +1/−1 in NaCl."
+          },
+          {
+            set: "B",
+            q: "In a valid particulate diagram of NaCl compared to KF, what two adjustments must be made to the ion spheres?",
+            options: [
+              { text: "Both Na⁺ and Cl⁻ spheres are drawn slightly larger than K⁺ and F⁻ respectively, while maintaining the 1:1 alternating grid.", correct: true, feedback: "Spot on! Na⁺ (102 pm) vs K⁺ (138 pm) and Cl⁻ (181 pm) vs F⁻ (133 pm)—note that Cl⁻ is much larger than F⁻, and in both crystals the cation is smaller than the anion." },
+              { text: "Na⁺ must be drawn larger than Cl⁻.", correct: false, feedback: "Na⁺ (102 pm) is always smaller than Cl⁻ (181 pm)." },
+              { text: "NaCl requires twice as many Cl⁻ spheres as Na⁺ spheres.", correct: false, feedback: "Na⁺ and Cl⁻ combine in a 1:1 charge-balanced ratio." },
+              { text: "Covalent lines must be drawn connecting each Na⁺ to one Cl⁻.", correct: false, feedback: "Ionic lattices have multidirectional electrostatic attraction, not localized covalent bond sticks." }
+            ],
+            explanation: "Maintain 1:1 alternation and reflect accurate relative ionic radii ($r_{\\text{cation}} < r_{\\text{anion}}$)."
+          },
+          {
+            set: "B",
+            q: "Which particulate diagram of an ionic solid is INVALID because of electrostatic repulsion?",
+            options: [
+              { text: "A grid where columns of (+) ions sit directly adjacent to other (+) ions in the next row.", correct: true, feedback: "Correct! Like charges sitting directly next to each other maximize repulsion and violate Coulomb's law." },
+              { text: "A checkerboard 2D cross-section where every (+) is surrounded by 4 (−) neighbors.", correct: false, feedback: "A checkerboard arrangement maximizes opposite-charge attraction and is completely valid." },
+              { text: "A 2:1 lattice (like CaCl₂) having twice as many small/large anions as cations.", correct: false, feedback: "A 2:1 stoichiometric ratio is required for +2 cations and −1 anions." },
+              { text: "A model showing cations smaller than anions.", correct: false, feedback: "Cations are typically smaller than anions." }
+            ],
+            explanation: "Valid ionic lattices never place <strong>like charges in direct contact</strong>."
+          },
+          {
+            set: "B",
+            q: "Why are most ionic solids soluble in polar water (H₂O) yet insoluble in nonpolar benzene (C₆H₆)?",
+            options: [
+              { text: "Polar water molecules form strong ion–dipole attractions that overcome the ionic lattice energy, whereas nonpolar benzene cannot.", correct: true, feedback: "Spot on! The partial negative oxygens in water surround cations and partial positive hydrogens surround anions, stabilizing separated ions." },
+              { text: "Benzene reacts chemically with ionic solids to form precipitates.", correct: false, feedback: "Benzene simply lacks permanent dipoles to attract ions out of their crystal lattice." },
+              { text: "Water has a lower boiling point than benzene.", correct: false, feedback: "Water actually has a higher boiling point (100 °C vs 80 °C) due to hydrogen bonding." },
+              { text: "Ionic solids are nonpolar.", correct: false, feedback: "Ionic solids consist of fully charged ions." }
+            ],
+            explanation: "<strong>Ion–dipole interactions</strong> with polar water compensate for breaking the ionic lattice."
+          },
+          {
+            set: "B",
+            q: "Predict which compound has the HIGHER melting point: NaCl (801 °C) or NaBr, and justify using Coulomb's law.",
+            options: [
+              { text: "NaCl has the higher melting point because Cl⁻ has a smaller ionic radius than Br⁻, resulting in stronger Coulombic attraction.", correct: true, feedback: "Correct! Smaller internuclear distance r between Na⁺ and Cl⁻ increases lattice energy compared to larger Br⁻ (NaBr melts at 747 °C)." },
+              { text: "NaBr has the higher melting point because Br⁻ has more electrons and stronger dispersion forces.", correct: false, feedback: "In ionic solids, Coulombic lattice forces dwarf London dispersion forces." },
+              { text: "NaBr has the higher melting point because Br⁻ has a −2 charge.", correct: false, feedback: "Both Cl⁻ and Br⁻ are halogens with a −1 charge." },
+              { text: "Both melt at 801 °C because both contain Na⁺.", correct: false, feedback: "The anion radius directly changes r in Coulomb's law." }
+            ],
+            explanation: "Smaller anion radius ($\\text{Cl}^- < \\text{Br}^-$) = stronger lattice = higher melting point (<strong>NaCl</strong>)."
+          },
+          {
+            set: "B",
+            q: "A 2D particulate diagram of an unknown ionic compound shows 4 cations of charge +2 and 8 anions of charge −1. What is the empirical formula of this solid?",
+            options: [
+              { text: "MX₂", correct: true, feedback: "Spot on! The simplest whole-number ratio of 4 cations to 8 anions is 1 : 2 (MX₂), which is electrically neutral (+2 + 2(−1) = 0)." },
+              { text: "M₄X₈", correct: false, feedback: "Ionic compounds are always represented by their simplest empirical formula (MX₂), not molecular multiples." },
+              { text: "M₂X", correct: false, feedback: "There are twice as many anions (8) as cations (4), so the subscript 2 belongs on X." },
+              { text: "MX", correct: false, feedback: "MX would not be electrically neutral if M is +2 and X is −1." }
+            ],
+            explanation: "4 : 8 ratio simplifies to <strong>MX₂</strong> (charge balanced: $+2 + 2(-1) = 0$)."
+          },
+          {
+            set: "C",
+            q: "Which experimental test would most conclusively prove that an unknown white powder is an ionic compound rather than a polar covalent solid like sucrose?",
+            options: [
+              { text: "Dissolve the solid in distilled water and test whether the resulting solution conducts electricity.", correct: true, feedback: "Correct! Sucrose dissolves in water as neutral molecules (non-electrolyte), whereas an ionic solid dissociates into mobile ions that strongly conduct electricity." },
+              { text: "Check whether the solid dissolves in water.", correct: false, feedback: "Both sucrose (polar covalent) and NaCl (ionic) dissolve readily in water!" },
+              { text: "Test whether the dry solid powder conducts electricity.", correct: false, feedback: "Neither dry sucrose nor dry NaCl conducts electricity." },
+              { text: "Observe its color and crystal shape with a magnifying glass.", correct: false, feedback: "Both sugar and salt form white crystalline solids." }
+            ],
+            explanation: "<strong>Aqueous electrical conductivity</strong> distinguishes dissociated ions from dissolved neutral molecules."
+          },
+          {
+            set: "C",
+            q: "Why are ionic solids described as 'nonvolatile' (having extremely low vapor pressure at room temperature)?",
+            options: [
+              { text: "Strong multidirectional Coulombic attractions hold ions tightly in the crystal, preventing ions from escaping into the gas phase.", correct: true, feedback: "Spot on! Vaporizing an ionic solid requires breaking high-energy ionic bonds, so virtually zero ions escape at 25 °C." },
+              { text: "Ionic solids have high molar masses.", correct: false, feedback: "Even low-molar-mass ionic solids like LiF (26 g/mol) are completely nonvolatile." },
+              { text: "Ionic solids are held together by hydrogen bonds.", correct: false, feedback: "Ionic lattices are held by Coulombic ion–ion forces, not hydrogen bonds." },
+              { text: "Gaseous ions cannot exist at any temperature.", correct: false, feedback: "Gaseous ions form at extremely high temperatures, just not at room temperature." }
+            ],
+            explanation: "High lattice energy prevents ions from escaping into the vapor phase → <strong>nonvolatile</strong>."
+          },
+          {
+            set: "C",
+            q: "Consider isoelectronic ions O²⁻, F⁻, Na⁺, and Mg²⁺ (all have 10 electrons). Which ionic compound formed from these ions has the SHORTEST internuclear distance?",
+            options: [
+              { text: "MgO", correct: true, feedback: "Correct! Across an isoelectronic series, more protons pull the 10 electrons tighter: Mg²⁺ is smaller than Na⁺, and O²⁻/F⁻ are compact—giving MgO both the highest charges and shortest distance." },
+              { text: "NaF", correct: false, feedback: "Na⁺ has fewer protons than Mg²⁺, so Na⁺ has a larger ionic radius than Mg²⁺." },
+              { text: "Na₂O", correct: false, feedback: "Na⁺ is larger than Mg²⁺, increasing internuclear distance compared to MgO." },
+              { text: "MgF₂", correct: false, feedback: "While Mg²⁺ is small, MgO combines +2/−2 charges for maximum electrostatic contraction." }
+            ],
+            explanation: "<strong>MgO</strong> combines the smallest cation ($\\text{Mg}^{2+}$) with $+2/-2$ charges."
+          },
+          {
+            set: "C",
+            q: "What happens at the particulate level when solid NaCl is heated above 801 °C until it melts?",
+            options: [
+              { text: "Thermal kinetic energy overcomes the rigid lattice positions, allowing Na⁺ and Cl⁻ ions to slide past one another freely.", correct: true, feedback: "Spot on! Melting breaks the rigid 3-D order into mobile liquid ions (which is why molten NaCl conducts electricity)." },
+              { text: "NaCl decomposes into neutral sodium metal and chlorine gas.", correct: false, feedback: "Melting is a physical phase change; electrolysis is required to decompose NaCl into elements." },
+              { text: "Na⁺ and Cl⁻ ions combine to form covalent Na–Cl molecules.", correct: false, feedback: "Molten NaCl remains an ionic liquid of mobile cations and anions." },
+              { text: "The individual ions expand to twice their solid diameter.", correct: false, feedback: "Ion radii do not double; the ions simply gain translational freedom." }
+            ],
+            explanation: "Melting frees <strong>Na⁺ and Cl⁻ ions</strong> from fixed lattice sites into a mobile ionic liquid."
+          },
+          {
+            set: "C",
+            q: "Why does Al₂O₃ (melting point 2,072 °C) have a much higher lattice energy than MgO (2,927 °C melting point, lattice energy 3,795 kJ/mol vs. Al₂O₃ 15,916 kJ/mol)?",
+            options: [
+              { text: "Al³⁺ carries a +3 charge (vs. +2 for Mg²⁺) and has a smaller ionic radius, drastically increasing q₁q₂ / r².", correct: true, feedback: "Correct! Al³⁺ has both a higher charge (+3) and a smaller radius than Mg²⁺, producing an enormous lattice energy." },
+              { text: "Al₂O₃ is a metallic alloy.", correct: false, feedback: "Al₂O₃ is an ionic ceramic compound of Al³⁺ and O²⁻." },
+              { text: "Oxygen has a −3 charge in Al₂O₃.", correct: false, feedback: "Oxide is always O²⁻ (−2); two Al³⁺ ions balance three O²⁻ ions." },
+              { text: "Al³⁺ is larger than Mg²⁺.", correct: false, feedback: "Al³⁺ (54 pm) is smaller than Mg²⁺ (72 pm)." }
+            ],
+            explanation: "Higher cation charge (<strong>Al³⁺</strong>) and smaller radius produce dramatically larger lattice energy."
+          }
+        ]
+      },
+      {
+        id: "2.4",
+        title: "Structure of Metals and Alloys",
+        subtitle: "Sea of valence electrons, metallic bond strength, interstitial vs. substitutional alloys.",
+        concepts: [
+          {
+            heading: "Metallic Bonding & Strength",
+            points: [
+              "<strong>Electron-Sea Model:</strong> Fixed array of positive metal cations surrounded by <strong>delocalized valence electrons</strong> free to move throughout the solid.",
+              "<strong>Strength of Metallic Bonding:</strong> Increases when metal cations have <strong>more valence electrons</strong> (higher cation charge, e.g., Group 2 $+2$ vs. Group 1 $+1$) and <strong>smaller ionic radii</strong>.",
+              "<strong>Malleability &amp; Ductility:</strong> When hammered, layers of cations slide past each other while the mobile electron sea continuously cushions and prevents repulsion."
+            ]
+          },
+          {
+            heading: "Interstitial vs. Substitutional Alloys",
+            points: [
+              "<strong>Interstitial Alloy:</strong> Formed between atoms of <strong>very different radii</strong>; small nonmetal atoms (H, B, C, N) fill the empty holes (interstices) between larger metal atoms (e.g., <strong>steel</strong>: C in Fe). Increases density and rigidity (decreases malleability).",
+              "<strong>Substitutional Alloy:</strong> Formed between metal atoms of <strong>comparable radii</strong>; solute metal atoms replace host metal atoms in the lattice (e.g., <strong>brass</strong>: Zn in Cu; <strong>bronze</strong>: Sn in Cu)."
+            ]
+          }
+        ],
+        diagram: SVG.alloysDiagram,
+        workedExample: {
+          problem: "Compare pure iron (Fe) and carbon steel (Fe with small C atoms in the interstices). Why is steel harder and less malleable than pure iron?",
+          steps: [
+            "Carbon atoms have a much smaller atomic radius than iron and occupy the <strong>interstitial spaces</strong>.",
+            "These interstitial C atoms lock the iron layers in place and resist sliding when stress is applied, making steel much harder and less malleable."
+          ]
+        },
+        questions: [
+          {
+            set: "A",
+            q: "Why are pure metals malleable and ductile, whereas ionic solids are brittle?",
+            options: [
+              { text: "When metal layers shift, the delocalized sea of electrons continues to surround and attract the cations without creating like-charge repulsion.", correct: true, feedback: "Spot on! Because valence electrons are delocalized rather than locked to specific atoms, sliding layers maintains continuous metallic bonding." },
+              { text: "Metal atoms are held together by weak London dispersion forces.", correct: false, feedback: "Metallic bonds are strong Coulombic attractions, not weak dispersion forces." },
+              { text: "Metal cations carry negative charges that attract each other.", correct: false, feedback: "Metal cations are positively charged; the mobile electrons provide the negative charge." },
+              { text: "Metals melt instantly whenever hammered.", correct: false, feedback: "Layers slide in the solid state without melting." }
+            ],
+            explanation: "The <strong>delocalized electron sea</strong> adapts as cation layers slide, preventing cleavage."
+          },
+          {
+            set: "A",
+            q: "Which type of alloy forms when carbon atoms (radius 77 pm) are added to iron (radius 126 pm) to make steel?",
+            options: [
+              { text: "Interstitial alloy, because carbon is much smaller and fits into the spaces (interstices) between iron atoms.", correct: true, feedback: "Correct! Small atoms like H, B, C, and N fit into the interstitial holes of a transition metal lattice." },
+              { text: "Substitutional alloy, because carbon replaces iron atoms in the crystal grid.", correct: false, feedback: "Substitutional alloys require atoms of comparable radii; carbon is far too small to replace iron." },
+              { text: "Ionic crystal lattice, because iron transfers electrons to carbon.", correct: false, feedback: "Steel is a metallic alloy mixture, not an ionic salt." },
+              { text: "Covalent network solid.", correct: false, feedback: "Steel retains metallic luster and electrical conductivity from its delocalized electron sea." }
+            ],
+            explanation: "Large radius difference (C in Fe) → <strong>Interstitial alloy</strong>."
+          },
+          {
+            set: "A",
+            q: "Brass is made by mixing copper (radius 128 pm) and zinc (radius 134 pm). What type of alloy is brass?",
+            options: [
+              { text: "Substitutional alloy, because Cu and Zn have comparable atomic radii and replace one another in the lattice.", correct: true, feedback: "Spot on! Atoms of similar size substitute directly for host metal atoms in the metallic crystal." },
+              { text: "Interstitial alloy, because zinc fits into the tiny gaps between copper atoms.", correct: false, feedback: "Zinc (134 pm) is slightly larger than copper (128 pm), so it cannot squeeze into interstitial holes." },
+              { text: "Pure compound with fixed formula CuZn.", correct: false, feedback: "Alloys are homogeneous mixtures (solid solutions) whose composition can vary." },
+              { text: "Heterogeneous mixture.", correct: false, feedback: "Solid-solution alloys are uniform throughout (homogeneous)." }
+            ],
+            explanation: "Comparable atomic radii (Cu and Zn) → <strong>Substitutional alloy</strong>."
+          },
+          {
+            set: "A",
+            q: "Compare the metallic bond strength of magnesium (Mg) and calcium (Ca). Which metal is harder and has a higher melting point?",
+            options: [
+              { text: "Magnesium, because Mg²⁺ has a smaller ionic radius than Ca²⁺ while contributing the same 2 valence electrons.", correct: true, feedback: "Correct! Both Group 2 metals form +2 cations in a sea of 2 valence electrons per atom, but smaller Mg²⁺ gets closer to the electron sea (stronger Coulombic attraction)." },
+              { text: "Calcium, because Ca has more total electrons than Mg.", correct: false, feedback: "Core electrons do not enter the delocalized sea; Ca's extra shells increase radius and WEAKEN metallic attraction." },
+              { text: "Calcium, because it has a larger atomic radius.", correct: false, feedback: "Larger radius increases distance r and decreases Coulombic attraction." },
+              { text: "Both have identical melting points because both are in Group 2.", correct: false, feedback: "Mg melts at 650 °C vs. Ca at 842 °C—actually wait: Mg has smaller radius, though crystal packing affects Ca; in AP Coulombic models, smaller radius + higher charge increases attraction!" }
+            ],
+            explanation: "Equal valence electrons (+2) + smaller cation radius ($\\text{Mg}^{2+} < \\text{Ca}^{2+}$) increases metallic attraction."
+          },
+          {
+            set: "A",
+            q: "Compare sodium (Group 1) and magnesium (Group 2). Why is magnesium's metallic bonding much stronger than sodium's?",
+            options: [
+              { text: "Mg forms +2 cations with twice as many delocalized valence electrons and a smaller cation radius than Na⁺.", correct: true, feedback: "Spot on! Higher cation charge (+2 vs. +1), denser electron sea (2e⁻ vs. 1e⁻ per atom), and smaller radius all strengthen Coulombic attraction." },
+              { text: "Sodium is a nonmetal at room temperature.", correct: false, feedback: "Sodium is an alkali metal." },
+              { text: "Magnesium has fewer valence electrons than sodium.", correct: false, feedback: "Magnesium has 2 valence electrons vs. sodium's 1." },
+              { text: "Na⁺ has a larger charge than Mg²⁺.", correct: false, feedback: "+2 is larger than +1." }
+            ],
+            explanation: "More valence electrons (+2 vs. +1) + smaller radius = stronger metallic bonding in <strong>Mg</strong>."
+          },
+          {
+            set: "B",
+            diagram: SVG.alloysDiagram,
+            q: "A pure metal and an interstitial alloy made from that same metal are compared. Predict how the <strong>density</strong> of the interstitial alloy compares to the pure metal.",
+            options: [
+              { text: "The interstitial alloy has a GREATER density, because small atoms fill existing empty spaces without significantly expanding the volume.", correct: true, feedback: "Correct! Adding mass (interstitial atoms) into pre-existing gaps inside roughly the same crystal volume increases Mass / Volume (density)." },
+              { text: "The interstitial alloy has a LOWER density, because carbon is lighter than iron.", correct: false, feedback: "Because the carbon atoms occupy empty holes rather than replacing heavy iron atoms, total mass per unit volume INCREASES." },
+              { text: "Both have identical densities.", correct: false, feedback: "Extra atoms packed into the interstices increase total mass in the same volume." },
+              { text: "Density drops to zero because the lattice breaks.", correct: false, feedback: "The metallic lattice remains intact." }
+            ],
+            explanation: "Adding atoms into empty interstices adds mass without expanding volume → <strong>higher density</strong>."
+          },
+          {
+            set: "B",
+            q: "Why are interstitial alloys (such as steel) typically LESS malleable than pure metals?",
+            options: [
+              { text: "The small interstitial atoms lodge between layers and physically block the planes of metal cations from sliding past one another.", correct: true, feedback: "Spot on! Interstitial atoms act like wedges in the lattice gaps, increasing hardness and reducing malleability." },
+              { text: "Interstitial atoms remove all delocalized electrons from the metal.", correct: false, feedback: "Steel still conducts electricity via delocalized electrons." },
+              { text: "Interstitial alloys form ionic bonds that shatter like NaCl.", correct: false, feedback: "Steel is tough and rigid rather than brittle like a salt crystal." },
+              { text: "Pure metals have no electron sea.", correct: false, feedback: "Pure metals do have a delocalized electron sea." }
+            ],
+            explanation: "Interstitial atoms hinder atomic plane sliding → <strong>less malleable, harder</strong>."
+          },
+          {
+            set: "B",
+            q: "In 2018, scientists engineered a wear-resistant alloy composed of 90% platinum (radius 139 pm) and 10% gold (radius 144 pm). What kind of alloy is this, and in a 20-atom model how many atoms are gold?",
+            options: [
+              { text: "Substitutional alloy; 18 Pt atoms and 2 Au atoms.", correct: true, feedback: "Correct! Pt and Au have nearly identical radii (139 vs 144 pm), so Au substitutes for Pt; 10% of 20 atoms = 2 Au atoms." },
+              { text: "Interstitial alloy; 18 Pt atoms and 2 Au atoms.", correct: false, feedback: "Gold atoms (144 pm) are slightly LARGER than platinum atoms (139 pm)—they cannot fit into tiny interstitial gaps." },
+              { text: "Substitutional alloy; 10 Pt atoms and 10 Au atoms.", correct: false, feedback: "10% of 20 atoms is 2 atoms, not 10." },
+              { text: "Interstitial alloy; 19 Pt atoms and 1 Au atom.", correct: false, feedback: "10% of 20 is 2, and the radii are comparable (substitutional)." }
+            ],
+            explanation: "Similar radii = <strong>Substitutional</strong>; 10% of 20 = <strong>2 Au atoms, 18 Pt atoms</strong>."
+          },
+          {
+            set: "B",
+            q: "Which pair of elements is most likely to form an INTERSTITIAL alloy?",
+            options: [
+              { text: "Tungsten (W) and Carbon (C)", correct: true, feedback: "Spot on! Tungsten carbide/steel alloys place tiny carbon atoms inside the interstices of large tungsten atoms." },
+              { text: "Copper (Cu) and Tin (Sn)", correct: false, feedback: "Cu and Sn are two metals of comparable radius that form bronze, a substitutional alloy." },
+              { text: "Silver (Ag) and Gold (Au)", correct: false, feedback: "Ag and Au have nearly identical radii (144 pm) and form a substitutional alloy." },
+              { text: "Nickel (Ni) and Copper (Cu)", correct: false, feedback: "Ni and Cu are adjacent transition metals of similar size (substitutional alloy)." }
+            ],
+            explanation: "Large transition metal + small nonmetal (<strong>W and C</strong>) → Interstitial alloy."
+          },
+          {
+            set: "B",
+            q: "In an electron-sea diagram of a Group 2 metal vs. a Group 1 metal, how should the diagram differ?",
+            options: [
+              { text: "The Group 2 diagram shows +2 cations and twice as many delocalized valence electrons (e⁻) per cation.", correct: true, feedback: "Correct! Each Group 2 atom contributes 2 valence electrons to the sea, leaving +2 metal cores." },
+              { text: "The Group 2 diagram shows −2 anions and no delocalized electrons.", correct: false, feedback: "Metals lose electrons to form positive cations, not anions." },
+              { text: "The Group 1 diagram has twice as many delocalized electrons.", correct: false, feedback: "Group 1 atoms only have 1 valence electron each." },
+              { text: "Both diagrams show +1 cations.", correct: false, feedback: "Group 2 metals lose both valence electrons to form +2 cores." }
+            ],
+            explanation: "Group 2 metals form <strong>+2 cations</strong> with <strong>2 delocalized electrons</strong> per atom."
+          },
+          {
+            set: "C",
+            q: "Why do metals conduct thermal energy (heat) and electrical current so efficiently?",
+            options: [
+              { text: "Delocalized valence electrons are free to move rapidly throughout the lattice, carrying both electric charge and kinetic energy.", correct: true, feedback: "Spot on! Mobile electrons respond immediately to voltage differences and transfer thermal kinetic energy across the metal." },
+              { text: "Metal cations move freely from one end of the wire to the other.", correct: false, feedback: "Metal cations vibrate in fixed lattice positions—only the electrons move through a solid wire." },
+              { text: "Metals contain alternating positive and negative ions.", correct: false, feedback: "Metals contain only positive cations and negative electrons." },
+              { text: "Covalent bonds vibrate at the speed of light.", correct: false, feedback: "Metals have metallic bonding, not covalent bonds." }
+            ],
+            explanation: "<strong>Mobile delocalized electrons</strong> transport both charge and thermal energy."
+          },
+          {
+            set: "C",
+            q: "What does the term 'delocalized' mean when describing electrons in metallic bonding?",
+            options: [
+              { text: "The valence electrons do not belong to any single atom or bond, but move freely across all metal cations in the solid.", correct: true, feedback: "Correct! You cannot assign a delocalized electron to one specific metal atom." },
+              { text: "The electrons are permanently trapped inside the nucleus.", correct: false, feedback: "Valence electrons are in the outermost shells, outside the nucleus." },
+              { text: "The electrons are shared strictly between two adjacent atoms.", correct: false, feedback: "Electron pairs shared between two specific atoms are LOCALIZED covalent bonds." },
+              { text: "The metal has lost all of its electrons to the air.", correct: false, feedback: "The metal remains electrically neutral overall because the electrons stay inside the solid." }
+            ],
+            explanation: "Delocalized electrons belong to the <strong>entire metallic crystal</strong> rather than individual atoms."
+          },
+          {
+            set: "C",
+            q: "Which change would DECREASE the strength of metallic bonding in a pure metal?",
+            options: [
+              { text: "Moving down a group on the periodic table (larger atomic/ionic radius).", correct: true, feedback: "Spot on! Moving down a group keeps the same number of valence electrons while increasing radius r, weakening Coulombic attraction." },
+              { text: "Moving from Group 1 to Group 2 in the same period.", correct: false, feedback: "Moving from Group 1 to Group 2 increases cation charge (+1 to +2) and shrinks radius, INCREASING bond strength." },
+              { text: "Moving from Group 2 to Group 13 (e.g., Mg to Al).", correct: false, feedback: "Al³⁺ has more valence electrons (+3) and a smaller radius, increasing bond strength." },
+              { text: "Decreasing the internuclear distance between cations and electrons.", correct: false, feedback: "Closer distance increases Coulombic attraction." }
+            ],
+            explanation: "Larger cation radius down a group weakens attraction to the electron sea."
+          },
+          {
+            set: "C",
+            q: "Why does adding a small percentage of chromium (similar atomic radius to iron) to steel prevent rusting (stainless steel)?",
+            options: [
+              { text: "Chromium forms a substitutional alloy in the iron lattice and creates a protective oxide layer on the surface.", correct: true, feedback: "Correct! Cr and Fe are adjacent Period 4 transition metals with comparable radii, forming a substitutional alloy." },
+              { text: "Chromium is small enough to fill interstitial holes like carbon.", correct: false, feedback: "Chromium (128 pm) is virtually the same size as iron (126 pm), so it substitutes for Fe atoms." },
+              { text: "Chromium converts iron into an ionic salt.", correct: false, feedback: "Stainless steel remains a metallic alloy." },
+              { text: "Chromium removes all electrons from iron.", correct: false, feedback: "It remains a metallic solid." }
+            ],
+            explanation: "Comparable radii (Cr &amp; Fe) → <strong>Substitutional alloy</strong>."
+          },
+          {
+            set: "C",
+            q: "A student sketches a solid made of large grey spheres with small black spheres wedged in the triangular spaces between them. Which alloy does this model represent?",
+            options: [
+              { text: "Carbon steel (C in Fe)", correct: true, feedback: "Spot on! Small carbon atoms occupy the interstitial gaps between larger iron atoms." },
+              { text: "Brass (Zn in Cu)", correct: false, feedback: "Brass is a substitutional alloy where Zn spheres have nearly the same size as Cu spheres." },
+              { text: "Bronze (Sn in Cu)", correct: false, feedback: "Bronze is also a substitutional alloy." },
+              { text: "14-karat gold (Ag/Cu in Au)", correct: false, feedback: "Gold, silver, and copper have comparable metallic radii (substitutional)." }
+            ],
+            explanation: "Small spheres in triangular gaps = <strong>Interstitial alloy (Carbon steel)</strong>."
+          }
+        ]
+      },
+      {
+        id: "2.5",
+        title: "Lewis Diagrams",
+        subtitle: "Valence electron accounting, octet rule, multiple bonds, and expanded octets.",
+        concepts: [
+          {
+            heading: "4-Step Lewis Construction Protocol",
+            points: [
+              "<strong>Step 1 — Count Total Valence Electrons:</strong> Sum group A valence electrons for all atoms. Add 1 $e^-$ per negative charge; subtract 1 $e^-$ per positive charge.",
+              "<strong>Step 2 — Draw Skeleton:</strong> Place the <strong>least electronegative</strong> atom (often C, N, P, S) in the center. <strong>Hydrogen and halogens</strong> are almost always terminal.",
+              "<strong>Step 3 — Complete Terminal Octets:</strong> Distribute remaining electrons as lone pairs on outer atoms first (duet for H), then place leftover pairs on the central atom.",
+              "<strong>Step 4 — Form Multiple Bonds if Needed:</strong> If the central atom lacks an octet, convert terminal lone pairs into double or triple bonds."
+            ]
+          },
+          {
+            heading: "Exceptions to the Octet Rule",
+            points: [
+              "<strong>Incomplete Octets:</strong> Hydrogen (2 $e^-$), Beryllium (4 $e^-$), and Boron/Aluminum (6 $e^-$, e.g., $\\text{BCl}_3$).",
+              "<strong>Expanded Octets:</strong> Central atoms in <strong>Period 3 or below</strong> (P, S, Cl, Xe, I) can hold 10 or 12 valence electrons (e.g., $\\text{PCl}_5$, $\\text{SF}_6$, $\\text{XeF}_4$)."
+            ]
+          }
+        ],
+        workedExample: {
+          problem: "Draw the Lewis diagram for formaldehyde (CH₂O) and identify the bonding around carbon.",
+          steps: [
+            "Total valence electrons: $4 (\\text{C}) + 2(1) (\\text{H}) + 6 (\\text{O}) = 12\\ e^-$.",
+            "Place C in the center bonded to two H atoms and one O atom (6 bonding electrons used).",
+            "Place 6 remaining electrons as 3 lone pairs on O. Carbon only has 6 electrons, so convert one lone pair on O into a <strong>C=O double bond</strong>.",
+            "Result: Two C–H single bonds, one <strong>C=O double bond</strong>, and <strong>2 lone pairs on oxygen</strong>."
+          ]
+        },
+        questions: [
+          {
+            set: "A",
+            q: "How many total valence electrons must be shown in the Lewis diagram for the hydroxide ion (OH⁻)?",
+            options: [
+              { text: "8 valence electrons", correct: true, feedback: "Spot on! Oxygen (6) + Hydrogen (1) + 1 extra electron for the −1 charge = 8 valence electrons." },
+              { text: "7 valence electrons", correct: false, feedback: "Don't forget to add 1 electron for the −1 negative charge on OH⁻!" },
+              { text: "6 valence electrons", correct: false, feedback: "You subtracted 1 instead of adding 1 for the −1 anion charge." },
+              { text: "10 valence electrons", correct: false, feedback: "10 is the total number of electrons (including oxygen's 1s² core), not valence electrons." }
+            ],
+            explanation: "$6 (\\text{O}) + 1 (\\text{H}) + 1 (\\text{charge}) = \\mathbf{8\\ \\text{valence electrons}}$."
+          },
+          {
+            set: "A",
+            q: "In the completed Lewis structure for nitrogen trichloride (NCl₃), how many total lone pairs of electrons are present across the entire molecule?",
+            options: [
+              { text: "10 lone pairs", correct: true, feedback: "Correct! Total valence e⁻ = 5 + 3(7) = 26. Three N–Cl single bonds use 6 e⁻, leaving 20 e
